@@ -11,6 +11,16 @@ int main(int argc, char **argv, char **env)
 {
 	extern char **environ;
 
+											//// EL PARSER
+	//// La funcion del parser esta aqui, debe leer de readline e identificar que datos iran en:
+	//// el struct t_comand
+	//// *c seria el comando o instruccion ej: 'ls', 'cd', 'echo' etc
+	//// **cc ej caso de ser un ejecutable, el array con las intrucciones terminado en 0, ej: {"ls", 0} o {"ls", "-a", "-l", 0} o {"echo", "hola como estas", 0}
+	//// el operador, in y oun, dependen de la intruccion "ls | grep > mitexto", el parser debe identificarlos junto a la instruccion. En esta linea:
+	//// ls |- es la primera instruccion, la clasificara otra parte del codigo, pero es especial y debe identificarse como tal, dejando el operador indeterminado -1?. Por otro lado a la derecha de 'ls' '|' fuerza out = 1
+	//// | grep >- iria con | a la izquierda lo que implica operador = 0 (execve) e in = 1 y sabiendo que > a la derecha fuerza out = 1
+	//// > mitexto- operador a la izquierda implica redireccion de input = 1, y que sea > es por que el operador = 1 (escribir a mitext.txt)
+											///// FIN DEL PARSER
 	
 	// cada uno de estos bloques define un tcomand. en principio los valores estan en cero
 	// pero para hacer test los cambio manualmente
