@@ -1,12 +1,39 @@
 #include "libs/libtxttools.h"
 #include "minishell.h"
 #include <stdio.h>
+#include <signal.h>
 
 
+
+int main(int argc, char **argv, char **env)
+{
+	t_entorno te;
+	te.lstret = -1;
+
+	blockaction();
+
+	t_comand *tct = newcom(0, 0, env);
+	tct->operator = 66;
+
+	char *ca = "./b.out";
+	char *cca[] = {ca, 0};
+	t_comand *tca = newcom(ca, cca, env);
+	tca->operator = 0;
+
+	printf("miintgralahora %i\n", te.lstret);
+	int i = forkea(tca, 0, &te);
+	while (1)
+	{
+		printf("miintgralahora %i \n", te.lstret);
+		sleep(1);
+	}
+	return (10);
+}
+
+/*
 // en main lo fundamental es la struct t_comant, definida en el .h
 // creo varios para testear
 // la final ejecuto las que quiera manualmente,
-
 int main(int argc, char **argv, char **env)
 {
 	extern char **environ;
@@ -70,9 +97,11 @@ int main(int argc, char **argv, char **env)
 
 	return (10);
 }
+*/
 
+/*
 ///anterior funcion con los test de la libreria de texto
-/*int main()
+int main()
 {
 	char *c;
 	char **cc;

@@ -13,7 +13,7 @@ en principio en cada funcion hay un pipe que se duplica al hacer fork, es decir,
 mas puede llegar uno de la funcion anterior en 'entrada' es decir, 5.
 ademas de eso, una vez creadas las pipes y redirigidas, manda el tc al operador correspondiente.
 */
-pid_t ejecuta(t_comand *tc, pid_t entrada)
+pid_t forkea(t_comand *tc, pid_t entrada, t_entorno *te)
 {
 	pid_t pid;
 	int fd[2];
@@ -22,6 +22,11 @@ pid_t ejecuta(t_comand *tc, pid_t entrada)
 	pid = fork();
 	if(pid == 0)
 	{
+		// allowaction();
+		// struct sigaction sa;
+		// sa.sa_handler = SIG_DFL;
+		// sigemptyset(&sa.sa_mask);
+		// sigaction(SIGTSTP, &sa, 0);
 		///el hijo
 		// cierra la entrada recien creada pues la entrada que deberia usar es siempre 'entrada'
 		close(fd[0]);
@@ -44,6 +49,14 @@ pid_t ejecuta(t_comand *tc, pid_t entrada)
 			copitofile(tc);
 		else if (tc->operator == 2)
 			readfromfile(tc);
+		else if (tc->operator == 66)
+		{
+			while(1)
+			{
+				printf("soy el hijo estancado\n");
+				sleep(1);
+			}
+		}
 	}
 	else
 	{
@@ -54,7 +67,14 @@ pid_t ejecuta(t_comand *tc, pid_t entrada)
 			/// y si esta instruccion viene sin redireccion, tambien cierra la entrada que el siguiente ciclo usaria
 			close(fd[0]);
 		}
-		wait(0);
+		// wait(0);
+		wait(&te->lstret);
+		if (WIFEXITED(te->lstret)) {
+            te->lstret = WEXITSTATUS(te->lstret);
+            printf("Proceso hijo terminó con código de salida %d\n", te->lstret);
+        } else {
+            printf("El proceso hijo no terminó normalmente\n");
+        }
 	}
 	//// cierra devolviendo la entrada para leer en el proximo ciclo si es que la hay
 	if(fd[0])
