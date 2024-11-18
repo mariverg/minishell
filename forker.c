@@ -13,7 +13,7 @@ en principio en cada funcion hay un pipe que se duplica al hacer fork, es decir,
 mas puede llegar uno de la funcion anterior en 'entrada' es decir, 5.
 ademas de eso, una vez creadas las pipes y redirigidas, manda el tc al operador correspondiente.
 */
-pid_t forkea(t_comand *tc, pid_t entrada, t_entorno *te)
+int forkea(t_comand *tc, int entrada, t_entorn *te)
 {
 	pid_t pid;
 	int fd[2];

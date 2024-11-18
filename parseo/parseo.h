@@ -1,5 +1,5 @@
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PARSEO_H
+# define PARSEO_H
 
 // Incluye las librerías estándar necesarias para el programa
 # include <stdio.h>   // Para funciones de entrada y salida
@@ -72,6 +72,6 @@ bool        is_operator(char c);                                  // Comprueba s
 bool        is_quote(char c);                                     // Comprueba si un carácter es una comilla
 char        *ft_strdup(const char *s);                            
 char        *ft_substr(const char *s, int start, int len);        
-size_t      ft_strlen(const char *s)
+size_t      ft_strlen(const char *s);
 
 #endif

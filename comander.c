@@ -8,6 +8,7 @@
 
 //// crea un nuevo tcomand, los chars son punteros que ahora apuntan a memoria en el stack de main (o donde quiera que se crearan), tal vez sea necesario duplicarlos y malloc aumenta la complejidad, tal y como estan pueden desaparecer, podria dar a errores dificiles de captar, o no.
 /// por lo demas lo unco que hace es poner los valores en ; 
+
 t_comand *newcom(char *c, char **cc, char **env)
 {
 	t_comand *res;

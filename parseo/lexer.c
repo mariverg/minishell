@@ -1,5 +1,6 @@
 
 #include "parseo.h"
+#include <ctype.h>
 
 // Función principal para dividir una entrada en tokens
 t_token *tokenize(char *input)

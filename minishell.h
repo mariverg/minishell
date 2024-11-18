@@ -1,9 +1,13 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-typedef struct s_entorno {
+#include <stdlib.h>		///mallocs
+#include <signal.h>
+
+typedef struct s_entorn {
 	int lstret;
-} t_entorno;
+	char **env;
+} t_entorn;
 
 typedef struct s_comand {
 	char *c;
@@ -16,7 +20,7 @@ typedef struct s_comand {
 
 t_comand *newcom(char *c, char **cc, char **env);
 
-pid_t forkea(t_comand *tc, pid_t entrada, t_entorno *te);
+int forkea(t_comand *tc, int entrada, t_entorn *te);
 
 void copitofile(t_comand *tc);
 void readfromfile(t_comand *tc);
