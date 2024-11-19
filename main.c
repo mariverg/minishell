@@ -67,10 +67,34 @@ int main(int argc, char **argv, char **env)
 	char		*input;
     t_command	*commands;
     int			i;
+	int			miport;
+	char		*c;
+	t_comand	*uncomando;
 
 	mientorn.env = env;
-	char *c;
-    while (1)
+	while (1)
+	{
+		miport = 0;
+		input = readline("C>");
+		commands = parse(input);
+		while (commands)
+		{
+			c = runnable(commands->args[0], mientorn.env);
+			if (c)
+			{
+				uncomando = newcom(c, commands->args, mientorn.env);
+				if (commands->next)
+					uncomando->out = 1;
+				if (miport)
+					uncomando->in = 1;
+				miport = forkea(uncomando, miport, &mientorn);
+			}
+			// printcmmm(commands);
+			commands = commands->next;
+		}
+		
+	}
+    /*while (1)
 	{
 		input = readline("C>");
 		commands = parse(input);
@@ -82,12 +106,12 @@ int main(int argc, char **argv, char **env)
 				t_comand *uncomando = newcom(c, commands->args, mientorn.env);
 				forkea(uncomando, 0, &mientorn);
 			}
-			// printcmmm(commands);
+			printcmmm(commands);
 		}
 		else
 		{
 			printf("nada que hacer");
 		}
-	}
+	}*/
 	return (0);
 }
