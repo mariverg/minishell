@@ -7,6 +7,9 @@
 # include <string.h>  // Para funciones de manipulación de cadenas
 # include <unistd.h>  // Para funciones del sistema como close, write
 # include <stdbool.h> // Para manejar valores booleanos (true, false)
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "libft/libft.h"
 
 // Definición de los diferentes tipos de tokens que se usarán
 typedef enum e_token_type {
@@ -70,8 +73,4 @@ void        free_commands(t_command *commands);                   // Libera memo
 bool        is_space(char c);                                     // Comprueba si un carácter es un espacio
 bool        is_operator(char c);                                  // Comprueba si un carácter es un operador
 bool        is_quote(char c);                                     // Comprueba si un carácter es una comilla
-char        *ft_strdup(const char *s);                            
-char        *ft_substr(const char *s, int start, int len);        
-size_t      ft_strlen(const char *s);
-
 #endif

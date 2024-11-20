@@ -8,6 +8,11 @@ t_command *parse(char *input)
     t_command *current_cmd = NULL; // Puntero al comando que se está procesando actualmente
 
     // Inicialización del parser
+    if (!input)
+    {
+        printf("No input\n");
+        return (NULL);
+    }
     parser.input = input;
     parser.pos = 0;
     parser.tokens = tokenize(input);           // Se genera la lista de tokens a partir de la entrada
@@ -57,7 +62,6 @@ t_command *parse(char *input)
     return commands; // Retornamos la lista de comandos generados
 }
 
-// Función para procesar redirecciones en un comando
 bool parse_redirections(t_parser *parser, t_command *cmd)
 {
     t_token_type redir_type = parser->current_token->type; // Tipo de redirección
@@ -68,23 +72,32 @@ bool parse_redirections(t_parser *parser, t_command *cmd)
         (parser->current_token->type != TOKEN_WORD &&
          parser->current_token->type != TOKEN_DQUOTE &&
          parser->current_token->type != TOKEN_SQUOTE))
+    {
         return false;
+    }
 
     // Procesamos el tipo de redirección: entrada o salida
     if (redir_type == TOKEN_REDIR_IN || redir_type == TOKEN_HEREDOC) // Redirección de entrada
     {
         cmd->infile = ft_strdup(parser->current_token->value); // Guardamos el archivo de entrada
-        cmd->in_type = (redir_type == TOKEN_HEREDOC) ? 1 : 0;  // Tipo de entrada: normal o heredoc
+        if (redir_type == TOKEN_HEREDOC)
+            cmd->in_type = 1; // Tipo heredoc
+        else
+            cmd->in_type = 0; // Tipo normal
     }
     else // Redirección de salida
     {
         cmd->outfile = ft_strdup(parser->current_token->value); // Guardamos el archivo de salida
-        cmd->out_type = (redir_type == TOKEN_APPEND) ? 1 : 0;  // Tipo de salida: normal o append
+        if (redir_type == TOKEN_APPEND)
+            cmd->out_type = 1; // Tipo append
+        else
+            cmd->out_type = 0; // Tipo normal
     }
 
     parser->current_token = parser->current_token->next; // Avanzamos al siguiente token
     return true; // Redirección procesada con éxito
 }
+
 
 // Función para procesar una tubería "|"
 bool parse_pipe(t_parser *parser)

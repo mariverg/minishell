@@ -2,15 +2,19 @@
 
 int main(void)
 {
-    char *input = "echo \"Hello $USER\" | grep Hello > output.txt";
-	input = "/mecho hola > como < estas";
-    t_command *commands = parse(input);
+    char *input;
     int i;
     // Procesar los comandos
-    t_command *current = commands;
-    while (current)
+    t_command *commands;
+    t_command *current;
+    while (1)
     {
+		input = readline("Minishell> ");
+		if (!ft_strncmp("exit", input))
+			return (0);
 		i = 0;
+		commands = parse(input);
+		current = commands;
 		while(current->args[i])
 		{
 			printf("El arg %i vale %s\n", i, current->args[i]);	

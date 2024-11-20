@@ -1,6 +1,5 @@
 
 #include "parseo.h"
-#include <ctype.h>
 
 // Función principal para dividir una entrada en tokens
 t_token *tokenize(char *input)
@@ -130,7 +129,7 @@ char *get_env_var(char *input, int *i)
     int len = 0;    // Longitud de la variable
 
     // Avanzamos mientras el carácter sea alfanumérico o un guion bajo
-    while (input[*i] && (isalnum(input[*i]) || input[*i] == '_'))
+    while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
     {
         (*i)++;
         len++;

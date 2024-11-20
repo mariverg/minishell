@@ -71,9 +71,9 @@ int forkea(t_comand *tc, int entrada, t_entorn *te)
 		wait(&te->lstret);
 		if (WIFEXITED(te->lstret)) {
             te->lstret = WEXITSTATUS(te->lstret);
-            printf("Proceso hijo terminó con código de salida %d\n", te->lstret);
+            //printf("Proceso hijo terminó con código de salida %d\n", te->lstret);
         } else {
-            printf("El proceso hijo no terminó normalmente\n");
+            //printf("El proceso hijo no terminó normalmente\n");
         }
 	}
 	//// cierra devolviendo la entrada para leer en el proximo ciclo si es que la hay

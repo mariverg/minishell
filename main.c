@@ -7,6 +7,7 @@
 #include "minishell.h"
 #include "parseo/parseo.h"
 #include "libs/libtxttools.h"
+#include "parseo/libft/libft.h"
 
 ///// hay que mirar la funcion de parser a la que le puse la libreria
 ///// si empieza con |  > < segmentation fault
@@ -34,6 +35,7 @@ void printcmmm(t_command *current)
 char **mipaths(char **env)
 {
 	int mispaths = findstrrow(env, "PATH");
+	char *pathfiltrados = trimstr(env[mispaths], 5, 0);
 	char *pathsfiltrados = trimstr(env[mispaths], 5, 0);
 	char **allpaths = strdisolve(pathsfiltrados,":");
 	free(pathsfiltrados);
@@ -42,17 +44,21 @@ char **mipaths(char **env)
 
 char *runnable(char *target, char **env)
 {
+	//printf("entra en runnable con %s\n", target);
 	struct stat mistat;
 	char *totest;
 	char *ttarget = sumstrs("/", target);
 	char **allpaths = mipaths(env);
+	
 	int willrun = stat(target, &mistat);
 	if (willrun == 0)
 		return (target);
 	while(*allpaths)
 	{
+
 		totest = sumstrs(*allpaths, ttarget);
 		willrun = stat(totest, &mistat);
+		printf("comprueba con %s\n", totest);
 		if (willrun == 0)
 			return (totest);
 		allpaths++;
@@ -89,29 +95,10 @@ int main(int argc, char **argv, char **env)
 					uncomando->in = 1;
 				miport = forkea(uncomando, miport, &mientorn);
 			}
-			// printcmmm(commands);
+			//printcmmm(commands);
 			commands = commands->next;
 		}
 		
 	}
-    /*while (1)
-	{
-		input = readline("C>");
-		commands = parse(input);
-		if (commands)
-		{
-			c = runnable(commands->args[0], mientorn.env);
-			if (c)
-			{
-				t_comand *uncomando = newcom(c, commands->args, mientorn.env);
-				forkea(uncomando, 0, &mientorn);
-			}
-			printcmmm(commands);
-		}
-		else
-		{
-			printf("nada que hacer");
-		}
-	}*/
 	return (0);
 }
