@@ -7,7 +7,7 @@
 // #include <signal.h>
 
 typedef struct s_env {
-	int lstret;
+	int lastreturn;
 	char **env;
 } t_env;
 
@@ -21,7 +21,10 @@ typedef struct s_com {
 } t_com;
 
 t_com *newcom(char *c, char **cc, char **env);
-t_env newenv(char **env);
+t_env *newenv(char **env);
+
+char *getenvvar(t_env *te, char *target);
+char *execinenv(t_env *te, char *target);
 
 int forkea(t_com *tc, int entrada, t_env *te);
 
@@ -36,6 +39,7 @@ void blockaction();
 void allowaction();
 
 void printcmmm(t_command *current);
+void prntstrs(char **c);
 
 
 

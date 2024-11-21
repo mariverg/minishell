@@ -50,9 +50,9 @@ int forkea(t_com *tc, int entrada, t_env *te)
 			/// y si esta instruccion viene sin redireccion, tambien cierra la entrada que el siguiente ciclo usaria
 			close(fd[0]);
 		}
-		wait(&te->lstret);
-		if (WIFEXITED(te->lstret)) {
-            te->lstret = WEXITSTATUS(te->lstret);
+		wait(&te->lastreturn);
+		if (WIFEXITED(te->lastreturn)) {
+            te->lastreturn = WEXITSTATUS(te->lastreturn);
             //printf("Proceso hijo terminó con código de salida %d\n", te->lstret);
         } else {
             //printf("El proceso hijo no terminó normalmente\n");

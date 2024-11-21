@@ -3,6 +3,15 @@
 
 #include "minishell.h"
 
+void prntstrs(char **c)
+{
+	while(*c)
+	{
+		printf("%s\n",*c);
+		c++;
+	}
+}
+
 void printcmmm(t_command *current)
 {
 	int i;

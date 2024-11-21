@@ -24,7 +24,7 @@ char *runnable(char *target, char **env)
 	//printf("entra en runnable con %s\n", target);
 	struct stat mistat;
 	char *totest;
-	// char *ttarget = ft_strjoin("/", target);
+	char *ttarget = ft_strjoin("/", target);
 	// char **allpaths = mipaths(env);
 	
 	int willrun = stat(target, &mistat);
