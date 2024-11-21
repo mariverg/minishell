@@ -3,9 +3,10 @@ OBJS = $(addsuffix .o, $(FILES))
 SRCS = $(addsuffix .c, $(FILES))
 CFILES = $(addsuffix .c , $(FILES))
 
-LIBS = -Llibs -Lparseo/libft
-INCLUDES = -I. -I./parseo -lreadline -lft -ltxttools
-LIBFT_DIR = ./parseo/libft
+LIBS = -Llibs/libft -lreadline -lft
+# LIBS = -Llibs/libtxttools -Llibs/libft -lreadline -lft -ltxttools
+INCLUDES = -I. -I./parseo 
+LIBFT_DIR = ./libs/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 NAME = minishell
@@ -20,14 +21,20 @@ $(NAME): $(OBJS) $(LIBFT)
 %.o: %.c
 	$(CC) -c $< -o $@
 
-clean:
+$(LIBFT):
+	make -C $(LIBFT_DIR)
+	
+clean: libclean
 	rm -f $(OBJS)
+
+libclean:
+	make clean -C $(LIBFT_DIR)
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(LIBFT)
 
-$(LIBFT):
-	make -C $(LIBFT_DIR) 
+ 
 
 #all: $(OBJS)
 #	$(CC) -c $< -o $@ $(LIBFT) $(LIBS) $(INCLUDES)

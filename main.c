@@ -5,8 +5,8 @@
 
 #include "minishell.h"
 #include "parseo/parseo.h"
-#include "libs/libtxttools.h"
-#include "parseo/libft/libft.h"
+// #include "libs/libtxttools/libtxttools.h"
+#include "libs/libft/libft.h"
 
 int main(int argc, char **argv, char **env)
 {

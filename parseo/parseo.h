@@ -9,7 +9,7 @@
 # include <stdbool.h> // Para manejar valores booleanos (true, false)
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft/libft.h"
+# include "../libs/libft/libft.h"
 
 // Definición de los diferentes tipos de tokens que se usarán
 typedef enum e_token_type {
