@@ -1,16 +1,45 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <fcntl.h>
+#include <sys/stat.h>
 
 #include "minishell.h"
+#include "libs/libtxttools.h"
 
-/// ejecuta execve con los valores tc.
-/// c y cc son los comandos a ejecutar, y env ahora mismo apunta a char **env en main
-void execver(t_comand *tc)
+void execver(t_com *tc)
 {
 	execve(tc->c,tc->cc,tc->env);
 }
 
+char **mipaths(char **env)
+{
+	int mispaths = findstrrow(env, "PATH");
+	char *pathfiltrados = trimstr(env[mispaths], 5, 0);
+	char *pathsfiltrados = trimstr(env[mispaths], 5, 0);
+	char **allpaths = strdisolve(pathsfiltrados,":");
+	free(pathsfiltrados);
+	return(allpaths);
+}
+
+char *runnable(char *target, char **env)
+{
+	//printf("entra en runnable con %s\n", target);
+	struct stat mistat;
+	char *totest;
+	char *ttarget = sumstrs("/", target);
+	char **allpaths = mipaths(env);
+	
+	int willrun = stat(target, &mistat);
+	if (willrun == 0)
+		return (target);
+	while(*allpaths)
+	{
+
+		totest = sumstrs(*allpaths, ttarget);
+		willrun = stat(totest, &mistat);
+		// printf("comprueba con %s\n", totest);
+		if (willrun == 0)
+			return (totest);
+		allpaths++;
+	}
+	// printf("comando %s no reconocido\n", target);
+	return (0);
+}
 

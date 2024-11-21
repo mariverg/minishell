@@ -1,19 +1,9 @@
-#include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <sys/wait.h>
-#include <fcntl.h>
 
 #include "minishell.h"
 
-/*
-esta funcion tiene complejidad
-crea los pipes y los forks
-en principio en cada funcion hay un pipe que se duplica al hacer fork, es decir, hay 4 extremos
-mas puede llegar uno de la funcion anterior en 'entrada' es decir, 5.
-ademas de eso, una vez creadas las pipes y redirigidas, manda el tc al operador correspondiente.
-*/
-int forkea(t_comand *tc, int entrada, t_entorn *te)
+int forkea(t_com *tc, int entrada, t_env *te)
 {
 	pid_t pid;
 	int fd[2];
@@ -22,12 +12,6 @@ int forkea(t_comand *tc, int entrada, t_entorn *te)
 	pid = fork();
 	if(pid == 0)
 	{
-		// allowaction();
-		// struct sigaction sa;
-		// sa.sa_handler = SIG_DFL;
-		// sigemptyset(&sa.sa_mask);
-		// sigaction(SIGTSTP, &sa, 0);
-		///el hijo
 		// cierra la entrada recien creada pues la entrada que deberia usar es siempre 'entrada'
 		close(fd[0]);
 		if (tc->in)
@@ -42,7 +26,6 @@ int forkea(t_comand *tc, int entrada, t_entorn *te)
 		}
 		///cierra la salida, despues de probablemente haberla redirigido al stdout.
 		close(fd[1]);
-		//// lanza la aplicacion correspondiente
 		if(tc->operator == 0)
 			execver(tc);
 		else if (tc->operator == 1)
@@ -53,7 +36,7 @@ int forkea(t_comand *tc, int entrada, t_entorn *te)
 		{
 			while(1)
 			{
-				printf("soy el hijo estancado\n");
+				// printf("soy el hijo estancado\n");
 				sleep(1);
 			}
 		}
@@ -67,7 +50,6 @@ int forkea(t_comand *tc, int entrada, t_entorn *te)
 			/// y si esta instruccion viene sin redireccion, tambien cierra la entrada que el siguiente ciclo usaria
 			close(fd[0]);
 		}
-		// wait(0);
 		wait(&te->lstret);
 		if (WIFEXITED(te->lstret)) {
             te->lstret = WEXITSTATUS(te->lstret);

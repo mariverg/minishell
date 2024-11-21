@@ -1,9 +1,9 @@
 #include <signal.h>
-#include <stdio.h>
+// #include <stdio.h>
 
 void accion(int i, siginfo_t *si, void *v)
 {
-	printf("\naccion\n");
+	// printf("\naccion\n");
 }
 
 void blockaction()

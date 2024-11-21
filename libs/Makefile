@@ -2,6 +2,7 @@ FILES = spltools strtools strstools strsstools strfinders cplxtools
 OBJS = $(addsuffix .o, $(FILES))
 SRCS = $(addsuffix .c, $(FILES))
 CFILES = $(addsuffix .c, $(FILES))
+
 NAME = libtxttools.a
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra

@@ -1,6 +1,5 @@
 
 #include <stdio.h>
-#include <sys/stat.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -9,75 +8,20 @@
 #include "libs/libtxttools.h"
 #include "parseo/libft/libft.h"
 
-///// hay que mirar la funcion de parser a la que le puse la libreria
-///// si empieza con |  > < segmentation fault
-
-void printcmmm(t_command *current)
-{
-	int i;
-
-	while (current)
-    {
-		i = 0;
-		while(current->args[i])
-		{
-			printf("El arg %i vale %s\n", i, current->args[i]);	
-			i++;
-		}
-		printf("infile %s\n", current->infile);
-		printf("outfile %s\n", current->outfile);
-		printf("in_type %i\n", current->in_type);
-		printf("out_type %i\n", current->out_type);	
-        current = current->next;
-    }
-}
-
-char **mipaths(char **env)
-{
-	int mispaths = findstrrow(env, "PATH");
-	char *pathfiltrados = trimstr(env[mispaths], 5, 0);
-	char *pathsfiltrados = trimstr(env[mispaths], 5, 0);
-	char **allpaths = strdisolve(pathsfiltrados,":");
-	free(pathsfiltrados);
-	return(allpaths);
-}
-
-char *runnable(char *target, char **env)
-{
-	//printf("entra en runnable con %s\n", target);
-	struct stat mistat;
-	char *totest;
-	char *ttarget = sumstrs("/", target);
-	char **allpaths = mipaths(env);
-	
-	int willrun = stat(target, &mistat);
-	if (willrun == 0)
-		return (target);
-	while(*allpaths)
-	{
-
-		totest = sumstrs(*allpaths, ttarget);
-		willrun = stat(totest, &mistat);
-		printf("comprueba con %s\n", totest);
-		if (willrun == 0)
-			return (totest);
-		allpaths++;
-	}
-	printf("comando %s no reconocido\n", target);
-	return (0);
-}
-
 int main(int argc, char **argv, char **env)
 {
-	t_entorn	mientorn;
+	t_env		mientorn;
 	char		*input;
     t_command	*commands;
     int			i;
 	int			miport;
 	char		*c;
-	t_comand	*uncomando;
+	t_com	*uncomando;
 
 	mientorn.env = env;
+	// mientorn = newenv(env);
+	// prntstrs(mientorn.env);
+	// exit (0);
 	while (1)
 	{
 		miport = 0;

@@ -1,33 +1,42 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stdlib.h>		///mallocs
-#include <signal.h>
+#include "parseo/parseo.h"
 
-typedef struct s_entorn {
+// #include <stdlib.h>		///mallocs
+// #include <signal.h>
+
+typedef struct s_env {
 	int lstret;
 	char **env;
-} t_entorn;
+} t_env;
 
-typedef struct s_comand {
+typedef struct s_com {
 	char *c;
 	char **cc;
 	char **env;
 	int operator;
 	int in;
 	int out;
-} t_comand;
+} t_com;
 
-t_comand *newcom(char *c, char **cc, char **env);
+t_com *newcom(char *c, char **cc, char **env);
+t_env newenv(char **env);
 
-int forkea(t_comand *tc, int entrada, t_entorn *te);
+int forkea(t_com *tc, int entrada, t_env *te);
 
-void copitofile(t_comand *tc);
-void readfromfile(t_comand *tc);
+void copitofile(t_com *tc);
+void readfromfile(t_com *tc);
 
-void execver(t_comand *tc);
+char **mipaths(char **env);
+char *runnable(char *target, char **env);
+void execver(t_com *tc);
 
 void blockaction();
 void allowaction();
+
+void printcmmm(t_command *current);
+
+
 
 #endif
