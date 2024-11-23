@@ -23,7 +23,9 @@ typedef struct s_com {
 t_com *newcom(char *c, char **cc, char **env);
 t_env *newenv(char **env);
 
-char *getenvvar(t_env *te, char *target);
+char *getmienv(t_env *te, char *target);
+char *setmienv(t_env *te, char *target, char *newenvvar);
+void actualicepwd(t_env *te);
 char *execinenv(t_env *te, char *target);
 
 int forkea(t_com *tc, int entrada, t_env *te);
@@ -32,7 +34,7 @@ void copitofile(t_com *tc);
 void readfromfile(t_com *tc);
 
 char **mipaths(char **env);
-char *runnable(char *target, char **env);
+// char *runnable(char *target, char **env);
 void execver(t_com *tc);
 
 void blockaction();

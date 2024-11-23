@@ -2,6 +2,7 @@
 
 #include "minishell.h"
 
+////genera el t_com que usara forker para havecer las ejecuciones y pipes
 t_com *newcom(char *c, char **cc, char **env)
 {
 	t_com *res;

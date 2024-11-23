@@ -3,6 +3,7 @@
 
 #include "minishell.h"
 
+////funciones de utilidad para consultar datos durante los tests, en principio no estaran en la version final
 void prntstrs(char **c)
 {
 	while(*c)

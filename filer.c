@@ -4,6 +4,7 @@
 
 #include "minishell.h"
 
+/// abre copia y lee de archivos de texto, actualmente no estan implementadas en ninguna parte del codigo, utilizan el struct t_com para saber el nombre del file y el puerto de entrada o salida
 void copitofile(t_com *tc)
 {
 	char c[1];
