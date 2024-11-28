@@ -4,11 +4,25 @@
 
 #include "minishell.h"
 
-/// abre copia y lee de archivos de texto, actualmente no estan implementadas en ninguna parte del codigo, utilizan el struct t_com para saber el nombre del file y el puerto de entrada o salida
+/// abren copian y leen de archivos de texto
 void copitofile(t_com *tc)
 {
 	char c[1];
-	int arch = open("mitext.txt", O_CREAT | O_RDWR, 0777);
+	int arch = open(tc->c, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	int i = read(STDIN_FILENO, c, 1);
+	while(i > 0)
+	{
+		write(arch, c, i);
+		i = read(STDIN_FILENO, c, 1);
+	}
+	close(arch);
+	exit(0);
+}
+
+void sumtofile(t_com *tc)
+{
+	char c[1];
+	int arch = open(tc->c, O_CREAT | O_APPEND | O_WRONLY, 0777);
 	int i = read(STDIN_FILENO, c, 1);
 	while(i > 0)
 	{
@@ -22,7 +36,7 @@ void copitofile(t_com *tc)
 void readfromfile(t_com *tc)
 {
 	char c[1];
-	int arch = open("outtext.txt", O_RDONLY);
+	int arch = open(tc->c, O_RDONLY);
 	int i = read(arch, c, 1);
 	while(i > 0)
 	{

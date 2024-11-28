@@ -1,8 +1,4 @@
-#include "../minishell.h"
-#include "../libs/libft/libft.h"
-
-#include <stdio.h>
-#include <sys/stat.h>
+#include "envbuilder.h"
 
 
 /// en este file estan todas las funciones usadas para el manejo de la variable struct t_env que almacena el entorno, por el momento solo contiene el estado de return y las variables de getenv(), no se si requerira mas. las funciones basicamente manejan las variables de entorno, las modifican y consultan
@@ -127,7 +123,7 @@ char *isexec(char **paths, char *target)
 		}
 		paths++;
 	}
-	printf("noencontro ningun ejecutable con %s\n", target);
+	printf("%s: command not found\n", target);
 	return (0);
 }
 

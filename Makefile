@@ -1,7 +1,9 @@
 MAINFILES = main comander ejecuter filer forker actioner printer
 PARFILES = ./parseo/lexer ./parseo/parser ./parseo/utils
-ENVFILES = ./envbuilder/envbuilder
-FILES = $(MAINFILES) $(PARFILES) $(ENVFILES)
+ENVFILES = ./envbuilder/envbuilder ./envbuilder/envtools
+COMFILES = ./combuilder/combuilder
+PRECHECKFILES = ./prechecker/prechecker
+FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES)
 
 OBJS = $(addsuffix .o, $(FILES))
 SRCS = $(addsuffix .c, $(FILES))

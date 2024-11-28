@@ -3,7 +3,7 @@
 
 #include "minishell.h"
 
-/// se llama forkea por que la principal accion de la funcion es crear el fork que ejecutara los programas desde un nuevo proceso para no interrumpir el shell
+/// esta funcion es fundamental y se llama forkea por que la principal accion de la funcion es crear el fork que ejecutara los programas desde un nuevo proceso para no interrumpir el shell
 int forkea(t_com *tc, int entrada, t_env *te)
 {
 	pid_t pid;
@@ -13,6 +13,7 @@ int forkea(t_com *tc, int entrada, t_env *te)
 	pid = fork();
 	if(pid == 0)
 	{
+		////										HIJO
 		// cierra la entrada recien creada pues la entrada que deberia usar es siempre 'entrada'
 		close(fd[0]);
 		if (tc->in)
@@ -33,6 +34,8 @@ int forkea(t_com *tc, int entrada, t_env *te)
 			copitofile(tc);
 		else if (tc->operator == 2)
 			readfromfile(tc);
+		else if (tc->operator == 3)
+			sumtofile(tc);
 		else if (tc->operator == 66)
 		{
 			while(1)
@@ -44,6 +47,7 @@ int forkea(t_com *tc, int entrada, t_env *te)
 	}
 	else
 	{
+		////									PADRE
 		//// parent cierra la salida ya que nunca redirige nada
 		close(fd[1]);
 		if(tc->out == 0)

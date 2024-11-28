@@ -9,22 +9,60 @@
 #include "libs/libft/libft.h"
 
 ///gestiona palabras clave, ahora exit y cd
-int command_precheck(t_command *c)
+
+
+///todo main es provisional
+int main(int argc, char **argv, char **env)
 {
-	char *cc = c->args[0];
-	if (ft_strncmp("cd", cc, 2) == 0)
+	t_env		*mientorno;
+	char		*input;
+    t_command	*commands;
+    int			i;
+	int			miport;
+	char		*c;
+	t_com	*uncomando;
+	char *directorio;
+
+	///bloquea acciones y llena t_env mientorno con las variables de entorno;
+	blockaction();
+	mientorno = newenv(env);
+	///inicia el bucle del programa
+	while (1)
 	{
-		int i = chdir(c->args[1]);
-		return (0);
-	}
-	if (ft_strncmp("exit", cc, 4) == 0)
-	{
-		exit(0);
+		///genera la ruta pwd y la imprime a la terminal
+		actualicepwd(mientorno);
+		char *directorio = getmienv(mientorno, "PWD");
+		miport = 0;
+		printf("%s",directorio);
+		input = readline(">");
+		
+		/// pasa el parser
+		commands = parse(input);
+
+		/// mira si la instruccion es cd o exit, hace lo que requiera y vuelve al inicio del while
+		if (command_cdcheck(commands) == 1)
+		{
+			continue;
+		}
+		/// crea una lista de t_com que funcionan con el forker para ejecutarlas sucesivamente
+		t_com *miscomandos = getcomslist(commands, mientorno);
+		while (miscomandos)
+		{
+			//////estas lineas calculan los pipes entre las diferentes ejecuciones
+			if (miscomandos->next)
+				miscomandos->out = 1;
+			if (miport)
+				miscomandos->in = 1;
+			//// finalmente ejecuta el t_com y pasa al siguiente
+			miport = forkea(miscomandos, miport, mientorno);
+			miscomandos = miscomandos->next;
+		}
 	}
 	return (0);
 }
 
-///todo main es provisional
+
+/*
 int main(int argc, char **argv, char **env)
 {
 	t_env		*mientorno;
@@ -40,6 +78,19 @@ int main(int argc, char **argv, char **env)
 	blockaction();
 	/// crea el t_env que se mueve entre procesos con los datos de entorno y los actualiza
 	mientorno = newenv(env);
+
+	
+	//// tests de sumar y restar env variables
+	addmienv(mientorno, "pru", "esto es una pru");
+	printf("la var vale %s\n",getmienv(mientorno, "PATH"));
+	printf("la var vale %s\n",getmienv(mientorno, "pru"));
+	delmienv(mientorno, "pru");
+	printf("la var vale %s\n",getmienv(mientorno, "PATH"));
+	printf("la var vale %s\n",getmienv(mientorno, "pru"));
+	addmienv(mientorno, "pru", "esto es una pru 2");
+	printf("la var vale %s\n",getmienv(mientorno, "PATH"));
+	printf("la var vale %s\n",getmienv(mientorno, "pru"));
+	
 	while (1)
 	{
 		//// actualiza en t_env el PWD para imprimirlo en la linea
@@ -52,16 +103,21 @@ int main(int argc, char **argv, char **env)
 		input = readline(">");
 		////aqui activa el parser. Si el 'input' tiene algun valor parser se poblara y la funcion continuara dentro del proximo while
 		commands = parse(input);
+		///lo primero que hace es buscar palabras clave, actulmente cd y exit
+		///esta operacion deberia estar en otro lugar probablemente.... pero bueno, ahoraesta auqui
+		if (command_cdcheck(commands) == 1)
+		{
+			// printf("palabra clave\n");
+			continue;
+		}
+		t_com *miscomandos = getcomslist(commands, mientorno);
+		printcmmm(commands);
+		continue;
 		///ejecurata los comandos, en principio es uno por operacion
 		while (commands)
 		{
-			///lo primero que hace es buscar palabras clave, actulmente cd y exit
-			///esta operacion deberia estar en otro lugar probablemente.... pero bueno, ahora esta auqui
-			if (command_precheck(commands) == 1)
-			{
-				// printf("palabra clave\n");
-				break;
-			}
+			// printcmmm(commands);
+			// break;
 			///aqui c toma el valor retornado de execinenv (ejecutable in enviroment) que es 0 si no es ejecutable, o la ruta complata si lo es por tanto...
 			c = execinenv(mientorno, commands->args[0]);
 			/// ... si c vale algo hay que ejecutarlo
@@ -85,3 +141,4 @@ int main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
+*/

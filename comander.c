@@ -14,6 +14,7 @@ t_com *newcom(char *c, char **cc, char **env)
 	res->operator = 0;
 	res->in = 0;
 	res->out = 0;
+	res->next = 0;
 
 	return (res);
 }
