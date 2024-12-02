@@ -5,14 +5,21 @@
 
 #include "minishell.h"
 #include "parseo/parseo.h"
-// #include "libs/libtxttools/libtxttools.h"
 #include "libs/libft/libft.h"
 
-///gestiona palabras clave, ahora exit y cd
+/// esta funcion busca la variable de entorno pwd y la imprime en pantalla antes del >
+void prntpwdline(t_env *te)
+{
+	char	*directorio;
+	
+	actualicepwd(te);
+	directorio = getmienv(te, "PWD");
+	printf("%s",directorio);
+	free (directorio);
+}
 
-
-///todo main es provisional
-int main(int argc, char **argv, char **env)
+///que decir de main...
+int main(int argc, char **argv, char **argenv)
 {
 	t_env		*mientorno;
 	char		*input;
@@ -23,41 +30,42 @@ int main(int argc, char **argv, char **env)
 	t_com	*uncomando;
 	char *directorio;
 
-	///bloquea acciones y llena t_env mientorno con las variables de entorno;
+	////// esta linea para la gestion de los signals ctrl + c....
 	blockaction();
-	mientorno = newenv(env);
-	///inicia el bucle del programa
+	/////fundamental, puebla la variable mientorno con los contenidos del argenv
+	mientorno = newenv(argenv);
 	while (1)
 	{
-		///genera la ruta pwd y la imprime a la terminal
-		actualicepwd(mientorno);
-		char *directorio = getmienv(mientorno, "PWD");
-		miport = 0;
-		printf("%s",directorio);
+		////imprime la limea con la direccion
+		prntpwdline(mientorno);
 		input = readline(">");
-		
-		/// pasa el parser
+		////al recibir  input verifica que haya contenido, si no lo hay es por un ctrld que sale de la funcion libera mem y cierra programa
+		if (!input)
+			break;
+		///expanddollars coge el texto y tranforma las $PWD $ENV y de mas, en su valor segun este asignado en en mientorno->env
+		input = expanddollars(mientorno, input);
+		/// el parseo se produce despues del cambio, asi una variable con acciones se ejecutara ej mivar="ls"
 		commands = parse(input);
-
-		/// mira si la instruccion es cd o exit, hace lo que requiera y vuelve al inicio del while
+		///	este es un pequenho check que mira si hay exit o cd para cambio dir o salir del progrma
 		if (command_cdcheck(commands) == 1)
 		{
 			continue;
 		}
-		/// crea una lista de t_com que funcionan con el forker para ejecutarlas sucesivamente
+		miport = 0;
+		////esta funcion coge los t_commands y los separa y ordena para ejecuciones sucesivas y ordenada, el puntoro miscomandos apunta a una cadena de t_coms terminada en 0, y los ejecuta todos
 		t_com *miscomandos = getcomslist(commands, mientorno);
 		while (miscomandos)
 		{
-			//////estas lineas calculan los pipes entre las diferentes ejecuciones
 			if (miscomandos->next)
 				miscomandos->out = 1;
 			if (miport)
 				miscomandos->in = 1;
-			//// finalmente ejecuta el t_com y pasa al siguiente
 			miport = forkea(miscomandos, miport, mientorno);
 			miscomandos = miscomandos->next;
 		}
 	}
+	///libera la memoria de entorno, pero aun hay mucha que limpiar dentro de algunas funciones
+	freeenv(mientorno);
 	return (0);
 }
 

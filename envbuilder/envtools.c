@@ -1,5 +1,17 @@
 #include "envbuilder.h"
 
+int strxsize(char **c)
+{
+	int i;
+
+	i = 0;
+	if (!c)
+		return (0);
+	while (c[i])
+		i++;
+	return (i);
+}
+
 //// devuelve el indice de una varialbe de entorno si existe, si no -1;
 int getmienvindex(t_env *te, char *target)
 {

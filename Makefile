@@ -1,8 +1,8 @@
 MAINFILES = main comander ejecuter filer forker actioner printer
 PARFILES = ./parseo/lexer ./parseo/parser ./parseo/utils
-ENVFILES = ./envbuilder/envbuilder ./envbuilder/envtools
+ENVFILES = ./envbuilder/envbuilder ./envbuilder/envtools ./envbuilder/envexer
 COMFILES = ./combuilder/combuilder
-PRECHECKFILES = ./prechecker/prechecker
+PRECHECKFILES = ./prechecker/prechecker ./prechecker/expandvars
 FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES)
 
 OBJS = $(addsuffix .o, $(FILES))
@@ -29,6 +29,8 @@ $(NAME): $(OBJS) $(LIBFT)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
+	make -C $(LIBFT_DIR) bonus
+#	make -C $(LIBFT_DIR) bonus
 	
 clean: libclean
 	rm -f $(OBJS)
@@ -41,7 +43,11 @@ fclean: clean
 	rm -f $(LIBFT)
 
  
+val: $(OBJS) $(LIBFT)
+	$(CC) -g -o $(NAME) $(OBJS) $(LIBFT) $(LIBS) $(INCLUDES)
 
+memtest:
+	valgrind ./$(NAME)
 #all: $(OBJS)
 #	$(CC) -c $< -o $@ $(LIBFT) $(LIBS) $(INCLUDES)
 # gcc $(CFILES) $(LIBFT) $(LIBS) $(INCLUDES) -o $(NAME)

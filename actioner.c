@@ -3,18 +3,22 @@
 
 void accion(int i, siginfo_t *si, void *v)
 {
-	printf("\n>");
+	if (i == SIGINT)
+		printf("\n>");
+	else if (i == SIGTSTP) {
+        // No hacer nada para SIGTSTP (Ctrl+Z)
+    }
 }
 
 ///bloquea acciones
 void blockaction()
 {
-	struct sigaction sa;
-	sa.sa_sigaction = accion;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGTSTP, &sa, 0);
-	sigaction(SIGINT, &sa, 0);
+	struct sigaction sac;
+	sac.sa_sigaction = accion;
+	sigemptyset(&sac.sa_mask);
+	sac.sa_flags = SA_RESTART;
+	sigaction(SIGTSTP, &sac, 0);
+	sigaction(SIGINT, &sac, 0);
 }
 
 ///permite acciones

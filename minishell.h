@@ -27,10 +27,11 @@ t_com *newcom(char *c, char **cc, char **env);
 t_env *newenv(char **env);
 
 char *getmienv(t_env *te, char *target);
-char *setmienv(t_env *te, char *target, char *newenvvar);
+void setmienv(t_env *te, char *target, char *newenvvar);
 int addmienv (t_env *te, char *target, char *value);
 int delmienv(t_env *te, char *target);
 void actualicepwd(t_env *te);
+void freeenv(t_env *te);
 
 int command_cdcheck(t_command *c);
 
@@ -56,6 +57,6 @@ void printcmmm(t_command *current);
 void printcm(t_com *tc);
 void prntstrs(char **c);
 
-
+char *expanddollars(t_env *te, char *c);
 
 #endif
