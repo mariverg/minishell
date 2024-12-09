@@ -22,6 +22,7 @@ int getmienvindex(t_env *te, char *target)
 	i = 0;
 	j = -1;
 	c = te->env;
+	target = ft_strjoin(target,"=");
 	while(c[i])
 	{
 		if (!ft_strncmp(c[i], target, ft_strlen(target)))
@@ -30,6 +31,7 @@ int getmienvindex(t_env *te, char *target)
 		}
 		i++;
 	}
+	free(target);
 	return (j);
 }
 
@@ -39,7 +41,11 @@ int addmienv (t_env *te, char *target, char *value)
 	int newsize;
 	char **newenv;
 	char *aux;
+	int index;
 
+	index = getmienvindex(te, target);
+	if (index >= 0)
+		return (setmienv(te, target, value));
 	newsize = strxsize(te->env) + 1;
 	newenv = malloc(sizeof(char *) * (newsize + 1));
 	newenv[newsize] = 0;
@@ -81,6 +87,8 @@ int delmienv(t_env *te, char *target)
 		j++;
 		oldenv ++;
 	}
+	/// esta linea no esta testeada
+	free(te->env[i]);
 	free(te->env);
 	te->env = newenv;
 	return(0);

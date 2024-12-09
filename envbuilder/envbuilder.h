@@ -3,3 +3,5 @@
 
 #include <stdio.h>
 #include <sys/stat.h>
+
+int getmienvindex(t_env *te, char *target);

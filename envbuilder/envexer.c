@@ -3,7 +3,7 @@
 
 /// en este file estan todas las funciones usadas para el manejo de la variable struct t_env que almacena el entorno, por el momento solo contiene el estado de return y las variables de getenv(), no se si requerira mas. las funciones basicamente manejan las variables de entorno, las modifican y consultan
 
-char *isexec(char **paths, char *target)
+char *isexec(t_env *te, char **paths, char *target)
 {
 	struct stat mistat;
 	int i;
@@ -36,6 +36,7 @@ char *isexec(char **paths, char *target)
 		paths++;
 	}
 	printf("%s: command not found\n", target);
+	te->lastreturn = 127;
 	return (0);
 }
 
@@ -50,8 +51,8 @@ char *execinenv(t_env *te, char *target)
 	// printf("mipath es %s\n", mipath);
 	char **mispaths = ft_split(mipath, ':');
 	free(mipath);
-
-	char *torun = isexec(mispaths, target);
+	
+	char *torun = isexec(te, mispaths, target);
 	
 	return (torun);
 }

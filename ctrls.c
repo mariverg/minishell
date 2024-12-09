@@ -12,7 +12,7 @@ void accion(int i, siginfo_t *si, void *v)
     else if (i == SIGTSTP)
     {
         // Para SIGTSTP (Ctrl+Z), no hacer nada, solo ignorarlo.
-        // Esto evita que se imprima el ^Z
+        // Aun imprime ^Z
         return;
     }
 }

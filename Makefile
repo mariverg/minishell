@@ -10,7 +10,6 @@ SRCS = $(addsuffix .c, $(FILES))
 CFILES = $(addsuffix .c , $(FILES))
 
 LIBS = -Llibs/libft -lreadline -lft
-# LIBS = -Llibs/libtxttools -Llibs/libft -lreadline -lft -ltxttools
 INCLUDES = -I. -I./parseo 
 LIBFT_DIR = ./libs/libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -30,7 +29,6 @@ $(NAME): $(OBJS) $(LIBFT)
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 	make -C $(LIBFT_DIR) bonus
-#	make -C $(LIBFT_DIR) bonus
 	
 clean: libclean
 	rm -f $(OBJS)

@@ -8,7 +8,7 @@ char *extractvar(t_env *te, char *c)
 	int i;
 
 	i = 1;
-	while (ft_isalnum(c[i]))
+	while (ft_isalnum(c[i]) || c[i] == '?')
 	{
 		i++;
 	}
@@ -42,14 +42,14 @@ char *expanddollars(t_env *te, char *c)
 			else
 				swich = 1;
 		}
-		else if (c[i] == '$')
+		if (c[i] == '$' && swich)
 		{
 			prev = ft_substr(c, 0, i);
 			ft_lstadd_back(&trozo, ft_lstnew(prev));
 			next = extractvar(te, &c[i]);
 			ft_lstadd_back(&trozo, ft_lstnew(next));
 			c = c + i + 1;
-			while(ft_isalnum(*c))
+			while(ft_isalnum(*c) || *c == '?')
 				c++;
 			i = 0;
 		}
@@ -60,7 +60,10 @@ char *expanddollars(t_env *te, char *c)
 	while(trozo)
 	{
 		if (trozo->content)
+		{
 			res = ft_strjoin(res, trozo->content);
+			free(trozo->content);
+		}
 		trozo = trozo->next;
 	}
 	return (res);

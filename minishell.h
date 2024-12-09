@@ -27,13 +27,13 @@ t_com *newcom(char *c, char **cc, char **env);
 t_env *newenv(char **env);
 
 char *getmienv(t_env *te, char *target);
-void setmienv(t_env *te, char *target, char *newenvvar);
+int setmienv(t_env *te, char *target, char *newenvvar);
 int addmienv (t_env *te, char *target, char *value);
 int delmienv(t_env *te, char *target);
-void actualicepwd(t_env *te);
+int actualicepwd(t_env *te);
 void freeenv(t_env *te);
 
-int command_cdcheck(t_command *c);
+int command_cdcheck(t_command *c, t_env *te);
 
 int numcoms(t_command *tc);
 t_com *getcomslist(t_command *tc, t_env *te);

@@ -25,43 +25,29 @@ char *getmienv(t_env *te, char *target)
 {
 	char *res;
 	char *aux;
-	char **base = te->env;
-	res = 0;
-	aux = 0;
-	while(*base)
-	{
-		if (!ft_strncmp(*base, target, ft_strlen(target)))
-			aux = ft_strdup(*base);
-		base ++;
-	}
-	if (aux)
-	{
-		res = ft_substr(aux, ft_strlen(target) + 1, ft_strlen(aux) - ft_strlen(target) - 1);
-		free(aux);
-	}
+	int i;
+
+	if (ft_strncmp(target, "?", 1) == 0)
+		return(ft_itoa(te->lastreturn));
+	i = getmienvindex(te, target);
+	if (i == -1)
+		return (0);
+	aux = ft_strdup(te->env[i]);
+	res = ft_substr(aux, ft_strlen(target) + 1, ft_strlen(aux) - (ft_strlen(target) + 1));
+	free(aux);
 	return (res);
 }
 
 ////modifica el valor de una variable, principalmente usada actualmente para modificar target = "PWD", pero vale con todas
-void setmienv(t_env *te, char *target, char *newenvvar)
+int setmienv(t_env *te, char *target, char *newenvvar)
 {
 	char *aux;
 	int i;
 	int objetivo;
-	char **base = te->env;
+
 	aux = 0;
 	i = 0;
-	objetivo = -1;
-
-	while(te->env[i])
-	{
-		if (!ft_strncmp(te->env[i], target, ft_strlen(target)))
-		{
-			objetivo = i;
-			break;
-		}
-		i ++;
-	}
+	objetivo = getmienvindex(te, target);
 	if (objetivo >= 0)
 	{
 		aux = ft_strjoin(target, "=");
@@ -70,14 +56,20 @@ void setmienv(t_env *te, char *target, char *newenvvar)
 		free(te->env[objetivo]);
 		te->env[objetivo] = newenvvar;
 	}
+	return (0);
 }
 
 ////autopmatizacion de setmienv para que guarde el pwd devuelto por getcwd, que es el correcto en mis tests
-void actualicepwd(t_env *te)
+int actualicepwd(t_env *te)
 {
 	char buff[256];
+	char *oldpwd;
+
+	oldpwd = getmienv(te, "PWD");
+	setmienv(te, "OLDPWD", oldpwd);
 	// buff = getcwd(buff,256);
 	setmienv(te, "PWD", getcwd(buff,256));
+	return (0);
 }
 
 ///simple liberacion de memoria a saco, si encuentra dato lo borra
