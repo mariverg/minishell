@@ -1,16 +1,14 @@
-MAINFILES = main comander ejecuter filer forker actioner printer
+MAINFILES = main comander actioner printer memtools
 PARFILES = ./parseo/lexer ./parseo/parser ./parseo/utils
 ENVFILES = ./envbuilder/envbuilder ./envbuilder/envtools ./envbuilder/envexer
 COMFILES = ./combuilder/combuilder
 PRECHECKFILES = ./prechecker/prechecker ./prechecker/expandvars
-FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES)
+PROCESSFILES = ./processer/forker ./processer/executer ./processer/filer
+FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(PROCESSFILES)
 
 OBJS = $(addsuffix .o, $(FILES))
-SRCS = $(addsuffix .c, $(FILES))
-CFILES = $(addsuffix .c , $(FILES))
 
 LIBS = -Llibs/libft -lreadline -lft
-INCLUDES = -I. -I./parseo 
 LIBFT_DIR = ./libs/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
@@ -21,7 +19,7 @@ CFLAGS = -Wall -Werror -Wextra
 all: $(NAME) 
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) -o $(NAME) $(OBJS) $(LIBFT) $(LIBS) $(INCLUDES)
+	$(CC) -o $(NAME) $(OBJS) $(LIBFT) $(LIBS)
 
 %.o: %.c
 	$(CC) -c $< -o $@

@@ -9,9 +9,9 @@ int comparealpha(char *ca, char *cb)
 	while(*ca || *cb)
 	{
 		if (*ca < *cb)
-			return (-1);
-		if (*ca > *cb)
 			return (1);
+		if (*ca > *cb)
+			return (-1);
 		if (*ca == '=' && *cb == '=')
 			return (0);
 		ca++;
@@ -19,7 +19,7 @@ int comparealpha(char *ca, char *cb)
 	}
 	return (0);
 }
-char *lastbefore(t_env *te, char *c)
+char *firstafter(t_env *te, char *c)
 {
 	int i;
 	int lucky;
@@ -28,13 +28,11 @@ char *lastbefore(t_env *te, char *c)
 
 	lines = strxsize(te->env); 
 	i = 0;
-	res = 0;
+	res = "~~~";
 	while (i < lines)
 	{
-		if (comparealpha(te->env[i], res) == -1 && comparealpha(te->env[i], c) == 1)
-		{
+		if (comparealpha(te->env[i], res) == 1 && comparealpha(te->env[i], c) == -1)
 			res = te->env[i];
-		}
 		i++;
 	}
 	return (res);
@@ -46,13 +44,15 @@ int printalphabetical(t_env *te, char *toprint, char *max)
 	int lines;
 	char *c;
 
-	c = " ";
+	c = 0;
 	lines = strxsize(te->env); 
 	i = 0;
 	while (i < lines)
 	{
-		c = lastbefore(te,c);
-		printf("declare -x %s\n", c);
+		c = firstafter(te,c);
+		printline("declare -x ");
+		printline(c);
+		printline("\n");
 		i++;
 	}
 	return (0);
@@ -85,11 +85,12 @@ int command_cdcheck(t_command *c, t_env *te)
 		while(c->args[i])
 		{
 			if (i > 1)
-				printf(" ");
-			printf("%s", c->args[i]);
+				printline(" ");
+			printline(c->args[i]);
+			// printf("%s", c->args[i]);
 			i++;
 		}
-		printf("\n");
+		printline("\n");
 		return(1);
 	}
 	////si el input es exit, cierra el programa

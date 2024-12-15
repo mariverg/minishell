@@ -4,11 +4,26 @@
 #include "minishell.h"
 
 ////funciones de utilidad para consultar datos durante los tests, en principio no estaran en la version final
+void printline(char *c)
+{
+	while(*c)
+	{
+		write(STDOUT_FILENO, c, 1);
+		c++;
+	}
+}
+
 void prntstrs(char **c)
 {
 	while(*c)
 	{
-		printf("%s\n",*c);
+		printline(*c);
+		write(STDOUT_FILENO, "\n", 1);
+		while(**c)
+		{
+			write(STDOUT_FILENO, *c, 1);
+			(*c)++;
+		}
 		c++;
 	}
 }
@@ -37,7 +52,7 @@ void printcm(t_com *tc)
 {
 	while(tc)
 	{
-		printf("char es %s operator %i\n", tc->c, tc->operator);
+		printf("\nchar es %s operator %i\n", tc->c, tc->operator);
 		tc = tc->next;
 	}
 }

@@ -14,7 +14,8 @@ typedef struct s_env {
 typedef struct s_com {
 	char *c;
 	char **cc;
-	char **env;
+	// char **env;
+	struct s_env *env;
 	int operator;
 	int in;
 	int out;
@@ -23,7 +24,7 @@ typedef struct s_com {
 
 int strxsize(char **c);
 
-t_com *newcom(char *c, char **cc, char **env);
+t_com *newcom(char *c, char **cc, t_env *env);
 t_env *newenv(char **env);
 
 char *getmienv(t_env *te, char *target);
@@ -32,6 +33,7 @@ int addmienv (t_env *te, char *target, char *value);
 int delmienv(t_env *te, char *target);
 int actualicepwd(t_env *te);
 void freeenv(t_env *te);
+void freestrs(char **c);
 
 int command_cdcheck(t_command *c, t_env *te);
 
@@ -56,7 +58,12 @@ void allowaction();
 void printcmmm(t_command *current);
 void printcm(t_com *tc);
 void prntstrs(char **c);
+void printline(char *c);
+int printalphabetical(t_env *te, char *toprint, char *max);
+int execbuiltin(t_com *tc);
 
 char *expanddollars(t_env *te, char *c);
+
+
 
 #endif

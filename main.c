@@ -6,6 +6,7 @@
 #include "minishell.h"
 #include "parseo/parseo.h"
 #include "libs/libft/libft.h"
+#include <fcntl.h>
 
 /// esta funcion busca la variable de entorno pwd y la imprime en pantalla antes del >
 void prntpwdline(t_env *te)
@@ -18,7 +19,6 @@ void prntpwdline(t_env *te)
 	free (directorio);
 }
 
-///que decir de main...
 int main(int argc, char **argv, char **argenv)
 {
 	t_env		*mientorno;
@@ -30,40 +30,54 @@ int main(int argc, char **argv, char **argenv)
 	t_com	*uncomando;
 	char *directorio;
 
-	////// esta linea para la gestion de los signals ctrl + c....
 	blockaction();
-	/////fundamental, puebla la variable mientorno con los contenidos del argenv
 	mientorno = newenv(argenv);
-	// prntstrs(mientorno->env);
 	while (1)
 	{
-		////imprime la limea con la direccion
 		prntpwdline(mientorno);
 		input = readline(">");
-		////al recibir  input verifica que haya contenido, si no lo hay es por un ctrld que sale de la funcion libera mem y cierra programa
 		if (!input)
 			break;
-		///expanddollars coge el texto y tranforma las $PWD $ENV y de mas, en su valor segun este asignado en en mientorno->env
 		input = expanddollars(mientorno, input);
-		/// el parseo se produce despues del cambio, asi una variable con acciones se ejecutara ej mivar="ls"
 		commands = parse(input);
-		///	este es un pequenho check que mira si hay exit o cd para cambio dir o salir del progrma
-		if (command_cdcheck(commands, mientorno) == 1)
-		{
-			continue;
-		}
 		miport = 0;
-		////esta funcion coge los t_commands y los separa y ordena para ejecuciones sucesivas y ordenada, el puntoro miscomandos apunta a una cadena de t_coms terminada en 0, y los ejecuta todos
 		t_com *miscomandos = getcomslist(commands, mientorno);
-		while (miscomandos)
+		printf("comandos hechos\n");
+		if (miscomandos == 0)
 		{
-			if (miscomandos->next)
-				miscomandos->out = 1;
-			if (miport)
-				miscomandos->in = 1;
-			miport = forkea(miscomandos, miport, mientorno);
-			miscomandos = miscomandos->next;
+			printf("no caomando\n");
 		}
+		else if (miscomandos->operator == 21 && miscomandos->next == 0)
+		{
+			execbuiltin(miscomandos);
+		} 
+		else 
+		{
+			while (miscomandos)
+			{
+				if (miscomandos->next)
+					miscomandos->out = 1;
+				if (miport)
+					miscomandos->in = 1;
+				if (miscomandos->operator == 21)
+				{
+					char car[1];
+					int fd = open("/dev/null", O_RDWR);
+					int ii = read(miport, car, 1);
+					while(ii)
+					{
+						write(fd, car, 1);
+						ii = read(miport, car, 1);
+					}
+				}
+				else
+				{
+					miport = forkea(miscomandos, miport, mientorno);
+				}
+				miscomandos = miscomandos->next;
+			}
+		}
+		free(input);
 	}
 	freeenv(mientorno);
 	return (0);

@@ -6,10 +6,14 @@
 t_env *newenv(char **env)
 {
 	t_env *res;
+	char *aux;
+	int level;
+	int i;
+
 	res =  malloc(sizeof(t_env));
 	res->lastreturn = 0;
 	res->env = malloc(sizeof(char *) * (strxsize(env) + 1));
-	int i = 0;
+	i = 0;
 	while (*env)
 	{
 		res->env[i] = ft_strdup(*env);
@@ -17,6 +21,12 @@ t_env *newenv(char **env)
 		i++;
 	}
 	res->env[i] = 0;
+	aux = getmienv(res, "SHLVL");
+	level = ft_atoi(aux) + 1;
+	free(aux);
+	aux = ft_itoa(level);
+	setmienv(res, "SHLVL", aux);
+	free(aux);
 	return (res);
 }
 
@@ -67,6 +77,7 @@ int actualicepwd(t_env *te)
 
 	oldpwd = getmienv(te, "PWD");
 	setmienv(te, "OLDPWD", oldpwd);
+	free (oldpwd);
 	// buff = getcwd(buff,256);
 	setmienv(te, "PWD", getcwd(buff,256));
 	return (0);

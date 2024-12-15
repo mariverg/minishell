@@ -1,6 +1,15 @@
 #include  "prechecker.h"
 
-/// devuelve el contenido tras $ para checkear si existe tal variable ej "$PATH sadasd" devuelve "PATH"
+/// en concreto los caracteres que pueden formar parte de la variable
+int charforvar(char c)
+{
+	if (ft_isalnum(c) || c == '?' || c == '_')
+	{
+		return (1);
+	}
+	return (0);
+}
+
 char *extractvar(t_env *te, char *c)
 {
 	char *res;
@@ -8,29 +17,30 @@ char *extractvar(t_env *te, char *c)
 	int i;
 
 	i = 1;
-	while (ft_isalnum(c[i]) || c[i] == '?')
+	while (charforvar(c[i]))
 	{
 		i++;
 	}
 	varname = ft_substr(c, 0, i);
 	res = getmienv(te, (varname + 1));
+	// printf("ha extraido de %s el valor %s\n", varname, res);
 	free(varname);
-	// printf("la var vale %s\n", res);
+	
 	return (res);
 }
 
 ///recibe el input del user y lo transforma en una cadena expandida donde los $variables han sido sustituidos por su valor o borrados si no tienen valor
 char *expanddollars(t_env *te, char *c)
 {
-	t_list *trozo;
+	t_list *piece;
+	t_list *aux;
 	char *res;
-	char *prev;
-	char *next;
+	char *slot;
 	int i;
 	int swich;
 
-	res = "";
-	trozo = ft_lstnew(0);
+	res = 0;
+	piece = ft_lstnew(0);
 	swich = 1;
 	i = 0;
 	while (c[i])
@@ -44,27 +54,31 @@ char *expanddollars(t_env *te, char *c)
 		}
 		if (c[i] == '$' && swich)
 		{
-			prev = ft_substr(c, 0, i);
-			ft_lstadd_back(&trozo, ft_lstnew(prev));
-			next = extractvar(te, &c[i]);
-			ft_lstadd_back(&trozo, ft_lstnew(next));
+			slot = ft_substr(c, 0, i);
+			ft_lstadd_back(&piece, ft_lstnew(slot));
+			slot = extractvar(te, &c[i]);
+			ft_lstadd_back(&piece, ft_lstnew(slot));
 			c = c + i + 1;
-			while(ft_isalnum(*c) || *c == '?')
+			while(charforvar(*c))
 				c++;
 			i = 0;
 		}
 		i++;
 	}
-	char *final = ft_strdup(c);
-	ft_lstadd_back(&trozo, ft_lstnew(final));
-	while(trozo)
+	slot = ft_strdup(c);
+	ft_lstadd_back(&piece, ft_lstnew(slot));
+	while(piece)
 	{
-		if (trozo->content)
+		aux = piece;
+		if (piece->content)
 		{
-			res = ft_strjoin(res, trozo->content);
-			free(trozo->content);
+			slot = res;
+			res = ft_strjoin(res, piece->content);
+			free(piece->content);
+			free(slot);
 		}
-		trozo = trozo->next;
+		piece = piece->next;
+		free(aux);
 	}
 	return (res);
 }

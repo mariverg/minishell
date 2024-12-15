@@ -1,30 +1,40 @@
 #include "../minishell.h"
 
-//// cuenta comandos, ahora no la estoy usando, esta obsoleta
-int numcoms(t_command *tc)
+int builtins(t_command *tc)
 {
-	t_command *tcopy;
-	int numcoms;
-
-	tcopy = tc;
-	numcoms = 1;
-	while (tcopy->next)
+	char *c = tc->args[0];
+	if (ft_strncmp("cd", c, 2) == 0)
 	{
-		tcopy = tcopy->next;
-		numcoms++;
+		return (21);
 	}
-	if (tcopy->infile)
+	else if (ft_strncmp("env", c, 4) == 0)
 	{
-		tc->infile = tcopy->infile;
-		tc->in_type = tcopy->in_type;
-		tcopy->infile = 0;
-		numcoms++;
+		return (12);
 	}
-	if (tcopy->outfile)
+	else if (ft_strncmp("export", c, 4) == 0)
 	{
-		numcoms++;
-	}	
-	return(numcoms);
+		return (12);
+	}
+	else if (ft_strncmp("echo", c, 4) == 0)
+	{
+		return (12);
+	}
+	else if (ft_strncmp("unset", c, 4) == 0)
+	{
+		return (21);
+	}
+	else if (ft_strncmp("exit", c, 4) == 0)
+	{
+		return (21);
+	}
+	return (0);
+}
+//// cuenta comandos, ahora no la estoy usando, esta obsoleta
+t_com *lastcom(t_com *tc)
+{
+	while(tc->next)
+		tc = tc->next;
+	return(tc);
 }
 
 /// saca el infile de texto, que pondre al inicio de la lista de t_com
@@ -37,9 +47,11 @@ t_com *extractin(t_command *tc, t_env *te)
 	{
 		if (tc->infile)
 		{
-			res = newcom(tc->infile, 0, te->env);
+			res = newcom(tc->infile, 0, te);
 			if (tc->in_type == 0)
 				res->operator = 2;
+			else
+				res->operator = 4;
 		}
 		tc = tc->next;
 	}
@@ -56,7 +68,7 @@ t_com *extractout(t_command *tc, t_env *te)
 	{
 		if (tc->outfile)
 		{
-			res = newcom(tc->outfile, 0, te->env);
+			res = newcom(tc->outfile, 0, te);
 			if (tc->out_type == 0)
 				res->operator = 1;
 			else 
@@ -79,22 +91,33 @@ t_com *getcomslist(t_command *tc, t_env *te)
 	
 	tcc = tc;
 	res = newcom(0,0,0);
-	copy = res;
 
-	copy->next = extractin(tc, te);
-	if (copy->next)
-		copy = copy->next;
+	lastcom(res)->next = extractin(tc, te);
 	while(tc)
 	{
-		c = execinenv(te, tc->args[0]);
-		if (c)
+		i = builtins(tc);
+		if (i)
 		{
-			copy->next = newcom(c, tc->args, te->env);
-			copy = copy->next;
+			///// i 12 opera en fork, i 21 ha de operar en el proceso principal
+			lastcom(res)->next = newcom(tc->args[0], tc->args, te);
+			lastcom(res)->operator = i;
+		}
+		else
+		{
+			c = execinenv(te, tc->args[0]);
+			if (c)
+			{
+				lastcom(res)->next = newcom(c, tc->args, te);
+				lastcom(res)->operator = 11;
+			}
+			else
+			{
+				printf("error comando no reconocido");
+			}
 		}
 		tc = tc->next;
 	}
-	copy->next = extractout(tcc, te);
+	lastcom(res)->next = extractout(tcc, te);
 	copy = res;
 	res = res->next;
 	free(copy);

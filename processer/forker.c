@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /// esta funcion es fundamental y se llama forkea por que la principal accion de la funcion es crear el fork que ejecutara los programas desde un nuevo proceso para no interrumpir el shell
 int forkea(t_com *tc, int entrada, t_env *te)
@@ -28,8 +28,13 @@ int forkea(t_com *tc, int entrada, t_env *te)
 		}
 		///cierra la salida, despues de probablemente haberla redirigido al stdout.
 		close(fd[1]);
-		if(tc->operator == 0)
+		if(tc->operator == 11)
 			execver(tc);
+		if(tc->operator == 12)
+		{
+			execbuiltin(tc);
+			exit(0);
+		}
 		else if (tc->operator == 1)
 			copitofile(tc);
 		else if (tc->operator == 2)

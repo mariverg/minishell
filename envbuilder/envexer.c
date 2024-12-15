@@ -1,8 +1,5 @@
 #include "envbuilder.h"
 
-
-/// en este file estan todas las funciones usadas para el manejo de la variable struct t_env que almacena el entorno, por el momento solo contiene el estado de return y las variables de getenv(), no se si requerira mas. las funciones basicamente manejan las variables de entorno, las modifican y consultan
-
 char *isexec(t_env *te, char **paths, char *target)
 {
 	struct stat mistat;
@@ -13,46 +10,58 @@ char *isexec(t_env *te, char **paths, char *target)
 	i = stat(target, &mistat);
 	if (i == 0)
 	{
-		// printf("acerto con %s\n", target);
-		return (ft_strdup(target));
+		if (S_ISREG(mistat.st_mode)) 
+			return (ft_strdup(target));
+		else if (S_ISDIR(mistat.st_mode))
+		{
+			printf("%s: is a directory\n", target);
+			return(0);
+		}
+		else if (S_ISLNK(mistat.st_mode)) 
+		{
+			printf("Es un link.\n");
+			return(0);
+		}
+	}
+	if (paths == 0)
+	{
+		return (0);
 	}
 	while(*paths)
 	{
 		tmp = ft_strjoin("/", target);
 		res = ft_strjoin(*paths, tmp);
-		/// aqui res vale la ruta completa a testeas
 		free(tmp);
 		i = stat(res, &mistat);
 		if (i == 0)
-		{
-			// printf("acerto con %s\n", res);
 			return (res);
-		}
 		else
-		{
-			// printf("fallo con %s\n", res);
 			free(res);
-		}
 		paths++;
 	}
-	printf("%s: command not found\n", target);
-	te->lastreturn = 127;
+	// printf("%s: command not found\n", target);
+	// te->lastreturn = 127;
 	return (0);
 }
 
-/// esta funcion organiza y trabaja con las superiores para comprobar si la cadena es ejecutable, devuelve la ruta coompleta de el ejecutable si lo es, o 0 si no
 char *execinenv(t_env *te, char *target)
 {
 	char *mipath = getmienv(te, "PATH");
-	char *aux = mipath; 
-	// printf("mipath es %s\n", mipath);
-	mipath = ft_substr(mipath, 5, ft_strlen(mipath) - 5);
-	free(aux);
-	// printf("mipath es %s\n", mipath);
-	char **mispaths = ft_split(mipath, ':');
-	free(mipath);
-	
-	char *torun = isexec(te, mispaths, target);
-	
+	char *torun;
+	if(mipath == 0)
+	{
+		printf("buscando sin path\n");
+		torun = isexec(te, 0, target);
+	} 
+	else 
+	{
+		char *aux = mipath; 
+		mipath = ft_substr(mipath, 5, ft_strlen(mipath) - 5);
+		free(aux);
+		char **mispaths = ft_split(mipath, ':');
+		free(mipath);
+		torun = isexec(te, mispaths, target);
+		free(mispaths);
+	}
 	return (torun);
 }

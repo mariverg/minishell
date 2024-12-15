@@ -75,6 +75,41 @@ int delmienv(t_env *te, char *target)
 	i = getmienvindex(te, target);
 	if (i == -1)
 		return (1);
+	newsize = strxsize(te->env);
+	newenv = malloc(sizeof(char *) * newsize);
+	j = 0;
+	oldenv = te->env;
+	while(*oldenv)
+	{
+		if(i == j)
+		{
+			free(*oldenv);
+			i = -1;
+		} 
+		else
+		{
+			newenv[j] = *oldenv;
+			j++;
+		}
+		oldenv++;
+	}
+	newenv[j] = 0;
+	free(te->env);
+	te->env = newenv;
+	return(0);
+}
+
+int delmienv2(t_env *te, char *target)
+{
+	int i;
+	int j;
+	int newsize;
+	char **newenv;
+	char **oldenv;
+
+	i = getmienvindex(te, target);
+	if (i == -1)
+		return (1);
 	newsize = strxsize(te->env) - 1;
 	newenv = malloc(sizeof(char *) * (newsize + 1));
 	newenv[newsize] = 0;
@@ -82,14 +117,23 @@ int delmienv(t_env *te, char *target)
 	oldenv = te->env;
 	while(*oldenv)
 	{
+		//// el j++ debe entrar dentro del if
 		if (i != j)
-			newenv[j] = *oldenv;
-		j++;
-		oldenv ++;
+		{
+			newenv[j] = ft_strdup("yj");
+			// newenv[j] = *oldenv;
+			j++;
+			i = -1;
+		}
+		oldenv++;
 	}
+	// printf("borrado finalizado\n");
+	prntstrs(newenv);
+	// printf("termina impresion\n");
 	/// esta linea no esta testeada
-	free(te->env[i]);
-	free(te->env);
-	te->env = newenv;
+	// free(te->env[i]);
+	// free(te->env);
+	// te->env = newenv;
+	// printf("nuevo env asignado\n");
 	return(0);
 }

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /// abren copian y leen de archivos de texto
 void copitofile(t_com *tc)
