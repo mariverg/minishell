@@ -73,12 +73,10 @@ int setmienv(t_env *te, char *target, char *newenvvar)
 int actualicepwd(t_env *te)
 {
 	char buff[256];
-	char *oldpwd;
+	char *toerase;
+	int i;
 
-	oldpwd = getmienv(te, "PWD");
-	setmienv(te, "OLDPWD", oldpwd);
-	free (oldpwd);
-	// buff = getcwd(buff,256);
+	setmienv(te, "OLDPWD", getmienv(te, "PWD"));
 	setmienv(te, "PWD", getcwd(buff,256));
 	return (0);
 }

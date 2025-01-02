@@ -1,6 +1,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <sys/wait.h>
 
 #include "../minishell.h"
 
@@ -37,6 +40,7 @@ void readfromfile(t_com *tc)
 {
 	char c[1];
 	int arch = open(tc->c, O_RDONLY);
+	printf("se ha abierto en archovo con id %i\n", arch);
 	int i = read(arch, c, 1);
 	while(i > 0)
 	{
@@ -47,10 +51,23 @@ void readfromfile(t_com *tc)
 	exit(0);
 }
 
-/*void abrefile()
+void readfromterm(t_com *tc, int fd)
 {
-	int arch = open("mitxt.txt", O_CREAT | O_RDWR, 0777);
-	write(arch, "un txxto", 8);
-	close (arch);
-}*/
+	char *miin;
+
+	printf("leyendodeterm hacia %i\n", fd);
+	while (1)
+	{
+		miin = readline(">");
+		if (ft_strncmp(miin, tc->c, ft_strlen(tc->c)) == 0 && ft_strlen(miin) == ft_strlen(tc->c))
+			break;
+		else
+		{
+			write(fd,miin,ft_strlen(miin));
+			write(fd,"\n",1);
+		}
+	}
+	exit(0);
+}
+
 

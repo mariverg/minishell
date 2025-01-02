@@ -1,5 +1,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdlib.h>
+#include <fcntl.h>
 
 #include "../minishell.h"
 
@@ -22,12 +24,11 @@ int forkea(t_com *tc, int entrada, t_env *te)
 			// aqui cierra la entrada anterior que viene de la salida de parent... en las prubas me funciona sin ello pero creo que es necesario podria fallar
 			close(entrada);
 		}
-		if (tc->out)
+		if (tc->out && tc->operator != 4)
 		{
 			dup2(fd[1], STDOUT_FILENO);
 		}
-		///cierra la salida, despues de probablemente haberla redirigido al stdout.
-		close(fd[1]);
+		
 		if(tc->operator == 11)
 			execver(tc);
 		if(tc->operator == 12)
@@ -41,14 +42,10 @@ int forkea(t_com *tc, int entrada, t_env *te)
 			readfromfile(tc);
 		else if (tc->operator == 3)
 			sumtofile(tc);
-		else if (tc->operator == 66)
-		{
-			while(1)
-			{
-				// printf("soy el hijo estancado\n");
-				sleep(1);
-			}
-		}
+		else if (tc->operator == 4)
+			readfromterm(tc, fd[1]);
+		///cierra la salida, despues de probablemente haberla redirigido al stdout.
+		close(fd[1]);
 	}
 	else
 	{

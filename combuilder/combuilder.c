@@ -1,11 +1,28 @@
 #include "../minishell.h"
 
+////genera el t_com que usara forker para havecer las ejecuciones y pipes
+t_com *newcom(char *c, char **cc, t_env *env)
+{
+	t_com *res;
+
+	res = malloc(sizeof(t_com));
+	res->c = c;
+	res->cc = cc;
+	res->env = env;
+	res->operator = 0;
+	res->in = 0;
+	res->out = 0;
+	res->next = 0;
+
+	return (res);
+}
+
 int builtins(t_command *tc)
 {
 	char *c = tc->args[0];
-	if (ft_strncmp("cd", c, 2) == 0)
+	if (ft_strncmp("echo", c, 2) == 0)
 	{
-		return (21);
+		return (12);
 	}
 	else if (ft_strncmp("env", c, 4) == 0)
 	{
@@ -15,9 +32,9 @@ int builtins(t_command *tc)
 	{
 		return (12);
 	}
-	else if (ft_strncmp("echo", c, 4) == 0)
+	else if (ft_strncmp("cd", c, 4) == 0)
 	{
-		return (12);
+		return (21);
 	}
 	else if (ft_strncmp("unset", c, 4) == 0)
 	{
@@ -29,7 +46,7 @@ int builtins(t_command *tc)
 	}
 	return (0);
 }
-//// cuenta comandos, ahora no la estoy usando, esta obsoleta
+
 t_com *lastcom(t_com *tc)
 {
 	while(tc->next)
@@ -93,6 +110,7 @@ t_com *getcomslist(t_command *tc, t_env *te)
 	res = newcom(0,0,0);
 
 	lastcom(res)->next = extractin(tc, te);
+
 	while(tc)
 	{
 		i = builtins(tc);
@@ -112,7 +130,10 @@ t_com *getcomslist(t_command *tc, t_env *te)
 			}
 			else
 			{
-				printf("error comando no reconocido");
+				///// SI ha llegado aqui no es builtin ni ejecuyable ni en path ni acceso. es command not found
+				printf("%s: command not found\n", tc->args[0]);
+				te->lastreturn = 127;
+				return(0);
 			}
 		}
 		tc = tc->next;

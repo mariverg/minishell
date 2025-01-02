@@ -1,4 +1,4 @@
-MAINFILES = main comander actioner printer memtools
+MAINFILES = main actioner printer memtools
 PARFILES = ./parseo/lexer ./parseo/parser ./parseo/utils
 ENVFILES = ./envbuilder/envbuilder ./envbuilder/envtools ./envbuilder/envexer
 COMFILES = ./combuilder/combuilder

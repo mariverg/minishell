@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/wait.h>
 
 #include "minishell.h"
 #include "parseo/parseo.h"
@@ -19,47 +20,28 @@ void prntpwdline(t_env *te)
 	free (directorio);
 }
 
-int main(int argc, char **argv, char **argenv)
+//// procesa los comandos, basicamente hace forker a no ser que lo unico que tenga sea un builtin, esto lo hago asi tratando de imitar el comportamiento de una linea tipo ls | cd .. | cat, que se comporta de forma inesperada. esta parte con las pipes y los fork es lo que hay que reflexionar en formas de hacerlo mejor, mas claro.
+int proccoms2(t_com *tc, t_env *te)
 {
-	t_env		*mientorno;
-	char		*input;
-    t_command	*commands;
-    int			i;
-	int			miport;
-	char		*c;
-	t_com	*uncomando;
-	char *directorio;
+	int	miport;
 
-	blockaction();
-	mientorno = newenv(argenv);
-	while (1)
+	miport = 0;
+	if (tc->operator == 21 && tc->next == 0)
 	{
-		prntpwdline(mientorno);
-		input = readline(">");
-		if (!input)
-			break;
-		input = expanddollars(mientorno, input);
-		commands = parse(input);
-		miport = 0;
-		t_com *miscomandos = getcomslist(commands, mientorno);
-		printf("comandos hechos\n");
-		if (miscomandos == 0)
+		execbuiltin(tc);
+	} 
+	else 
+	{
+		while (tc)
 		{
-			printf("no caomando\n");
-		}
-		else if (miscomandos->operator == 21 && miscomandos->next == 0)
-		{
-			execbuiltin(miscomandos);
-		} 
-		else 
-		{
-			while (miscomandos)
+			if (tc->next)
+				tc->out = 1;
+			if (miport)
+				tc->in = 1;
+			//// aqui recibe un cd, exit o unset, que borran la info. lo que hago es copiarla en dev/null que tiene linux para borrar datos
+			if (tc->operator == 21)
 			{
-				if (miscomandos->next)
-					miscomandos->out = 1;
 				if (miport)
-					miscomandos->in = 1;
-				if (miscomandos->operator == 21)
 				{
 					char car[1];
 					int fd = open("/dev/null", O_RDWR);
@@ -70,16 +52,45 @@ int main(int argc, char **argv, char **argenv)
 						ii = read(miport, car, 1);
 					}
 				}
-				else
-				{
-					miport = forkea(miscomandos, miport, mientorno);
-				}
-				miscomandos = miscomandos->next;
+				
 			}
+			else
+			{
+				miport = forkea(tc, miport, te);
+			}
+			tc = tc->next;
 		}
+	}
+	return (0);
+}
+
+int main(int argc, char **argv, char **argenv)
+{
+	t_env		*te;
+	char		*input;
+    t_command	*commands;
+	t_com		*tc;
+    int			i;
+	char		*c;
+
+	/// bloquea las anciones genera el enviroment y empieza el ciclo c>
+	blockaction();
+	te = newenv(argenv);
+	while (1)
+	{
+		prntpwdline(te);
+		input = readline(">");
+		if (!input)
+			break;
+		input = expanddollars(te, input);
+		commands = parse(input);
+		///despues de parsear crea comandos, en esa creacion, si detecta un comando que no se puede ejecutar devuelve null e imprime error, si no es que la gramatica es correcta y  procesa los comandos
+		tc = getcomslist(commands, te);
+		if (tc)
+			proccoms2(tc, te);
 		free(input);
 	}
-	freeenv(mientorno);
+	freeenv(te);
 	return (0);
 }
 

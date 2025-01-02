@@ -10,7 +10,7 @@ void accion(int i, siginfo_t *si, void *v)
     }
 }
 
-///bloquea acciones
+///bloquea acciones 
 void blockaction()
 {
 	struct sigaction sac;

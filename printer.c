@@ -52,7 +52,7 @@ void printcm(t_com *tc)
 {
 	while(tc)
 	{
-		printf("\nchar es %s operator %i\n", tc->c, tc->operator);
+		printf("UN COM :c es %s operator %i\n", tc->c, tc->operator);
 		tc = tc->next;
 	}
 }
