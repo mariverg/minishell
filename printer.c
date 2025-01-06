@@ -48,7 +48,7 @@ void printcmmm(t_command *current)
     }
 }
 
-void printcm(t_com *tc)
+void printcm(t_task *tc)
 {
 	while(tc)
 	{

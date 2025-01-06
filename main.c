@@ -21,7 +21,43 @@ void prntpwdline(t_env *te)
 }
 
 //// procesa los comandos, basicamente hace forker a no ser que lo unico que tenga sea un builtin, esto lo hago asi tratando de imitar el comportamiento de una linea tipo ls | cd .. | cat, que se comporta de forma inesperada. esta parte con las pipes y los fork es lo que hay que reflexionar en formas de hacerlo mejor, mas claro.
-int proccoms2(t_com *tc, t_env *te)
+
+
+int docom(t_task *tc, t_env *te)
+{
+	if(tc->operator == 11)
+		execver(tc);
+	if(tc->operator == 12)
+		execbuiltin(tc);
+	if(tc->operator == 21)
+		execbuiltin(tc);
+	else if (tc->operator == 1)
+		copitofile(tc);
+	else if (tc->operator == 2)
+		readfromfile(tc);
+	else if (tc->operator == 3)
+		sumtofile(tc);
+	else if (tc->operator == 4)
+		readfromterm(tc, 0);
+	return (0);
+}
+
+int proccoms(t_task *tt, t_env *te)
+{
+	// printf("haciendo comandos con operador %i\n", tc->operator);
+	while (tt)
+	{
+		if (tt->next)
+		{
+			printf("redirige\n");
+		}
+		docom(tt, te);
+		tt = tt->next;
+	}
+	return (0);
+}
+
+/*int proccoms2(t_task *tc, t_env *te)
 {
 	int	miport;
 
@@ -62,14 +98,14 @@ int proccoms2(t_com *tc, t_env *te)
 		}
 	}
 	return (0);
-}
+}*/
 
 int main(int argc, char **argv, char **argenv)
 {
 	t_env		*te;
 	char		*input;
     t_command	*commands;
-	t_com		*tc;
+	t_task		*tc;
     int			i;
 	char		*c;
 
@@ -85,9 +121,9 @@ int main(int argc, char **argv, char **argenv)
 		input = expanddollars(te, input);
 		commands = parse(input);
 		///despues de parsear crea comandos, en esa creacion, si detecta un comando que no se puede ejecutar devuelve null e imprime error, si no es que la gramatica es correcta y  procesa los comandos
-		tc = getcomslist(commands, te);
+		tc = gettaskslist(commands, te);
 		if (tc)
-			proccoms2(tc, te);
+			proccoms(tc, te);
 		free(input);
 	}
 	freeenv(te);

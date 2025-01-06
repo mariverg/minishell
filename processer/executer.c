@@ -1,20 +1,29 @@
 #include <sys/stat.h>
+#include <sys/wait.h>
 
 #include "../minishell.h"
 // #include "libs/libtxttools/libtxttools.h"
 // #include "libs/libft/libft.h"
 
 ///ejecuta la funcion execve
-void execver(t_com *tc)
+void execver(t_task *tc)
 {
-	execve(tc->c,tc->cc,tc->env->env);
+	int pid;
+
+	pid = fork();
+	if (pid == 0)
+		execve(tc->c,tc->cc,tc->env->env);
+	else
+	{
+		wait(0);
+	}
 }
 
 //// ejecuta los builtins
-int execbuiltin(t_com *tc)
+int execbuiltin(t_task *tc)
 {
 	////si el input es cd, hace el cambio de dir
-	if (ft_strncmp("cd", tc->c, 2) == 0)
+	if (ft_strncmp("cd", tc->c, 3) == 0)
 	{
 		int i = chdir(tc->cc[1]);
 		return (1);

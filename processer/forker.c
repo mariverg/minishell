@@ -6,7 +6,7 @@
 #include "../minishell.h"
 
 /// esta funcion es fundamental y se llama forkea por que la principal accion de la funcion es crear el fork que ejecutara los programas desde un nuevo proceso para no interrumpir el shell
-int forkea(t_com *tc, int entrada, t_env *te)
+int forkea(t_task *tc, int entrada, t_env *te)
 {
 	pid_t pid;
 	int fd[2];

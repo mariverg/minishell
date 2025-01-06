@@ -8,7 +8,7 @@
 #include "../minishell.h"
 
 /// abren copian y leen de archivos de texto
-void copitofile(t_com *tc)
+void copitofile(t_task *tc)
 {
 	char c[1];
 	int arch = open(tc->c, O_CREAT | O_WRONLY | O_TRUNC, 0777);
@@ -22,7 +22,7 @@ void copitofile(t_com *tc)
 	exit(0);
 }
 
-void sumtofile(t_com *tc)
+void sumtofile(t_task *tc)
 {
 	char c[1];
 	int arch = open(tc->c, O_CREAT | O_APPEND | O_WRONLY, 0777);
@@ -36,7 +36,7 @@ void sumtofile(t_com *tc)
 	exit(0);
 }
 
-void readfromfile(t_com *tc)
+void readfromfile(t_task *tc)
 {
 	char c[1];
 	int arch = open(tc->c, O_RDONLY);
@@ -51,7 +51,7 @@ void readfromfile(t_com *tc)
 	exit(0);
 }
 
-void readfromterm(t_com *tc, int fd)
+void readfromterm(t_task *tc, int fd)
 {
 	char *miin;
 
