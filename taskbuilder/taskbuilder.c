@@ -10,12 +10,20 @@ t_task *newtask(char *c, char **cc, t_env *env)
 	res->cc = cc;
 	res->env = env;
 	res->operator = 0;
-	res->in = 0;
-	res->out = 0;
+	res->in = STDIN_FILENO;
+	res->out = STDOUT_FILENO;
 	res->next = 0;
-	// res->fd = {0,0};
+	// res->fd[0] = STDIN_FILENO;
+	// res->fd[1] = STDOUT_FILENO;
 
 	return (res);
+}
+
+t_task *lastcom(t_task *tc)
+{
+	while(tc->next)
+		tc = tc->next;
+	return(tc);
 }
 
 int builtins(t_command *tc)
@@ -48,12 +56,7 @@ int builtins(t_command *tc)
 	return (0);
 }
 
-t_task *lastcom(t_task *tc)
-{
-	while(tc->next)
-		tc = tc->next;
-	return(tc);
-}
+
 
 /// saca el infile de texto, que pondre al inicio de la lista de t_com
 t_task *extractin(t_command *tc, t_env *te)

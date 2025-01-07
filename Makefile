@@ -1,7 +1,7 @@
 MAINFILES = main actioner printer memtools
 PARFILES = ./parseo/lexer ./parseo/parser ./parseo/utils
 ENVFILES = ./envbuilder/envbuilder ./envbuilder/envtools ./envbuilder/envexer
-COMFILES = ./combuilder/combuilder
+COMFILES = ./taskbuilder/taskbuilder
 PRECHECKFILES = ./prechecker/prechecker ./prechecker/expandvars
 PROCESSFILES = ./processer/forker ./processer/executer ./processer/filer
 FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(PROCESSFILES)

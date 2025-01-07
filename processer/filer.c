@@ -12,28 +12,26 @@ void copitofile(t_task *tc)
 {
 	char c[1];
 	int arch = open(tc->c, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	int i = read(STDIN_FILENO, c, 1);
+	int i = read(tc->in, c, 1);
 	while(i > 0)
 	{
 		write(arch, c, i);
-		i = read(STDIN_FILENO, c, 1);
+		i = read(tc->in, c, 1);
 	}
 	close(arch);
-	exit(0);
 }
 
 void sumtofile(t_task *tc)
 {
 	char c[1];
 	int arch = open(tc->c, O_CREAT | O_APPEND | O_WRONLY, 0777);
-	int i = read(STDIN_FILENO, c, 1);
+	int i = read(tc->in, c, 1);
 	while(i > 0)
 	{
 		write(arch, c, i);
-		i = read(STDIN_FILENO, c, 1);
+		i = read(tc->in, c, 1);
 	}
 	close(arch);
-	exit(0);
 }
 
 void readfromfile(t_task *tc)
@@ -44,18 +42,17 @@ void readfromfile(t_task *tc)
 	int i = read(arch, c, 1);
 	while(i > 0)
 	{
-		write(STDOUT_FILENO, c, i);
+		write(tc->out, c, i);
 		i = read(arch, c, 1);
 	}
 	close(arch);
-	exit(0);
 }
 
-void readfromterm(t_task *tc, int fd)
+void readfromterm(t_task *tc)
 {
 	char *miin;
 
-	printf("leyendodeterm hacia %i\n", fd);
+	// printf("leyendodeterm hacia %i\n", fd);
 	while (1)
 	{
 		miin = readline(">");
@@ -63,11 +60,10 @@ void readfromterm(t_task *tc, int fd)
 			break;
 		else
 		{
-			write(fd,miin,ft_strlen(miin));
-			write(fd,"\n",1);
+			write(tc->out,miin,ft_strlen(miin));
+			write(tc->out,"\n",1);
 		}
 	}
-	exit(0);
 }
 
 

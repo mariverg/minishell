@@ -47,7 +47,7 @@ int forkea(t_task *tc, int entrada, t_env *te);
 
 void copitofile(t_task *tc);
 void readfromfile(t_task *tc);
-void readfromterm(t_task *tc, int fd);
+void readfromterm(t_task *tc);
 void sumtofile(t_task *tc);
 
 // char **mipaths(char **env);

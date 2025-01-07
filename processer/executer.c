@@ -12,7 +12,19 @@ void execver(t_task *tc)
 
 	pid = fork();
 	if (pid == 0)
+	{
+		if (tc->in != STDIN_FILENO)
+		{
+			dup2(tc->in, STDIN_FILENO);
+			close(tc->in);
+		}
+		if (tc->out != STDOUT_FILENO)
+		{
+			dup2(tc->out, STDOUT_FILENO);
+			close(tc->out);
+		}
 		execve(tc->c,tc->cc,tc->env->env);
+	}
 	else
 	{
 		wait(0);
@@ -49,8 +61,8 @@ int execbuiltin(t_task *tc)
 		while(tc->cc[i])
 		{
 			if (i > 1)
-				printline(" ");
-			printline(tc->cc[i]);
+				write(tc->out," ",1);
+			write(tc->out, tc->cc[i], ft_strlen(tc->cc[i]));
 			i++;
 		}
 		printline("\n");
