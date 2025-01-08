@@ -31,46 +31,46 @@ int comparealpha(char *ca, char *cb)
 	}
 	return (0);
 }
-char *firstafter(t_env *te, char *c)
-{
-	int i;
-	int lucky;
-	int lines;
-	char *res;
+// char *firstafter(t_env *te, char *c)
+// {
+// 	int i;
+// 	int lucky;
+// 	int lines;
+// 	char *res;
 
-	lines = strxsize(te->env); 
-	i = 0;
-	res = "~~~";
-	while (i < lines)
-	{
-		if (comparealpha(te->env[i], res) == 1 && comparealpha(te->env[i], c) == -1)
-			res = te->env[i];
-		i++;
-	}
-	return (res);
-}
-int printalphabetical(t_env *te, char *toprint, char *max)
-{
-	int i;
-	int lucky;
-	int lines;
-	char *c;
+// 	lines = strxsize(te->env); 
+// 	i = 0;
+// 	res = "~~~";
+// 	while (i < lines)
+// 	{
+// 		if (comparealpha(te->env[i], res) == 1 && comparealpha(te->env[i], c) == -1)
+// 			res = te->env[i];
+// 		i++;
+// 	}
+// 	return (res);
+// }
+// int printalphabetical(t_env *te, char *toprint, char *max)
+// {
+// 	int i;
+// 	int lucky;
+// 	int lines;
+// 	char *c;
 
-	c = 0;
-	lines = strxsize(te->env); 
-	i = 0;
-	while (i < lines)
-	{
-		c = firstafter(te,c);
-		printline("declare -x ");
-		printline(c);
-		printline("\n");
-		i++;
-	}
-	return (0);
-}
+// 	c = 0;
+// 	lines = strxsize(te->env); 
+// 	i = 0;
+// 	while (i < lines)
+// 	{
+// 		c = firstafter(te,c);
+// 		printline("declare -x ");
+// 		printline(c);
+// 		printline("\n");
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
-int command_cdcheck(t_command *c, t_env *te)
+/*int command_cdcheck(t_command *c, t_env *te)
 {
 	if (!c)
 		return(1);
@@ -83,7 +83,7 @@ int command_cdcheck(t_command *c, t_env *te)
 	}
 	if (ft_strncmp("env", cc, 4) == 0)
 	{
-		prntstrs(te->env);
+		prntstrs(te->env, te->out);
 		return(1);
 	}
 	if (ft_strncmp("export", cc, 4) == 0)
@@ -113,6 +113,6 @@ int command_cdcheck(t_command *c, t_env *te)
 		exit(0);
 	}
 	return (0);
-}
+}*/
 
 

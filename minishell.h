@@ -71,8 +71,8 @@ void allowaction();
 
 void printcmmm(t_command *current);
 void printcm(t_task *tc);
-void prntstrs(char **c);
-void printline(char *c);
+void prntstrs(char **c, int out);
+void printline(char *c, int out);
 int printalphabetical(t_env *te, char *toprint, char *max);
 int execbuiltin(t_task *tc);
 

@@ -54,7 +54,7 @@ int execbuiltin(t_task *tc)
 	}
 	else if (ft_strncmp("env", tc->c, 4) == 0)
 	{
-		prntstrs(tc->env->env);
+		prntstrs(tc->env->env, tc->out);
 		return(1);
 	}
 	else if (ft_strncmp("export", tc->c, 4) == 0)
@@ -77,7 +77,8 @@ int execbuiltin(t_task *tc)
 			write(tc->out, tc->cc[i], ft_strlen(tc->cc[i]));
 			i++;
 		}
-		printline("\n");
+		if (tc->cc[1])
+			printline("\n", tc->out);
 		return(1);
 	}
 	////si el input es exit, cierra el programa
