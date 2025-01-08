@@ -43,7 +43,7 @@ int forkea(t_task *tc, int entrada, t_env *te)
 		else if (tc->operator == 3)
 			sumtofile(tc);
 		else if (tc->operator == 4)
-			readfromterm(tc, fd[1]);
+			readfromterm(tc);
 		///cierra la salida, despues de probablemente haberla redirigido al stdout.
 		close(fd[1]);
 	}

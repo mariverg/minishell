@@ -1,0 +1,1 @@
+/home/ggomez-m/bin:/home/ggomez-m/.cargo/bin:/usr/local/cargo/bin:/home/ggomez-m/.opam/default/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin

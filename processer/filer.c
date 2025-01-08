@@ -18,6 +18,7 @@ void copitofile(t_task *tc)
 		write(arch, c, i);
 		i = read(tc->in, c, 1);
 	}
+	write(arch, "\n", 1);
 	close(arch);
 }
 
@@ -31,6 +32,7 @@ void sumtofile(t_task *tc)
 		write(arch, c, i);
 		i = read(tc->in, c, 1);
 	}
+	write(arch, "\n", 1);
 	close(arch);
 }
 
