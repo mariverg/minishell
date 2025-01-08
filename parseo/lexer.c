@@ -16,7 +16,7 @@ t_token *tokenize(char *input)
         else if (is_operator(input[i])) // Si es un operador (como |, <, >, etc.)
         {
             value = get_operator(input, &i); // Obtenemos el operador como string
-            if (value) // Si se obtuvo un operador válido
+            if (value && tokens) // Si se obtuvo un operador válido
             {
                 // Creamos un token basado en el tipo de operador y lo añadimos a la lista
                 if (strcmp(value, "|") == 0)

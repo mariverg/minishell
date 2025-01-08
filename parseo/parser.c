@@ -28,7 +28,7 @@ t_command *parse(char *input)
         }
 
         // Si el token actual es una palabra, una comilla o una variable de entorno
-        if (parser.current_token->type == TOKEN_WORD ||
+        if (parser.current_token->type  == TOKEN_WORD||
             parser.current_token->type == TOKEN_DQUOTE ||
             parser.current_token->type == TOKEN_SQUOTE ||
             parser.current_token->type == TOKEN_ENV_VAR)
