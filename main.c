@@ -49,10 +49,6 @@ int proccoms(t_task *tt, t_env *te)
 			tt->out = fd[1];
 			tt->next->in = fd[0];
 		}
-		// else
-		// {
-		// 	tt->out = STDOUT_FILENO;
-		// }
 		docom(tt, te);
 		if (tt->in >= 0 && tt->in != STDIN_FILENO)
 		{

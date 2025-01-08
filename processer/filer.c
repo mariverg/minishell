@@ -38,7 +38,6 @@ void readfromfile(t_task *tc)
 {
 	char c[1];
 	int arch = open(tc->c, O_RDONLY);
-	printf("se ha abierto en archovo con id %i\n", arch);
 	int i = read(arch, c, 1);
 	while(i > 0)
 	{
