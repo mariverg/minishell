@@ -52,6 +52,13 @@ int execbuiltin(t_task *tc)
 		int i = chdir(tc->cc[1]);
 		return (1);
 	}
+	if (ft_strncmp("pwd", tc->c, 4) == 0)
+	{
+		char *wd = getmienv(tc->env, "PWD");
+		write(tc->out, wd, ft_strlen(wd));
+		write(tc->out, "\n", 1);
+		return(1);
+	}
 	else if (ft_strncmp("env", tc->c, 4) == 0)
 	{
 		prntstrs(tc->env->env, tc->out);

@@ -41,7 +41,11 @@ t_task *lastcom(t_task *tc)
 int builtins(t_command *tc)
 {
 	char *c = tc->args[0];
-	if (ft_strncmp("echo", c, 2) == 0)
+	if (ft_strncmp("echo", c, 5) == 0)
+	{
+		return (12);
+	}
+	else if (ft_strncmp("pwd", c, 4) == 0)
 	{
 		return (12);
 	}

@@ -28,8 +28,13 @@ void prntpwdline(t_env *te)
 	
 	actualicepwd(te);
 	directorio = getmienv(te, "PWD");
-	printf("%s",directorio);
+	// printf("%s",directorio);
+	write(STDOUT_FILENO, directorio, ft_strlen(directorio));
 	free (directorio);
+	// directorio = getmienv(te->env, "PWD");
+	// write(te->out, wd, ft_strlen(wd));
+	// write(te->out, "\n", 1);
+	// free (directorio);
 }
 
 int docom(t_task *tc, t_env *te)
