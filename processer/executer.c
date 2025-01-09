@@ -47,12 +47,17 @@ void execver(t_task *tc)
 int execbuiltin(t_task *tc)
 {
 	////si el input es cd, hace el cambio de dir
-	if (ft_strncmp("cd", tc->c, 3) == 0)
+	if (tc->operator == 13)
+	{
+		int i = addstrenv(tc->env, tc->c);
+		return (1);
+	}
+	else if (ft_strncmp("cd", tc->c, 3) == 0)
 	{
 		int i = chdir(tc->cc[1]);
 		return (1);
 	}
-	if (ft_strncmp("pwd", tc->c, 4) == 0)
+	else if (ft_strncmp("pwd", tc->c, 4) == 0)
 	{
 		char *wd = getmienv(tc->env, "PWD");
 		write(tc->out, wd, ft_strlen(wd));

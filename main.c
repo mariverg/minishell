@@ -43,6 +43,8 @@ int docom(t_task *tc, t_env *te)
 		execver(tc);
 	if(tc->operator == 12)
 		execbuiltin(tc);
+	if(tc->operator == 13)
+		execbuiltin(tc);
 	if(tc->operator == 21)
 		execbuiltin(tc);
 	else if (tc->operator == 1)

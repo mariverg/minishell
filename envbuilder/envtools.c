@@ -110,3 +110,20 @@ int delmienv(t_env *te, char *target)
 	te->env = newenv;
 	return(0);
 }
+
+int addstrenv(t_env *te, char *c)
+{
+	char *ca;
+	char *cb;
+	int cut;
+
+	cut = 0;
+	while (c[cut] != '=')
+		cut++;
+	ca = ft_substr(c, 0, cut);
+	cb = ft_substr(c, cut + 1, (ft_strlen(c) - cut));
+	addmienv (te, ca, cb);
+	// printf("extrayenfo en envtools de %s corte en %i\n", c, cut);
+	// printf("dividido en: -%s-\n y: -%s-\n", ca, cb);
+	return(0);
+}

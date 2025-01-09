@@ -45,6 +45,7 @@ int setmienv(t_env *te, char *target, char *newenvvar);
 int addmienv (t_env *te, char *target, char *value);
 int delmienv(t_env *te, char *target);
 int actualicepwd(t_env *te);
+int addstrenv(t_env *te, char *c);
 void freeenv(t_env *te);
 void freestrs(char **c);
 

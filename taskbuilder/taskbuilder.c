@@ -41,6 +41,10 @@ t_task *lastcom(t_task *tc)
 int builtins(t_command *tc)
 {
 	char *c = tc->args[0];
+	if (ft_strnstr(c, "=", ft_strlen(c)))
+	{
+		return (13);
+	}
 	if (ft_strncmp("echo", c, 5) == 0)
 	{
 		return (12);
