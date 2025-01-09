@@ -12,25 +12,7 @@
 
 #include  "prechecker.h"
 
-int comparealpha(char *ca, char *cb)
-{
-	if(!ca && cb)
-		return (1);
-	if(ca && !cb)
-		return (-1);
-	while(*ca || *cb)
-	{
-		if (*ca < *cb)
-			return (1);
-		if (*ca > *cb)
-			return (-1);
-		if (*ca == '=' && *cb == '=')
-			return (0);
-		ca++;
-		cb++;
-	}
-	return (0);
-}
+
 // char *firstafter(t_env *te, char *c)
 // {
 // 	int i;

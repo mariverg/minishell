@@ -81,6 +81,26 @@ void printcm(t_task *tc)
 	}
 }
 
+int comparealpha(char *ca, char *cb)
+{
+	if(!ca && cb)
+		return (1);
+	if(ca && !cb)
+		return (-1);
+	while(*ca || *cb)
+	{
+		if (*ca < *cb)
+			return (1);
+		if (*ca > *cb)
+			return (-1);
+		if (*ca == '=' && *cb == '=')
+			return (0);
+		ca++;
+		cb++;
+	}
+	return (0);
+}
+
 char *firstafter(t_env *te, char *c)
 {
 	int i;
@@ -99,7 +119,7 @@ char *firstafter(t_env *te, char *c)
 	}
 	return (res);
 }
-int printalphabetical(t_env *te, char *toprint, char *max)
+int printalphabetical(t_task *te, char *toprint, char *max)
 {
 	int i;
 	int lucky;
@@ -107,14 +127,14 @@ int printalphabetical(t_env *te, char *toprint, char *max)
 	char *c;
 
 	c = 0;
-	lines = strxsize(te->env); 
+	lines = strxsize(te->env->env); 
 	i = 0;
 	while (i < lines)
 	{
-		c = firstafter(te,c);
-		printline("declare -x ", 1);
-		printline(c, 1);
-		printline("\n", 1);
+		c = firstafter(te->env,c);
+		printline("declare -x ", te->out);
+		printline(c, te->out);
+		printline("\n", te->out);
 		i++;
 	}
 	return (0);

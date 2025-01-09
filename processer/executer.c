@@ -59,7 +59,7 @@ int execbuiltin(t_task *tc)
 	}
 	else if (ft_strncmp("export", tc->c, 4) == 0)
 	{
-		printalphabetical(tc->env, 0, 0);
+		printalphabetical(tc, 0, 0);
 		return(1);
 	}
 	else if (ft_strncmp("unset", tc->c, 4) == 0)
