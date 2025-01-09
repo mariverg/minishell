@@ -2,9 +2,10 @@ MAINFILES = main actioner printer memtools
 PARFILES = ./parseo/lexer ./parseo/parser ./parseo/utils
 ENVFILES = ./envbuilder/envbuilder ./envbuilder/envtools ./envbuilder/envexer
 COMFILES = ./taskbuilder/taskbuilder
+HISTORYFILES = ./history/history 
 PRECHECKFILES = ./prechecker/expandvars
 PROCESSFILES = ./processer/forker ./processer/executer ./processer/filer
-FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(PROCESSFILES)
+FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(PROCESSFILES) $(HISTORYFILES)
 
 OBJS = $(addsuffix .o, $(FILES))
 

@@ -18,6 +18,7 @@
 
 #include "minishell.h"
 #include "parseo/parseo.h"
+#include "history/history.h"
 #include "libs/libft/libft.h"
 #include <fcntl.h>
 
@@ -79,29 +80,31 @@ int proccoms(t_task *tt, t_env *te)
 
 int main(int argc, char **argv, char **argenv)
 {
-	t_env		*te;
-	char		*input;
-    t_command	*commands;
-	t_task		*tc;
-    int			i;
-	char		*c;
+    t_env       *te;
+    char        *input;
+    t_command   *commands;
+    t_task      *tc;
 
-	blockaction();
-	te = newenv(argenv);
-	while (1)
-	{
-		prntpwdline(te);
-		input = readline(">");
-		if (!input)
-			break;
-		input = expanddollars(te, input);
-		commands = parse(input);
-		tc = gettaskslist(commands, te);
-		if (tc)
-			proccoms(tc, te);
-		free(input);
-	}
-	freeenv(te);
-	return (0);
+    blockaction();
+    te = newenv(argenv);
+    init_history(); // Inicializa el historial
+    while (1)
+    {
+        prntpwdline(te);
+        input = readline(">");
+        if (!input)
+            break;
+        add_to_history(input); // Agrega el comando al historial
+        input = expanddollars(te, input);
+        commands = parse(input);
+        tc = gettaskslist(commands, te);
+        if (tc)
+            proccoms(tc, te);
+        free(input);
+    }
+    save_history_to_file(); // Guarda el historial en un archivo
+    freeenv(te);
+    return (0);
 }
+
 
