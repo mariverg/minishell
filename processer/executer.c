@@ -49,7 +49,8 @@ int execbuiltin(t_task *tc)
 	////si el input es cd, hace el cambio de dir
 	if (tc->operator == 13)
 	{
-		int i = addstrenv(tc->env, tc->c);
+		/// en shell crea variable local que no va a env
+		// int i = addstrenv(tc->env, tc->c);
 		return (1);
 	}
 	else if (ft_strncmp("cd", tc->c, 3) == 0)
@@ -71,7 +72,10 @@ int execbuiltin(t_task *tc)
 	}
 	else if (ft_strncmp("export", tc->c, 4) == 0)
 	{
-		printalphabetical(tc, 0, 0);
+		if(tc->cc[1])
+			addstrenv(tc->env, tc->cc[1]);
+		else
+			printalphabetical(tc, 0, 0);
 		return(1);
 	}
 	else if (ft_strncmp("unset", tc->c, 4) == 0)

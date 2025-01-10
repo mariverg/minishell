@@ -119,12 +119,44 @@ char *firstafter(t_env *te, char *c)
 	}
 	return (res);
 }
+
+char *addcomi(char *c)
+{
+	char *res;
+	char *ca;
+	char *cb;
+	char *aux;
+	int cut;
+
+	cut = 0;
+	while (c[cut] != '=')
+		cut++;
+	ca = ft_substr(c, 0, cut + 1);
+	aux = ca;
+	ca = ft_strjoin(ca,"\"");
+	free (aux);
+	cb = ft_substr(c, cut + 1, (ft_strlen(c) - cut));
+	if (!(*cb))
+	{
+		free(ca);
+		return(ft_substr(c, 0, cut));
+	}
+	aux = cb;
+	cb = ft_strjoin(cb,"\"");
+	free (aux);
+	res = ft_strjoin(ca,cb);
+	free(ca);
+	free(cb);
+	return (res);
+}
+
 int printalphabetical(t_task *te, char *toprint, char *max)
 {
 	int i;
 	int lucky;
 	int lines;
 	char *c;
+	char *mod;
 
 	c = 0;
 	lines = strxsize(te->env->env); 
@@ -133,7 +165,9 @@ int printalphabetical(t_task *te, char *toprint, char *max)
 	{
 		c = firstafter(te->env,c);
 		printline("declare -x ", te->out);
-		printline(c, te->out);
+		mod = addcomi(c);
+		printline(mod, te->out);
+		free (mod);
 		printline("\n", te->out);
 		i++;
 	}

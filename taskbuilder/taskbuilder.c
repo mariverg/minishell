@@ -57,19 +57,19 @@ int builtins(t_command *tc)
 	{
 		return (12);
 	}
-	else if (ft_strncmp("export", c, 4) == 0)
+	else if (ft_strncmp("export", c, 7) == 0)
 	{
 		return (12);
 	}
-	else if (ft_strncmp("cd", c, 4) == 0)
+	else if (ft_strncmp("cd", c, 3) == 0)
 	{
 		return (21);
 	}
-	else if (ft_strncmp("unset", c, 4) == 0)
+	else if (ft_strncmp("unset", c, 6) == 0)
 	{
 		return (21);
 	}
-	else if (ft_strncmp("exit", c, 4) == 0)
+	else if (ft_strncmp("exit", c, 5) == 0)
 	{
 		return (21);
 	}

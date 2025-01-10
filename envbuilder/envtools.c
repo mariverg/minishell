@@ -118,12 +118,13 @@ int addstrenv(t_env *te, char *c)
 	int cut;
 
 	cut = 0;
-	while (c[cut] != '=')
+	while (c[cut] != '=' && c[cut] != '\0')
 		cut++;
 	ca = ft_substr(c, 0, cut);
 	cb = ft_substr(c, cut + 1, (ft_strlen(c) - cut));
 	addmienv (te, ca, cb);
-	// printf("extrayenfo en envtools de %s corte en %i\n", c, cut);
-	// printf("dividido en: -%s-\n y: -%s-\n", ca, cb);
+	free(ca);
+	if(cb)
+		free(cb);
 	return(0);
 }
