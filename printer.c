@@ -36,20 +36,6 @@ void prntstrs(char **c, int out)
 		printline("\n", out);
 		i++;
 	}
-	/*				esta la dejo como ejemplo de borrar todo el array
-	printf("printando env\n\n");
-	char **c = cc;
-	while(*c)
-	{
-		printline(*c);
-		write(STDOUT_FILENO, "\n", 1);
-		while(**c)
-		{
-			write(STDOUT_FILENO, *c, 1);
-			(*c)++;
-		}
-		c++;
-	}*/
 }
 
 void printcmmm(t_command *current)
