@@ -1,4 +1,5 @@
 1- en bash al intentar >| da un error "-bash: syntax error near unexpected token `|'" en el nuestro nueva linea.
 2- el check de pipes con filedescriptors comparando con STDIN_FILENO etc, es absurdo, stdin es 0, y al filedescriptor no accedes. hay que examinarlo
 	al duplicarlo y cerrarlo, el fd debia ser 3, copia el contenido en fd1 pero sigue valiendo 3 cuando se cierra. 
-3- Es necesario implementar el anhadido de variables mivar=mivalor a entorno?
+3- Es necesario implementar el anhadido de variables mivar=mivalor a entorno? SOLUCIONADO
+

@@ -28,25 +28,19 @@ void prntpwdline(t_env *te)
 	
 	actualicepwd(te);
 	directorio = getmienv(te, "PWD");
-	// printf("%s",directorio);
 	write(STDOUT_FILENO, directorio, ft_strlen(directorio));
 	free (directorio);
-	// directorio = getmienv(te->env, "PWD");
-	// write(te->out, wd, ft_strlen(wd));
-	// write(te->out, "\n", 1);
-	// free (directorio);
 }
 
 int docom(t_task *tc, t_env *te)
 {
 	if(tc->operator == 11)
 		execver(tc);
-	if(tc->operator == 12)
+	if(tc->operator == 12 || tc->operator == 13 || tc->operator == 21)
+	{
 		execbuiltin(tc);
-	if(tc->operator == 13)
-		execbuiltin(tc);
-	if(tc->operator == 21)
-		execbuiltin(tc);
+		te->lastreturn = 0;
+	}
 	else if (tc->operator == 1)
 		copitofile(tc);
 	else if (tc->operator == 2)
@@ -92,9 +86,11 @@ int main(int argc, char **argv, char **argenv)
     t_command   *commands;
     t_task      *tc;
 
+
     blockaction();
     te = newenv(argenv);
     init_history(); // Inicializa el historial
+	// init_readline_customization();
     while (1)
     {
         prntpwdline(te);

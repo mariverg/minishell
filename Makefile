@@ -1,4 +1,4 @@
-MAINFILES = main actioner printer memtools
+MAINFILES = main actioner printer memtools tabfix
 PARFILES = ./parseo/lexer ./parseo/parser ./parseo/utils
 ENVFILES = ./envbuilder/envbuilder ./envbuilder/envtools ./envbuilder/envexer
 COMFILES = ./taskbuilder/taskbuilder

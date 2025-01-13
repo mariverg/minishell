@@ -14,8 +14,6 @@
 #include <sys/wait.h>
 
 #include "../minishell.h"
-// #include "libs/libtxttools/libtxttools.h"
-// #include "libs/libft/libft.h"
 
 ///ejecuta la funcion execve
 void execver(t_task *tc)
@@ -39,17 +37,19 @@ void execver(t_task *tc)
 	}
 	else
 	{
-		wait(0);
+		wait(&tc->env->lastreturn);
+		if (WIFEXITED(tc->env->lastreturn)) {
+            tc->env->lastreturn = WEXITSTATUS(tc->env->lastreturn);
+        } else {
+        }
 	}
 }
 
-//// ejecuta los builtins
 int execbuiltin(t_task *tc)
 {
-	////si el input es cd, hace el cambio de dir
 	if (tc->operator == 13)
 	{
-		/// en shell crea variable local que no va a env
+		/// para crear variable sin export
 		// int i = addstrenv(tc->env, tc->c);
 		return (1);
 	}
@@ -72,6 +72,14 @@ int execbuiltin(t_task *tc)
 	}
 	else if (ft_strncmp("export", tc->c, 4) == 0)
 	{
+		// int i = 0;
+		// while (tc->cc[i])
+		// {
+		// 	printf("el valor en %i es %s\n", i, tc->cc[i]);
+		// 	i++;
+		// }
+		// if(tc->cc[2])
+		// 	addstrenv(tc->env, tc->cc[2]);
 		if(tc->cc[1])
 			addstrenv(tc->env, tc->cc[1]);
 		else
@@ -97,7 +105,6 @@ int execbuiltin(t_task *tc)
 			printline("\n", tc->out);
 		return(1);
 	}
-	////si el input es exit, cierra el programa
 	else if (ft_strncmp("exit", tc->c, 4) == 0)
 	{
 		if(tc->cc[1])

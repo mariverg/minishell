@@ -32,6 +32,7 @@ void copitofile(t_task *tc)
 	}
 	write(arch, "\n", 1);
 	close(arch);
+	tc->env->lastreturn = 0;
 }
 
 void sumtofile(t_task *tc)
@@ -46,6 +47,7 @@ void sumtofile(t_task *tc)
 	}
 	write(arch, "\n", 1);
 	close(arch);
+	tc->env->lastreturn = 0;
 }
 
 void readfromfile(t_task *tc)
@@ -59,13 +61,13 @@ void readfromfile(t_task *tc)
 		i = read(arch, c, 1);
 	}
 	close(arch);
+	tc->env->lastreturn = 0;
 }
 
 void readfromterm(t_task *tc)
 {
 	char *miin;
 
-	// printf("leyendodeterm hacia %i\n", fd);
 	while (1)
 	{
 		miin = readline(">");
@@ -77,6 +79,7 @@ void readfromterm(t_task *tc)
 			write(tc->out,"\n",1);
 		}
 	}
+	tc->env->lastreturn = 0;
 }
 
 

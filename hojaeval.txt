@@ -1,0 +1,119 @@
+
+HOJA DE EVALUACION
+
+1
+	*/bin/ls
+		-funciona
+	*variables usadas
+		-las que recibe c en main como argumento, son necesarias para diversas aplicaciones como por ejemplo clear
+		-se pueden quitar algunas variables de ser necesario
+	*checkear la variable global
+		-por el momento no estamos usando variable global, se refiere en la hoja a el uso de semhales, se gestionan en actioner.c pero no se para que necesitan la variable (PREGUNTAR)		ERROR
+	*espacios vacios y tab
+		-los espacios vacios funcionan correctamente
+		-al hacer tab 2 veces hace un "ls -a" no se la razon tabfix.c fue la sugerencia de chatgpt PREGUNTAR		ERROR
+
+2-------------------------------------------------------------------------------------
+	*redireccion < 'less < mitext.txt'
+		-funciona
+	*redireccion > 'echo $PATH > nextext.txt'
+		-funciona
+	*redireccion >> 'echo $PATH >> nextext.txt'
+		-funciona
+	*redireccion << 'less << fin'
+		-funciona
+	
+3-------------------------------------------------------------------------------------
+	*env
+		-funciona
+
+4-------------------------------------------------------------------------------------
+	*export
+		-funciona
+			crea variables y las sustituye
+
+5
+	*echo
+		-hay que implementar -n, por lo demas funciona correctamente		ERROR
+
+6
+	*compilacion
+		-ahora mismo no pasa wall wextra werror		ERROR
+
+7
+	*argumentos
+		-complilar con ruta completa y diferentes argumentos
+		-"/usr/bin/ls -a" funciona
+		-en principio esto testea execve que deberia funcionar, faltan probarlo
+
+8
+	*PATH
+		-path funciona, y al unsetearlo deja de poder ejecutar los programas
+		-hay que checkear los directorios
+
+9
+	*historial
+		-por alguna razon, a veces salta al inicio de la linea		ERROR
+
+10------------------------------------------------------------------------------------
+	*exit
+		-termina el programa con 0 o el int de salida pasado como argumento
+
+11----------------------------------------------------------------------------------
+	*pipes
+		-"cat mitext.txt | grep my | more" funciona
+
+12
+	*signals
+		-ctrl-c 
+			muestra una nueva linea sin direccion	
+			no libera memoria		ERROR
+			con comandos que bloquean funciona correctamente, pero deja una > extra en la barra de direcciones
+		-ctrl-\
+			sin nada escritp fnciona no hace nada
+			si hay algo escrito limpia la linea		ERROR
+			con comandos que bloquean parece funcionar correctamente
+		-ctrl-d 
+			cierra si la linea esta vacia
+			no hace nada si hay algo escrito
+			con comandos que bloquean parece funcionar correctamente
+
+13
+	*comillas simples
+		no comprendo muy bin parte de la pregunta, pero todo lo que hay dentro de comilla simples no se interpreta en principio PREGUNTAR
+
+14-----------------------------------------------------------------------------
+	*pwd funciona
+
+15
+	*comillas dobles
+		-echo "cat lol.c | cat > lol.c" funciona, no se donde podria estar el error, hay que PREGUNTAR
+
+16
+	*return 
+		-parecen funciona correctamente tambien
+
+17------------------------------------------------------------------------------
+	*rutas relativas
+		-funcionan correctamente
+
+18------------------------------------------------------------------------------
+	*unset
+		-funciona correctamnet, checkeado antes en variables
+
+19------------------------------------------------------------------------------
+	*varialbes de entorno usuarios y comillas
+		-funcionan correctamente
+
+20------------------------------------------------------------------------------
+	*cd
+		-funciona correctamente
+
+A SOLUCIONAR IMPPORTANTE
+	en export var=val el val entre " y ' no se recibe
+	en env las variables sin valor no se muestran
+	tengo que mirar sobre limpiar el buffer de readline
+	unset PWD - da segmentation fault
+	env -i ./minishell... me da error en shell, no se que es.
+	variables $ adjacentes sin espacio no las coge
+	"'"$PATH"'" - no expande la variable

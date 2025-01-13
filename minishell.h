@@ -40,6 +40,8 @@ int strxsize(char **c);
 t_task *newcom(char *c, char **cc, t_env *env);
 t_env *newenv(char **env);
 
+void init_readline_customization(void);
+
 char *getmienv(t_env *te, char *target);
 int setmienv(t_env *te, char *target, char *newenvvar);
 int addmienv (t_env *te, char *target, char *value);
@@ -63,8 +65,6 @@ void readfromfile(t_task *tc);
 void readfromterm(t_task *tc);
 void sumtofile(t_task *tc);
 
-// char **mipaths(char **env);
-// char *runnable(char *target, char **env);
 void execver(t_task *tc);
 
 void blockaction();
