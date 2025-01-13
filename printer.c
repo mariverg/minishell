@@ -25,7 +25,39 @@ void printline(char *c, int out)
 	}
 }
 
+int hasvalue(char *c)
+{
+	int i;
+
+	i = 0;
+	while(*c)
+	{
+		if(i == 1)
+			return (1);
+		if(*c == '=')
+			i = 1;
+		c++;
+	}
+	return (0);
+}
 void prntstrs(char **c, int out)
+{
+	int i;
+
+	i = 0;
+	while(c[i])
+	{
+		if(hasvalue(c[i]))
+		{
+			printline(c[i], out);
+			printline("\n", out);
+		}
+		i++;
+	}
+}
+
+//// esta es la antigua, la dejo por que imprime todo
+void prntstrss(char **c, int out)
 {
 	int i;
 

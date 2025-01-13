@@ -50,14 +50,23 @@ char *expanddollars(t_env *te, char *c)
 	char *slot;
 	int i;
 	int swich;
+	int reswich;
 
 	res = 0;
 	piece = ft_lstnew(0);
 	swich = 1;
+	reswich = 0;
 	i = 0;
 	while (c[i])
 	{
-		if (c[i] == '\'')
+		if (c[i] == '\"')
+		{
+			if (reswich)
+				reswich = 0;
+			else
+				reswich = 1;
+		}
+		if (c[i] == '\'' && reswich == 0)
 		{
 			if (swich)
 				swich = 0;
@@ -67,18 +76,25 @@ char *expanddollars(t_env *te, char *c)
 		if (c[i] == '$' && swich)
 		{
 			slot = ft_substr(c, 0, i);
-			ft_lstadd_back(&piece, ft_lstnew(slot));
+			if (slot)
+				ft_lstadd_back(&piece, ft_lstnew(slot));
 			slot = extractvar(te, &c[i]);
-			ft_lstadd_back(&piece, ft_lstnew(slot));
+			if (slot)
+				ft_lstadd_back(&piece, ft_lstnew(slot));
 			c = c + i + 1;
 			while(charforvar(*c))
 				c++;
 			i = 0;
 		}
-		i++;
+		else
+		{
+			i++;
+		}
+		
 	}
 	slot = ft_strdup(c);
-	ft_lstadd_back(&piece, ft_lstnew(slot));
+	if (slot)
+		ft_lstadd_back(&piece, ft_lstnew(slot));
 	while(piece)
 	{
 		aux = piece;

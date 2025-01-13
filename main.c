@@ -28,8 +28,11 @@ void prntpwdline(t_env *te)
 	
 	actualicepwd(te);
 	directorio = getmienv(te, "PWD");
-	write(STDOUT_FILENO, directorio, ft_strlen(directorio));
-	free (directorio);
+	if(directorio)
+	{
+		write(STDOUT_FILENO, directorio, ft_strlen(directorio));
+		free (directorio);
+	}
 }
 
 int docom(t_task *tc, t_env *te)
@@ -93,6 +96,7 @@ int main(int argc, char **argv, char **argenv)
 	// init_readline_customization();
     while (1)
     {
+		// write(1, "INIT", 4);
         prntpwdline(te);
         input = readline(">");
         if (!input)
@@ -102,8 +106,13 @@ int main(int argc, char **argv, char **argenv)
         commands = parse(input);
         tc = gettaskslist(commands, te);
         if (tc)
-            proccoms(tc, te);
+		{
+			// write(1, "COM", 3);
+			proccoms(tc, te);
+			// write(1, "ENDCOM", 6);
+		}
         free(input);
+		// write(1, "END", 3);
     }
     save_history_to_file(); // Guarda el historial en un archivo
     freeenv(te);
