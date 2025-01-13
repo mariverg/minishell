@@ -94,14 +94,14 @@ int main(int argc, char **argv, char **argenv)
 
     blockaction();
     te = newenv(argenv);
-    init_history(); // Inicializa el historial
+    //init_history(); // Inicializa el historial
     while (1)
     {
         prntpwdline(te);
         input = readline(">");
         if (!input)
             break;
-        add_to_history(input); // Agrega el comando al historial
+        add_history(input); // Agrega el comando al historial
         input = expanddollars(te, input);
         commands = parse(input);
         tc = gettaskslist(commands, te);
@@ -109,7 +109,7 @@ int main(int argc, char **argv, char **argenv)
             proccoms(tc, te);
         free(input);
     }
-    save_history_to_file(); // Guarda el historial en un archivo
+    //save_history_to_file(); // Guarda el historial en un archivo
     freeenv(te);
     return (0);
 }

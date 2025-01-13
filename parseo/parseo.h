@@ -6,7 +6,7 @@
 /*   By: mariverg <mariverg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 10:57:58 by mariverg          #+#    #+#             */
-/*   Updated: 2025/01/09 11:26:16 by mariverg         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:43:40 by mariverg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,7 @@ void					free_commands(t_command *commands);
 bool					is_space(char c);
 bool					is_operator(char c);
 bool					is_quote(char c);
+bool is_valid_token_sequence(t_token *current, t_token *next);
+void print_syntax_error(t_token *token);
+bool validate_syntax(t_token *tokens);
 #endif
