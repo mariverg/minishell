@@ -49,31 +49,31 @@ char *expanddollars(t_env *te, char *c)
 	char *res;
 	char *slot;
 	int i;
-	int swich;
-	int reswich;
+	int scoma;
+	int dcoma;
 
 	res = 0;
 	piece = ft_lstnew(0);
-	swich = 1;
-	reswich = 0;
+	scoma = 0;
+	dcoma = 0;
 	i = 0;
 	while (c[i])
 	{
-		if (c[i] == '\"')
+		if (c[i] == '\'' && dcoma == 0)
 		{
-			if (reswich)
-				reswich = 0;
+			if (scoma)
+				scoma = 0;
 			else
-				reswich = 1;
+				scoma = 1;
 		}
-		if (c[i] == '\'' && reswich == 0)
+		if (c[i] == '\"' && scoma == 0)
 		{
-			if (swich)
-				swich = 0;
+			if (dcoma)
+				dcoma = 0;
 			else
-				swich = 1;
+				dcoma = 1;
 		}
-		if (c[i] == '$' && swich)
+		if (c[i] == '$' && scoma == 0)
 		{
 			slot = ft_substr(c, 0, i);
 			if (slot)

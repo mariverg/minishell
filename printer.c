@@ -182,11 +182,11 @@ int printalphabetical(t_task *te, char *toprint, char *max)
 	while (i < lines)
 	{
 		c = firstafter(te->env,c);
-		printline("declare -x ", te->out);
+		printline("declare -x ", STDOUT_FILENO);
 		mod = addcomi(c);
-		printline(mod, te->out);
+		printline(mod, STDOUT_FILENO);
 		free (mod);
-		printline("\n", te->out);
+		printline("\n", STDOUT_FILENO);
 		i++;
 	}
 	return (0);

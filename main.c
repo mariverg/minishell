@@ -35,53 +35,6 @@ void prntpwdline(t_env *te)
 	}
 }
 
-int docom(t_task *tc, t_env *te)
-{
-	if(tc->operator == 11)
-		execver(tc);
-	if(tc->operator == 12 || tc->operator == 13 || tc->operator == 21)
-	{
-		execbuiltin(tc);
-		te->lastreturn = 0;
-	}
-	else if (tc->operator == 1)
-		copitofile(tc);
-	else if (tc->operator == 2)
-		readfromfile(tc);
-	else if (tc->operator == 3)
-		sumtofile(tc);
-	else if (tc->operator == 4)
-		readfromterm(tc);
-	return (0);
-}
-
-int proccoms(t_task *tt, t_env *te)
-{
-	int fd[2];
-	while (tt)
-	{
-		if (tt->next)
-		{
-			pipe(fd);
-			tt->out = fd[1];
-			tt->next->in = fd[0];
-		}
-		docom(tt, te);
-		if (tt->in >= 0 && tt->in != STDIN_FILENO)
-		{
-			// printf("cerrando in %i el std es %i\n", tt->in, STDIN_FILENO);
-			close(tt->in);
-		}
-		if (tt->out >= 0 && tt->out != STDOUT_FILENO)
-		{
-			// printf("cerrando out %i el std es %i\n", tt->out, STDOUT_FILENO);
-			close(tt->out);
-		}
-		tt = tt->next;
-	}
-	return (0);
-}
-
 int main(int argc, char **argv, char **argenv)
 {
     t_env       *te;
@@ -96,7 +49,6 @@ int main(int argc, char **argv, char **argenv)
 	// init_readline_customization();
     while (1)
     {
-		// write(1, "INIT", 4);
         prntpwdline(te);
         input = readline(">");
         if (!input)
@@ -104,15 +56,10 @@ int main(int argc, char **argv, char **argenv)
         add_to_history(input); // Agrega el comando al historial
         input = expanddollars(te, input);
         commands = parse(input);
-        tc = gettaskslist(commands, te);
-        if (tc)
-		{
-			// write(1, "COM", 3);
-			proccoms(tc, te);
-			// write(1, "ENDCOM", 6);
-		}
+        tc = dotaskslist(commands, te);
+		/// aqui he pasado todos los nuevos procesos a una nueva carpeta, taskparser para que funcionen cosas como cat | cat | ls, he cambiado sustancialmente la estructura de procesos inittp en la carpeta taskparset, funcion inicio taskparser
+		inittp(tc);
         free(input);
-		// write(1, "END", 3);
     }
     save_history_to_file(); // Guarda el historial en un archivo
     freeenv(te);

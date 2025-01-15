@@ -55,18 +55,9 @@ void freestrs(char **c);
 int command_cdcheck(t_command *c, t_env *te);
 
 int numcoms(t_command *tc);
-t_task *gettaskslist(t_command *tc, t_env *te);
+t_task *dotaskslist(t_command *tc, t_env *te);
 
 char *execinenv(t_env *te, char *target);
-
-int forkea(t_task *tc, int entrada, t_env *te);
-
-void copitofile(t_task *tc);
-void readfromfile(t_task *tc);
-void readfromterm(t_task *tc);
-void sumtofile(t_task *tc);
-
-void execver(t_task *tc);
 
 void blockaction();
 void allowaction();
@@ -76,10 +67,9 @@ void printcm(t_task *tc);
 void prntstrs(char **c, int out);
 void printline(char *c, int out);
 int printalphabetical(t_task *te, char *toprint, char *max);
-int execbuiltin(t_task *tc);
 
 char *expanddollars(t_env *te, char *c);
 
-
+int inittp(t_task *tt);
 
 #endif
