@@ -44,7 +44,9 @@ char	*prntpwdline(t_env *te)
 	size_t dir_len;
 
 	actualicepwd(te);
-	directorio = getmienv(te, "PWD");
+	// directorio = getmienv(te, "PWD");
+	// char *getcwd(char *buf, size_t size);
+	directorio = getcwd(0,0);
 	if (directorio)
 	{
 		dir_len = ft_strlen(directorio);//calculo la longuitud del directorio
@@ -72,7 +74,6 @@ int	main(int argc, char **argv, char **argenv)
 	t_command *commands;
 	t_task *tc;
 
-=======
 	blockaction();
 	te = newenv(argenv);
 	while (1)
