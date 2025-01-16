@@ -49,6 +49,7 @@ char *getmienv(t_env *te, char *target)
 	char *aux;
 	int i;
 
+	res = 0;
 	if (ft_strncmp(target, "?", 1) == 0)
 		return(ft_itoa(te->lastreturn));
 	i = getmienvindex(te, target);
@@ -88,8 +89,10 @@ int actualicepwd(t_env *te)
 	char *toerase;
 	int i;
 
+	// printf("seteando pwd\n");
 	setmienv(te, "OLDPWD", getmienv(te, "PWD"));
 	setmienv(te, "PWD", getcwd(buff,256));
+	// printf("pwd seteado\n");
 	return (0);
 }
 

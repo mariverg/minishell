@@ -45,70 +45,70 @@ void execver(t_task *tc)
 	}
 }
 
-int execbuiltin(t_task *tc)
+int execbuiltin(t_task *tt)
 {
-	if (tc->operator == 13)
+	if (tt->operator == 13)
 	{
 		/// para crear variable sin export
-		// int i = addstrenv(tc->env, tc->c);
+		// int i = addstrenv(tt->env, tt->c);
 		return (1);
 	}
-	else if (ft_strncmp("cd", tc->c, 3) == 0)
+	else if (ft_strncmp("cd", tt->c, 3) == 0)
 	{
-		int i = chdir(tc->cc[1]);
+		int i = chdir(tt->cc[1]);
 		return (1);
 	}
-	else if (ft_strncmp("pwd", tc->c, 4) == 0)
+	else if (ft_strncmp("pwd", tt->c, 4) == 0)
 	{
-		char *wd = getmienv(tc->env, "PWD");
-		write(tc->out, wd, ft_strlen(wd));
-		write(tc->out, "\n", 1);
+		char *wd = getmienv(tt->env, "PWD");
+		write(tt->out, wd, ft_strlen(wd));
+		write(tt->out, "\n", 1);
 		return(1);
 	}
-	else if (ft_strncmp("env", tc->c, 4) == 0)
+	else if (ft_strncmp("env", tt->c, 4) == 0)
 	{
-		prntstrs(tc->env->env, tc->out);
+		prntstrs(tt->env->env, tt->out);
 		return(1);
 	}
-	else if (ft_strncmp("export", tc->c, 4) == 0)
+	else if (ft_strncmp("export", tt->c, 4) == 0)
 	{
-		// int i = 0;
-		// while (tc->cc[i])
-		// {
-		// 	printf("el valor en %i es %s\n", i, tc->cc[i]);
-		// 	i++;
-		// }
-		// if(tc->cc[2])
-		// 	addstrenv(tc->env, tc->cc[2]);
-		if(tc->cc[1])
-			addstrenv(tc->env, tc->cc[1]);
-		else
-			printalphabetical(tc, 0, 0);
-		return(1);
-	}
-	else if (ft_strncmp("unset", tc->c, 4) == 0)
-	{
-		delmienv(tc->env, tc->cc[1]);
-		return (1);
-	}
-	else if (ft_strncmp("echo", tc->c, 4) == 0)
-	{
-		int i = 1;
-		while(tc->cc[i])
+		if(tt->cc[1])
 		{
-			if (i > 1)
-				write(tc->out," ",1);
-			write(tc->out, tc->cc[i], ft_strlen(tc->cc[i]));
+			daemonenv(tt);
+		}
+		else
+			printalphabetical(tt, 0, 0);
+		return(1);
+	}
+	else if (ft_strncmp("unset", tt->c, 4) == 0)
+	{
+		delmienv(tt->env, tt->cc[1]);
+		return (1);
+	}
+	else if (ft_strncmp("echo", tt->c, 4) == 0)
+	{
+		int n;
+		int i;
+
+		n = 0;
+		if (ft_strncmp("-n", tt->cc[1], 3) == 0)
+			n = 1;
+		i = 1 + n;
+		while(tt->cc[i])
+		{
+			if (i > (1 + n))
+				write(tt->out," ",1);
+			write(tt->out, tt->cc[i], ft_strlen(tt->cc[i]));
 			i++;
 		}
-		if (tc->cc[1])
-			printline("\n", tc->out);
+		if (!n)
+			write(tt->out, "\n", 1);
 		return(1);
 	}
-	else if (ft_strncmp("exit", tc->c, 4) == 0)
+	else if (ft_strncmp("exit", tt->c, 4) == 0)
 	{
-		if(tc->cc[1])
-			exit(ft_atoi(tc->cc[1]));
+		if(tt->cc[1])
+			exit(ft_atoi(tt->cc[1]));
 		exit(0);
 	}
 	return (1);

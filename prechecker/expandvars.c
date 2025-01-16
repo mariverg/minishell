@@ -49,36 +49,52 @@ char *expanddollars(t_env *te, char *c)
 	char *res;
 	char *slot;
 	int i;
-	int swich;
+	int scoma;
+	int dcoma;
 
 	res = 0;
 	piece = ft_lstnew(0);
-	swich = 1;
+	scoma = 0;
+	dcoma = 0;
 	i = 0;
 	while (c[i])
 	{
-		if (c[i] == '\'')
+		if (c[i] == '\'' && dcoma == 0)
 		{
-			if (swich)
-				swich = 0;
+			if (scoma)
+				scoma = 0;
 			else
-				swich = 1;
+				scoma = 1;
 		}
-		if (c[i] == '$' && swich)
+		if (c[i] == '\"' && scoma == 0)
+		{
+			if (dcoma)
+				dcoma = 0;
+			else
+				dcoma = 1;
+		}
+		if (c[i] == '$' && scoma == 0)
 		{
 			slot = ft_substr(c, 0, i);
-			ft_lstadd_back(&piece, ft_lstnew(slot));
+			if (slot)
+				ft_lstadd_back(&piece, ft_lstnew(slot));
 			slot = extractvar(te, &c[i]);
-			ft_lstadd_back(&piece, ft_lstnew(slot));
+			if (slot)
+				ft_lstadd_back(&piece, ft_lstnew(slot));
 			c = c + i + 1;
 			while(charforvar(*c))
 				c++;
 			i = 0;
 		}
-		i++;
+		else
+		{
+			i++;
+		}
+		
 	}
 	slot = ft_strdup(c);
-	ft_lstadd_back(&piece, ft_lstnew(slot));
+	if (slot)
+		ft_lstadd_back(&piece, ft_lstnew(slot));
 	while(piece)
 	{
 		aux = piece;

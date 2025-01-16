@@ -128,3 +128,24 @@ int addstrenv(t_env *te, char *c)
 		free(cb);
 	return(0);
 }
+
+int daemonenv(t_task *tt)
+{
+	char *left;
+	char *aux;
+	char *c;
+	int i;
+
+	i = 1;
+	c = 0;
+	while (tt->cc[i])
+	{
+		aux = c;
+		c = ft_strjoin(c, tt->cc[i]);
+		free (aux);
+		i++;
+	}
+	addstrenv(tt->env, c);
+	free(c);
+	return (0);
+}

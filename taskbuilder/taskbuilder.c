@@ -59,7 +59,7 @@ int builtins(t_command *tc)
 	}
 	else if (ft_strncmp("export", c, 7) == 0)
 	{
-		return (12);
+		return (21);
 	}
 	else if (ft_strncmp("cd", c, 3) == 0)
 	{
@@ -121,7 +121,7 @@ t_task *extractout(t_command *tc, t_env *te)
 }
 
 ////calcula los tcoms primero in, luego todos los ejecutables, y finalmente si existe out
-t_task *gettaskslist(t_command *tc, t_env *te)
+t_task *dotaskslist(t_command *tc, t_env *te)
 {
 	int i = 0;
 	t_task *res;

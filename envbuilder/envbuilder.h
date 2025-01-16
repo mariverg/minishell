@@ -18,4 +18,5 @@
 #include <sys/stat.h>
 
 int getmienvindex(t_env *te, char *target);
+int daemonenv(t_task *tt);
 #endif

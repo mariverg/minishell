@@ -34,7 +34,7 @@ HOJA DE EVALUACION
 
 5
 	*echo
-		-hay que implementar -n, por lo demas funciona correctamente		ERROR
+		-hay que implementar -n, por lo demas funciona correctamente		RESUELTO
 
 6
 	*compilacion
@@ -110,10 +110,13 @@ HOJA DE EVALUACION
 		-funciona correctamente
 
 A SOLUCIONAR IMPPORTANTE
-	en export var=val el val entre " y ' no se recibe
-	en env las variables sin valor no se muestran
-	tengo que mirar sobre limpiar el buffer de readline
-	unset PWD - da segmentation fault
-	env -i ./minishell... me da error en shell, no se que es.
-	variables $ adjacentes sin espacio no las coge
-	"'"$PATH"'" - no expande la variable
+	*en export var=val el val entre " y ' no se recibe	RESUELTO
+	*en env las variables sin valor no se muestran
+		-las variables asignadas sin valor no se aparecen en "env" pero si en export 	RESUELTO PREGUNTAR
+	*tengo que mirar sobre limpiar el buffer de readline
+	*unset PWD - da segmentation fault
+		-ya no da el error, la barra de direcciones queda vacia		RESUELTO PREGUNTAR
+	*env -i ./minishell... me da error en shell
+		-algo asi, tal y como esta aqui escrito da error en bash 		PREGUNTAR
+	*variables $ adjacentes sin espacio no las coge		RESUELTO
+	*"'"$PATH"'" - no expande la variable	RESUELTO
