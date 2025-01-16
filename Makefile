@@ -1,5 +1,18 @@
-MAINFILES = main actioner printer memtools tabfix
-PARFILES = ./parseo/lexer ./parseo/parser ./parseo/utils
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mariverg <mariverg@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/13 15:48:04 by mariverg          #+#    #+#              #
+#    Updated: 2025/01/13 15:48:04 by mariverg         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+
+MAINFILES = main actioner printer memtools
+PARFILES = ./parseo/lexer ./parseo/parser ./parseo/utils ./parseo/utils_parser
 ENVFILES = ./envbuilder/envbuilder ./envbuilder/envtools ./envbuilder/envexer
 COMFILES = ./taskbuilder/taskbuilder
 TASKPARFILES = ./tasksparser/tasksparser ./tasksparser/filetasks ./tasksparser/builttasks ./tasksparser/pipetasks

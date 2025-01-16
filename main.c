@@ -72,6 +72,7 @@ int	main(int argc, char **argv, char **argenv)
 	t_command *commands;
 	t_task *tc;
 
+=======
 	blockaction();
 	te = newenv(argenv);
 	while (1)
@@ -79,10 +80,9 @@ int	main(int argc, char **argv, char **argenv)
 		input = readline(prntpwdline(te));//Obtengo el prompt directamente dentro de readline
 		if (!input)
 			break ;
-
 		if (*input) // Si no está vacío, agrégo al historial
 			add_history(input);
-
+    
 		input = expanddollars(te, input);
 		commands = parse(input);
 		tc = dotaskslist(commands, te);

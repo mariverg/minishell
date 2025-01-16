@@ -6,7 +6,7 @@
 /*   By: mariverg <mariverg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 10:58:07 by mariverg          #+#    #+#             */
-/*   Updated: 2025/01/09 11:22:03 by mariverg         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:45:08 by mariverg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ t_command	*parse(char *input)
 	parser.input = input;
 	parser.pos = 0;
 	parser.tokens = tokenize(input);
+	 if (!parser.tokens && input[0] != '\0')
+        return (NULL);
+	if (!validate_syntax(parser.tokens))
+    {
+        free_tokens(parser.tokens);
+        return (NULL);
+    }
 	parser.current_token = parser.tokens;
 	while (parser.current_token)
 	{
