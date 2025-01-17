@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.h                                          :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mariverg <mariverg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 11:31:37 by mariverg          #+#    #+#             */
-/*   Updated: 2025/01/09 11:51:24 by mariverg         ###   ########.fr       */
+/*   Created: 2025/01/17 15:23:39 by mariverg          #+#    #+#             */
+/*   Updated: 2025/01/17 15:24:30 by mariverg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HISTORY_H
-# define HISTORY_H
+#include "libft.h"
 
-# include <readline/history.h>
-# include <readline/readline.h>
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
 
-void	init_history(void);
-void	save_history_to_file(void);
-void	add_to_history(const char *command);
-
-#endif
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
