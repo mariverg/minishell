@@ -22,6 +22,8 @@ t_task *newtask(char *c, char **cc, t_env *env)
 	res->cc = cc;
 	res->env = env;
 	res->operator = 0;
+	res->lstout = -1;
+	res->lstin = -1;
 	res->in = STDIN_FILENO;
 	res->out = STDOUT_FILENO;
 	res->next = 0;
@@ -137,6 +139,8 @@ t_task *dotaskslist(t_command *tc, t_env *te)
 
 	while(tc)
 	{
+		if (!tc->args)
+			break;
 		i = builtins(tc);
 		if (i)
 		{

@@ -29,7 +29,8 @@ typedef struct s_task {
 	// char **env;
 	struct s_env *env;
 	int operator;
-	int fd[2];
+	int lstin;
+	int lstout;
 	int in;
 	int out;
 	struct s_task *next;

@@ -1,5 +1,24 @@
 #include "../minishell.h"
 #include "taskparser.h"
+int runfiletask(t_task *tt)
+{
+	if (tt->operator == 1)
+	{
+		copitfile(tt);
+	}
+	else if (tt->operator == 3)
+	{
+		sumtfile(tt);
+	}
+	else if (tt->operator == 2)
+	{
+		readfrmfile(tt);
+	}
+	else if (tt->operator == 4)
+	{
+		readfrmterm(tt);
+	} 
+}
 
 int runtask(t_task *tt)
 {
@@ -12,26 +31,6 @@ int runtask(t_task *tt)
 	{
 		execve(tt->c, tt->cc, tt->env->env);
 	}
-	else if (tt->operator == 1)
-	{
-		copitfile(tt);
-		exit(0);
-	}
-	else if (tt->operator == 3)
-	{
-		sumtfile(tt);
-		exit(0);
-	}
-	else if (tt->operator == 2)
-	{
-		readfrmfile(tt);
-		exit(0);
-	}
-	else if (tt->operator == 4)
-	{
-		readfrmfile(tt);
-		exit(0);
-	}
 }
 
 int exectasks(t_task *tt,  t_list *pipelst)
@@ -39,9 +38,9 @@ int exectasks(t_task *tt,  t_list *pipelst)
 	int pid;
 	while(tt)
 	{
-		if (tt->operator == 4)
+		if (tt->operator >= 1 && tt->operator <= 9)
 		{
-			readfrmterm(tt);
+			runfiletask(tt);
 		} 
 		else
 		{
@@ -51,6 +50,7 @@ int exectasks(t_task *tt,  t_list *pipelst)
 				dup2(tt->in, STDIN_FILENO);
 				dup2(tt->out, STDOUT_FILENO);
 				clearpipes(pipelst);
+				// printf("forked task\n");
 				runtask(tt);
 				printf("error ejecutando %s\n", tt->c);
 				exit(127);

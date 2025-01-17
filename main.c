@@ -85,8 +85,13 @@ int	main(int argc, char **argv, char **argenv)
 			add_history(input);
     
 		input = expanddollars(te, input);
+			// printf("	input vale> %s\n", input);
 		commands = parse(input);
+			// printf("	commands vale>\n");
+			// printcmmm(commands);
 		tc = dotaskslist(commands, te);
+			// printf("	tasks vale>\n");
+			// printcm(tc);
 		inittp(tc);
 		free(input);
 	}

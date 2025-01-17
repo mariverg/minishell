@@ -1,22 +1,21 @@
-
-// #include <unistd.h>
-// #include <stdlib.h>
 #include <fcntl.h>
-// #include <readline/readline.h>
-// #include <readline/history.h>
-// #include <sys/wait.h>
 #include "../minishell.h" 
 
 void copitfile(t_task *tc)
 {
-	printf("copiandofile\n");
+	// printf("copitfile\n");
 	char c[1];
+	
+	close(tc->lstout);
 	int arch = open(tc->c, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	int i = read(STDIN_FILENO, c, 1);
-	while(i > 0)
+	if (arch == -1)
 	{
-		write(arch, c, i);
-		i = read(STDIN_FILENO, c, 1);
+		write(STDERR_FILENO, " No such file or directory\0", 27);
+		return;
+	}
+	while(read(tc->in, c, 1))
+	{
+		write(arch, c, 1);
 	}
 	write(arch, "\n", 1);
 	close(arch);
@@ -26,12 +25,17 @@ void copitfile(t_task *tc)
 void sumtfile(t_task *tc)
 {
 	char c[1];
+
+	close(tc->lstout);
 	int arch = open(tc->c, O_CREAT | O_APPEND | O_WRONLY, 0777);
-	int i = read(STDIN_FILENO, c, 1);
-	while(i > 0)
+	if (arch == -1)
 	{
-		write(arch, c, i);
-		i = read(STDIN_FILENO, c, 1);
+		write(STDERR_FILENO, " No such file or directory\0", 27);
+		return;
+	}
+	while(read(tc->in, c, 1))
+	{
+		write(arch, c, 1);
 	}
 	write(arch, "\n", 1);
 	close(arch);
@@ -42,11 +46,15 @@ void readfrmfile(t_task *tc)
 {
 	char c[1];
 	int arch = open(tc->c, O_RDONLY);
-	int i = read(arch, c, 1);
-	while(i > 0)
+	if (arch == -1)
 	{
-		write(STDOUT_FILENO, c, i);
-		i = read(arch, c, 1);
+		write(STDERR_FILENO, " No such file or directory\0", 27);
+		return;
+	}
+	while(read(arch, c, 1))
+	{
+		if (tc->out != STDOUT_FILENO)
+			write(tc->out, c, 1);
 	}
 	close(arch);
 	tc->env->lastreturn = 0;
@@ -63,8 +71,11 @@ void readfrmterm(t_task *tc)
 			break;
 		else
 		{
-			write(tc->out,miin,ft_strlen(miin));
-			write(tc->out,"\n",1);
+			if (tc->out != STDOUT_FILENO)
+			{
+				write(tc->out,miin,ft_strlen(miin));
+				write(tc->out,"\n",1);
+			}
 		}
 	}
 	tc->env->lastreturn = 0;

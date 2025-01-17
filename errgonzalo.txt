@@ -1,5 +1,83 @@
-1- en bash al intentar >| da un error "-bash: syntax error near unexpected token `|'" en el nuestro nueva linea.
-2- el check de pipes con filedescriptors comparando con STDIN_FILENO etc, es absurdo, stdin es 0, y al filedescriptor no accedes. hay que examinarlo
-	al duplicarlo y cerrarlo, el fd debia ser 3, copia el contenido en fd1 pero sigue valiendo 3 cuando se cierra. 
-3- Es necesario implementar el anhadido de variables mivar=mivalor a entorno? SOLUCIONADO
+Test  17: ❌ echo "$"
+mini output = ()
+bash output = ($)
 
+Test  19: ❌ echo $
+mini output = ()
+bash output = ($)
+
+Test  21: ❌ echo $?HELLO
+mini output = (0)
+bash output = (0HELLO)
+
+Test  26: ❌ export A-
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( not a valid identifier)
+
+Test  30: ❌ export HELLO-=123
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( not a valid identifier)
+
+Test  32: ❌ export 123
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( not a valid identifier)
+
+Test  40: ❌ cd $PWD hi
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( too many arguments)
+
+Test  41: ❌ cd 123123
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( No such file or directory)
+
+Test  46: ❌ exit +"100"
+mini exit code = 0
+bash exit code = 100
+
+Test  49: ❌ exit -"100"
+mini exit code = 0
+bash exit code = 156
+
+Test  50: ❌ exit hello
+mini exit code = 0
+bash exit code = 2
+mini error = ()
+bash error = ( numeric argument required)
+
+Test  51: ❌ exit 42 world
+mini exit code = 42
+bash exit code = 1
+mini error = ()
+bash error = ( too many arguments)
+
+Test  64: ❌ cat <"1""2""3""4""5"
+mini exit code = 0
+bash exit code = 1
+mini error = ( No such file or directory No such file or directory No such file or directory No such file or directory)
+bash error = ( No such file or directory)
+
+Test  65: ❌ echo <"./test_files/infile" <missing <"./test_files/infile"
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( No such file or directory)
+
+Test  71: ❌ echo hi | cat <"./test_files/infile"
+mini output = (hi)
+bash output = (hi hello world 42)
+
+Test  76: ❌ cat <missing
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( No such file or directory)

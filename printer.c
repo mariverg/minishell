@@ -77,10 +77,13 @@ void printcmmm(t_command *current)
 	while (current)
     {
 		i = 0;
-		while(current->args[i])
+		if (current->args)
 		{
-			printf("El arg %i vale %s\n", i, current->args[i]);	
-			i++;
+			while(current->args[i])
+			{
+				printf("El arg %i vale %s\n", i, current->args[i]);	
+				i++;
+			}
 		}
 		printf("infile %s\n", current->infile);
 		printf("outfile %s\n", current->outfile);
@@ -92,6 +95,7 @@ void printcmmm(t_command *current)
 
 void printcm(t_task *tc)
 {
+	
 	while(tc)
 	{
 		printf("UN COM :c es %s operator %i\n", tc->c, tc->operator);
