@@ -6,7 +6,7 @@
 /*   By: mariverg <mariverg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 10:57:58 by mariverg          #+#    #+#             */
-/*   Updated: 2025/01/13 15:43:40 by mariverg         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:29:24 by mariverg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ char					*get_word(char *input, int *i);
 char					*get_operator(char *input, int *i);
 char					*get_quoted_string(char *input, int *i, char quote);
 char					*get_env_var(char *input, int *i);
+void					handle_word(char *input, int *i, t_token **tokens);
+void					handle_env_var(char *input, int *i, t_token **tokens);
+int						handle_quote(char *input, int *i, t_token **tokens);
+void					handle_operator(char *input, int *i, t_token **tokens);
 
 // Prototipos de funciones para el parser (analizador de comandos)
 t_command				*parse(char *input);
@@ -88,7 +92,8 @@ void					free_commands(t_command *commands);
 bool					is_space(char c);
 bool					is_operator(char c);
 bool					is_quote(char c);
-bool is_valid_token_sequence(t_token *current, t_token *next);
-void print_syntax_error(t_token *token);
-bool validate_syntax(t_token *tokens);
+bool					is_valid_token_sequence(t_token *current,
+							t_token *next);
+void					print_syntax_error(t_token *token);
+bool					validate_syntax(t_token *tokens);
 #endif
