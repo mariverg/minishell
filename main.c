@@ -13,7 +13,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history/history.h"
 #include "libs/libft/libft.h"
 #include "minishell.h"
 #include "parseo/parseo.h"
@@ -39,9 +38,9 @@
 
 char	*prntpwdline(t_env *te)
 {
-	char *directorio;
-	char *prompt;
-	size_t dir_len;
+	char	*directorio;
+	char	*prompt;
+	size_t	dir_len;
 
 	actualicepwd(te);
 	// directorio = getmienv(te, "PWD");
@@ -49,19 +48,19 @@ char	*prntpwdline(t_env *te)
 	directorio = getcwd(0,0);
 	if (directorio)
 	{
-		dir_len = ft_strlen(directorio);//calculo la longuitud del directorio
-		prompt = malloc(dir_len + 4);// Espacio para el directorio + " > "
+		dir_len = ft_strlen(directorio);
+		prompt = malloc(dir_len + 4);
 		if (!prompt)
 		{
 			free(directorio);
 			return (strdup("error_generating_prompt > "));
 		}
-		ft_memcpy(prompt, directorio, dir_len);//copio el directorio
+		ft_memcpy(prompt, directorio, dir_len);
 		prompt[dir_len] = ' ';
 		prompt[dir_len + 1] = '>';
 		prompt[dir_len + 2] = ' ';
 		prompt[dir_len + 3] = '\0';
-		free(directorio);// Libero la memoria del directorio
+		free(directorio);
 		return (prompt);
 	}
 	return (ft_strdup("unknown_directory > "));
@@ -69,21 +68,21 @@ char	*prntpwdline(t_env *te)
 
 int	main(int argc, char **argv, char **argenv)
 {
-	t_env *te;
-	char *input;
-	t_command *commands;
-	t_task *tc;
+	t_env		*te;
+	char		*input;
+	t_command	*commands;
+	t_task		*tc;
 
 	blockaction();
 	te = newenv(argenv);
 	while (1)
 	{
-		input = readline(prntpwdline(te));//Obtengo el prompt directamente dentro de readline
+		input = readline(prntpwdline(te));
 		if (!input)
 			break ;
-		if (*input) // Si no está vacío, agrégo al historial
+		if (*input)
 			add_history(input);
-    
+
 		input = expanddollars(te, input);
 			// printf("	input vale> %s\n", input);
 		commands = parse(input);

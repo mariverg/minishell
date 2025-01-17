@@ -6,7 +6,7 @@
 #    By: mariverg <mariverg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/28 08:25:00 by mariverg          #+#    #+#              #
-#    Updated: 2024/11/19 11:19:52 by mariverg         ###   ########.fr        #
+#    Updated: 2025/01/17 15:25:42 by mariverg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS 	= 	ft_bzero.c\
 			ft_calloc.c\
 			ft_strdup.c\
 			ft_substr.c\
+			ft_strcmp.c\
 			ft_strjoin.c\
 			ft_strtrim.c\
 			ft_split.c\
