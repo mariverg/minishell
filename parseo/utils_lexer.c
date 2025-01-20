@@ -18,34 +18,22 @@ char	*get_word(char *input, int *i)
 
 char	*get_operator(char *input, int *i)
 {
-	if (input[*i] == '|')
-	{
-		(*i)++;
-		return (ft_strdup("|"));
-	}
-	else if (input[*i] == '<')
-	{
-		if (input[*i + 1] == '<')
-		{
-			(*i) += 2;
-			return (ft_strdup("<<"));
-		}
-		(*i)++;
-		return (ft_strdup("<"));
-	}
-	else if (input[*i] == '>')
-	{
-		if (input[*i + 1] == '>')
-		{
-			(*i) += 2;
-			return (ft_strdup(">>"));
-		}
-		(*i)++;
-		return (ft_strdup(">"));
-	}
-	return (NULL);
-}
+	char	*result;
 
+	result = NULL;
+	if (input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
+	{
+		result = ft_strdup((char[]){input[*i], 0});
+		if ((input[*i] == '<' && input[*i + 1] == '<') || (input[*i] == '>'
+				&& input[*i + 1] == '>'))
+		{
+			result = ft_strdup((char[]){input[*i], input[*i], 0});
+			(*i)++;
+		}
+		(*i)++;
+	}
+	return (result);
+}
 
 char	*get_quoted_string(char *input, int *i, char quote)
 {
@@ -64,7 +52,6 @@ char	*get_quoted_string(char *input, int *i, char quote)
 		(*i)++;
 		return (ft_substr(input, start, len));
 	}
-	// ft_putstr_fd("minishell: syntax error: unexpected end of file\n", 2);
 	ft_putstr_fd("minishell: syntax error: unclosed quote `", 2);
 	ft_putchar_fd(quote, 2);
 	ft_putstr_fd("'\n", 2);
