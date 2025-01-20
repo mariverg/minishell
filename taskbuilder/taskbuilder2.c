@@ -24,9 +24,13 @@ t_task *newtask(char *c, char **cc, t_env *env)
 	res->co = 0;
 	res->env = env;
 	res->operator = 0;
+	res->lstout = -1;
+	res->lstin = -1;
 	res->in = STDIN_FILENO;
 	res->out = STDOUT_FILENO;
 	res->next = 0;
+	// res->fd[0] = STDIN_FILENO;
+	// res->fd[1] = STDOUT_FILENO;
 
 	return (res);
 }
@@ -79,7 +83,7 @@ int builtins(t_command *tc)
 
 
 /// saca el infile de texto, que pondre al inicio de la lista de t_com
-/*t_task *extractin(t_command *tc, t_env *te)
+t_task *extractin(t_command *tc, t_env *te)
 {
 	t_task *res;
 
@@ -98,6 +102,8 @@ int builtins(t_command *tc)
 	}
 	return (res);
 }
+
+/// y el out que ira al final
 t_task *extractout(t_command *tc, t_env *te)
 {
 	t_task *res;
@@ -116,37 +122,7 @@ t_task *extractout(t_command *tc, t_env *te)
 		tc = tc->next;
 	}
 	return (res);
-}*/
-int stractin(t_command *tc, t_task *tt)
-{
-	while(tc)
-	{
-		if (tc->infile)
-		{
-			// printf("file in encontrada\n");
-			tt->ci = ft_strdup(tc->infile);
-			tt->intype = tc->in_type;
-		}
-		tc = tc->next;
-	}
-	return (0);
 }
-int stractout(t_command *tc, t_task *tt)
-{
-	while(tc)
-	{
-		if (tc->outfile)
-		{
-			// printf("file out encontrada\n");
-			tt->co = ft_strdup(tc->outfile);
-			tt->outtype = tc->out_type;
-		}
-		tc = tc->next;
-	}
-	return (0);
-}
-/// y el out que ira al final
-
 
 ////calcula los tcoms primero in, luego todos los ejecutables, y finalmente si existe out
 t_task *dotaskslist(t_command *tc, t_env *te)
@@ -160,6 +136,8 @@ t_task *dotaskslist(t_command *tc, t_env *te)
 	
 	tcc = tc;
 	res = newtask(0,0,0);
+
+	lastcom(res)->next = extractin(tc, te);
 
 	while(tc)
 	{
@@ -190,9 +168,7 @@ t_task *dotaskslist(t_command *tc, t_env *te)
 		}
 		tc = tc->next;
 	}
-	stractin(tcc, res->next);
-	stractout(tcc, lastcom(res));
-	// lastcom(res)->next = 0;
+	lastcom(res)->next = extractout(tcc, te);
 	copy = res;
 	res = res->next;
 	free(copy);

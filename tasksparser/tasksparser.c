@@ -1,24 +1,5 @@
 #include "../minishell.h"
 #include "taskparser.h"
-int runfiletask(t_task *tt)
-{
-	if (tt->operator == 1)
-	{
-		copitfile(tt);
-	}
-	else if (tt->operator == 3)
-	{
-		sumtfile(tt);
-	}
-	else if (tt->operator == 2)
-	{
-		readfrmfile(tt);
-	}
-	else if (tt->operator == 4)
-	{
-		readfrmterm(tt);
-	} 
-}
 
 int runtask(t_task *tt)
 {
@@ -36,25 +17,37 @@ int runtask(t_task *tt)
 int exectasks(t_task *tt,  t_list *pipelst)
 {
 	int pid;
+	int filefd;
+
 	while(tt)
 	{
-		if (tt->operator >= 1 && tt->operator <= 9)
+		pid = fork();
+		if(pid == 0)
 		{
-			runfiletask(tt);
-		} 
-		else
-		{
-			pid = fork();
-			if(pid == 0)
+			if (tt->ci)
+			{
+				filefd = readfrmfile(tt);
+				dup2(filefd, STDIN_FILENO);
+				close(filefd);
+			}
+			else
 			{
 				dup2(tt->in, STDIN_FILENO);
-				dup2(tt->out, STDOUT_FILENO);
-				clearpipes(pipelst);
-				// printf("forked task\n");
-				runtask(tt);
-				printf("error ejecutando %s\n", tt->c);
-				exit(127);
 			}
+			if (tt->co)
+			{
+				filefd = copitfile(tt);
+				dup2(filefd, STDOUT_FILENO);
+				close(filefd);
+			}
+			else
+			{
+				dup2(tt->out, STDOUT_FILENO);
+			}
+			clearpipes(pipelst);
+			runtask(tt);
+			printf("error ejecutando %s\n", tt->c);
+			exit(127);
 		}
 		
 		tt = tt->next;
@@ -86,6 +79,7 @@ int inittp(t_task *tt)
 	pipes = dopipelst(tt);
 	setpipes(tt, pipes);
 	exectasks(tt, pipes);
+	// write(1, "\nCLEANING PIPES\n", 16);
 	clearpipes(pipes);
 	waittasks(tt);
 	return (0);

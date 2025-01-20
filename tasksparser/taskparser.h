@@ -6,7 +6,7 @@ int setpipes(t_task *tt, t_list *pipelst);
 
 int execbuilt(t_task *tt);
 
-void copitfile(t_task *tc);
-void sumtfile(t_task *tc);
-void readfrmfile(t_task *tc);
-void readfrmterm(t_task *tc);
+int copitfile(t_task *tc);
+// void sumtfile(t_task *tc);
+int readfrmfile(t_task *tc);
+// void readfrmterm(t_task *tc);

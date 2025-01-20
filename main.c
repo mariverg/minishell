@@ -22,20 +22,6 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
-
-/* void prntpwdline(t_env *te)
-{
-	char	*directorio;
-
-	actualicepwd(te);
-	directorio = getmienv(te, "PWD");
-	if(directorio)
-	{
-		write(STDOUT_FILENO, directorio, ft_strlen(directorio));
-		free (directorio);
-	}
-} */
-
 char	*prntpwdline(t_env *te)
 {
 	char	*directorio;
@@ -88,9 +74,11 @@ int	main(int argc, char **argv, char **argenv)
 		commands = parse(input);
 			// printf("	commands vale>\n");
 			// printcmmm(commands);
+			// printf("	commands over\n");
 		tc = dotaskslist(commands, te);
 			// printf("	tasks vale>\n");
 			// printcm(tc);
+			// printf("	tasks over>\n");
 		inittp(tc);
 		free(input);
 	}

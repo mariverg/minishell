@@ -59,9 +59,7 @@ int setpipes(t_task *tt, t_list *pipelst)
 		if(pipelst)
 		{
 			fd = (int *)pipelst->content;
-			if (tt->next);
-				tt->next->lstout = fd[1]; 
-			tt->out = fd[1];			
+			tt->out = fd[1];
 			in = fd[0];
 			pipelst =  pipelst->next;
 		}		

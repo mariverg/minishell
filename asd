@@ -1,2 +1,1 @@
-gonzalo
-
+/home/gonzalo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Users/Usuario/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Usuario/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/home/gonzalo/.local/bin:/home/gonzalo/.local/bin

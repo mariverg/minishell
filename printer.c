@@ -98,7 +98,16 @@ void printcm(t_task *tc)
 	
 	while(tc)
 	{
-		printf("UN COM :c es %s operator %i\n", tc->c, tc->operator);
+		printf("UN CM :c es %s operator %i\n", tc->c, tc->operator);
+		prntstrss(tc->cc, 1);
+		if (tc->ci)
+		{
+			printf("hay un file %s\n", tc->ci);
+		}
+		if (tc->co)
+		{
+			printf("hay un file %s\n", tc->co);
+		}
 		tc = tc->next;
 	}
 }

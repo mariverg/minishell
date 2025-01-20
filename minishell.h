@@ -26,11 +26,12 @@ typedef struct s_env {
 typedef struct s_task {
 	char *c;
 	char **cc;
-	// char **env;
+	char *ci;
+	char *co;
+	int intype;
+	int outtype;
 	struct s_env *env;
 	int operator;
-	int lstin;
-	int lstout;
 	int in;
 	int out;
 	struct s_task *next;
