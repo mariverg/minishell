@@ -18,7 +18,7 @@ PARFILES = ./parseo/lexer\
 			./parseo/utils\
 			./parseo/utils_parser\
 			./parseo/utils_lexer\
-			./parseo/itils_utils
+			./parseo/utils_utils
 
 ENVFILES = ./envbuilder/envbuilder\
  			./envbuilder/envtools\
