@@ -39,7 +39,7 @@ char	*prntpwdline(t_env *te)
 		if (!prompt)
 		{
 			free(directorio);
-			return (strdup("error_generating_prompt > "));
+			return (ft_strdup("error_generating_prompt > "));
 		}
 		ft_memcpy(prompt, directorio, dir_len);
 		prompt[dir_len] = ' ';

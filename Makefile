@@ -24,7 +24,8 @@ ENVFILES = ./envbuilder/envbuilder\
  			./envbuilder/envtools\
  			./envbuilder/envexer
 
-COMFILES = ./taskbuilder/taskbuilder
+COMFILES = ./taskbuilder/taskbuilder\
+			./taskbuilder/taskbuildertools
 
 TASKPARFILES = ./tasksparser/tasksparser\
 				./tasksparser/filetasks\
@@ -32,10 +33,6 @@ TASKPARFILES = ./tasksparser/tasksparser\
 				./tasksparser/pipetasks
 
 PRECHECKFILES = ./prechecker/expandvars
-
-PROCESSFILES = ./processer/forker\
-				./processer/executer\
-				./processer/filer
 				
 FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(HISTORYFILES) $(TASKPARFILES)
 

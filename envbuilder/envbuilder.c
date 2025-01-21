@@ -12,9 +12,6 @@
 
 #include "envbuilder.h"
 
-
-/// en este file estan todas las funciones usadas para el manejo de la variable struct t_env que almacena el entorno, por el momento solo contiene el estado de return y las variables de getenv(), no se si requerira mas. las funciones basicamente manejan las variables de entorno, las modifican y consultan
-
 t_env *newenv(char **env)
 {
 	t_env *res;
@@ -42,7 +39,6 @@ t_env *newenv(char **env)
 	return (res);
 }
 
-///devuelve el contenido de la variable de entorno target en el entorno te
 char *getmienv(t_env *te, char *target)
 {
 	char *res;
@@ -61,7 +57,6 @@ char *getmienv(t_env *te, char *target)
 	return (res);
 }
 
-////modifica el valor de una variable, principalmente usada actualmente para modificar target = "PWD", pero vale con todas
 int setmienv(t_env *te, char *target, char *newenvvar)
 {
 	char *aux;
@@ -82,21 +77,17 @@ int setmienv(t_env *te, char *target, char *newenvvar)
 	return (0);
 }
 
-////autopmatizacion de setmienv para que guarde el pwd devuelto por getcwd, que es el correcto en mis tests
 int actualicepwd(t_env *te)
 {
 	char buff[256];
 	char *toerase;
 	int i;
 
-	// printf("seteando pwd\n");
 	setmienv(te, "OLDPWD", getmienv(te, "PWD"));
 	setmienv(te, "PWD", getcwd(buff,256));
-	// printf("pwd seteado\n");
 	return (0);
 }
 
-///simple liberacion de memoria a saco, si encuentra dato lo borra
 void freeenv(t_env *te)
 {
 	int i;

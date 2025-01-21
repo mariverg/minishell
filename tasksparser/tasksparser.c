@@ -73,6 +73,7 @@ int inittp(t_task *tt)
 
 	if(tt == 0)
 		return(0);
+	/////				ESTA SOLO FUNCIONA CON EXIT CD  ISSET Y EXPORT
 	if (tt->next == 0 && tt->operator == 21)
 	{
 		execbuilt(tt);

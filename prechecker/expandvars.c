@@ -35,7 +35,6 @@ char *extractvar(t_env *te, char *c)
 	}
 	varname = ft_substr(c, 0, i);
 	res = getmienv(te, (varname + 1));
-	// printf("ha extraido de %s el valor %s\n", varname, res);
 	free(varname);
 	
 	return (res);
