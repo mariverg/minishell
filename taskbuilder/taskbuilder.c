@@ -77,46 +77,6 @@ int builtins(t_command *tc)
 }
 
 
-
-/// saca el infile de texto, que pondre al inicio de la lista de t_com
-/*t_task *extractin(t_command *tc, t_env *te)
-{
-	t_task *res;
-
-	res = 0;
-	while(tc)
-	{
-		if (tc->infile)
-		{
-			res = newtask(tc->infile, 0, te);
-			if (tc->in_type == 0)
-				res->operator = 2;
-			else
-				res->operator = 4;
-		}
-		tc = tc->next;
-	}
-	return (res);
-}
-t_task *extractout(t_command *tc, t_env *te)
-{
-	t_task *res;
-	
-	res = 0;
-	while(tc)
-	{
-		if (tc->outfile)
-		{
-			res = newtask(tc->outfile, 0, te);
-			if (tc->out_type == 0)
-				res->operator = 1;
-			else 
-				res->operator = 3;
-		}
-		tc = tc->next;
-	}
-	return (res);
-}*/
 int stractin(t_command *tc, t_task *tt)
 {
 	while(tc)
@@ -145,7 +105,6 @@ int stractout(t_command *tc, t_task *tt)
 	}
 	return (0);
 }
-/// y el out que ira al final
 
 
 ////calcula los tcoms primero in, luego todos los ejecutables, y finalmente si existe out
@@ -164,11 +123,13 @@ t_task *dotaskslist(t_command *tc, t_env *te)
 	while(tc)
 	{
 		if (!tc->args)
+		{
+			lastcom(res)->next = newtask(0, 0, te);
 			break;
+		}
 		i = builtins(tc);
 		if (i)
 		{
-			///// i 12 opera en fork, i 21 ha de operar en el proceso principal
 			lastcom(res)->next = newtask(tc->args[0], tc->args, te);
 			lastcom(res)->operator = i;
 		}

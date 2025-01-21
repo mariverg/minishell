@@ -45,7 +45,10 @@ int exectasks(t_task *tt,  t_list *pipelst)
 				dup2(tt->out, STDOUT_FILENO);
 			}
 			clearpipes(pipelst);
-			runtask(tt);
+			if (tt->c)
+				runtask(tt);
+			else
+				exit (0);
 			printf("error ejecutando %s\n", tt->c);
 			exit(127);
 		}
