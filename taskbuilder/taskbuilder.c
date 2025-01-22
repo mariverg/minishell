@@ -56,30 +56,43 @@ int *extractone(t_task *tt, t_command *tc, t_env *te)
 	char *c;
 
 	if (!tc->args)
-		{
+	{
 		lastcom(tt)->next = newtask(0, 0, te);
 		return (0);
-	}
-	i = builtins(tc);
-	if (i)
+	} 
+	else 
 	{
-		lastcom(tt)->next = newtask(tc->args[0], tc->args, te);
-		lastcom(tt)->operator = i;
-	}
-	else
-	{
-		c = execinenv(te, tc->args[0]);
-		if (c)
+		i = builtins(tc);
+		if (i)
 		{
-			lastcom(tt)->next = newtask(c, tc->args, te);
-			lastcom(tt)->operator = 11;
+			lastcom(tt)->next = newtask(tc->args[0], tc->args, te);
+			lastcom(tt)->operator = i;
 		}
 		else
 		{
-			printf("%s: command not found\n", tc->args[0]);
-			te->lastreturn = 127;
-			return(0);
+			c = execinenv(te, tc->args[0]);
+			if (c)
+			{
+				lastcom(tt)->next = newtask(c, tc->args, te);
+				lastcom(tt)->operator = 11;
+			}
+			else
+			{
+				printf("%s: command not found\n", tc->args[0]);
+				switchexit(127, te, 0);
+				return(0);
+			}
 		}
+	}
+	if (tc->infile)
+	{
+		lastcom(tt)->ci = ft_strdup(tc->infile);
+		lastcom(tt)->intype = tc->in_type;
+	}
+	if (tc->outfile)
+	{
+		lastcom(tt)->co = ft_strdup(tc->outfile);
+		lastcom(tt)->outtype = tc->out_type;
 	}
 	return (0);
 }
@@ -101,8 +114,8 @@ t_task *dotaskslist(t_command *tc, t_env *te)
 		extractone(res, tc, te);
 		tc = tc->next;
 	}
-	stractin(tcc, res->next);
-	stractout(tcc, lastcom(res));
+	// stractin(tcc, res->next);
+	// stractout(tcc, lastcom(res));
 	copy = res;
 	res = res->next;
 	free(copy);

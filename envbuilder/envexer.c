@@ -54,7 +54,6 @@ char *isexec(t_env *te, char **paths, char *target)
 		paths++;
 	}
 	// printf("%s: command not found\n", target);
-	// te->lastreturn = 127;
 	return (0);
 }
 

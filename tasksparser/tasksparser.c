@@ -60,11 +60,32 @@ int exectasks(t_task *tt,  t_list *pipelst)
 
 int waittasks(t_task *tt)
 {
+	int status; // Variable para almacenar el estado del proceso
+    int exit_code; // Variable para el código de salida
+	int combinedexit;
+
+	exit_code = 0;
 	while(tt)
 	{
-		wait(0);
-		tt = tt->next;
+		if (wait(&status) == -1)
+        {
+            perror("wait"); // Manejar errores en caso de fallo
+            return -1;
+        }
+        if (WIFEXITED(status)) // Verificar si el proceso terminó normalmente
+        {
+            exit_code = WEXITSTATUS(status); // Extraer el código de salida
+			switchexit(exit_code, tt->env, 0);
+        }
+        else if (WIFSIGNALED(status)) 
+        {
+            // printf("Proceso terminado por señal: %d\n", WTERMSIG(status));
+			// switchexit(WTERMSIG(status), tt->env, "saliendo de wait por senhal");
+        }
+
+        tt = tt->next;
 	}
+	
 }
 
 int inittp(t_task *tt)

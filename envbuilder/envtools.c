@@ -121,7 +121,7 @@ int addstrenv(t_env *te, char *c)
 	if (ft_isdigit(c[0]) || c[0] == '=')
 	{
 		write(STDERR_FILENO, " not a valid identifier", 23);
-		te->lastreturn = 1;
+		switchexit(1, te, 0);
 		return(0);
 	}
 	while (c[cut] != '=' && c[cut] != '\0')
@@ -130,7 +130,7 @@ int addstrenv(t_env *te, char *c)
 		if(c[cut] == '-')
 		{
 			write(STDERR_FILENO, " not a valid identifier", 23);
-			te->lastreturn = 1;
+			switchexit(1, te, 0);
 			return(0);
 		}
 		cut++;

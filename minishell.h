@@ -74,4 +74,8 @@ char *expanddollars(t_env *te, char *c);
 
 int inittp(t_task *tt);
 
+int errormsg(char *msg, char *info);
+int switchexit(int i, t_env *te, char *info);
+int exitrtrn(int i, t_env *te, char *msg, char *info);
+
 #endif

@@ -13,6 +13,8 @@
 
 MAINFILES = main actioner printer memtools
 
+MANAGERFILES = ./manager/manager
+
 PARFILES = ./parseo/lexer\
 			./parseo/parser\
 			./parseo/utils\
@@ -34,7 +36,7 @@ TASKPARFILES = ./tasksparser/tasksparser\
 
 PRECHECKFILES = ./prechecker/expandvars
 				
-FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(HISTORYFILES) $(TASKPARFILES)
+FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(HISTORYFILES) $(TASKPARFILES) $(MANAGERFILES)
 
 OBJS = $(addsuffix .o, $(FILES))
 

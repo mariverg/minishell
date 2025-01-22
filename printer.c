@@ -47,6 +47,7 @@ void prntstrs(char **c, int out)
 	i = 0;
 	while(c[i])
 	{
+		
 		if(hasvalue(c[i]))
 		{
 			printline(c[i], out);
@@ -76,6 +77,7 @@ void printcmmm(t_command *current)
 
 	while (current)
     {
+		printf("Nuevo command\n");
 		i = 0;
 		if (current->args)
 		{
@@ -98,6 +100,7 @@ void printcm(t_task *tc)
 	
 	while(tc)
 	{
+		printf("Nueva task\n");
 		printf("UN CM :c es %s operator %i\n", tc->c, tc->operator);
 		prntstrss(tc->cc, 1);
 		if (tc->ci)

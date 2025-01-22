@@ -51,7 +51,7 @@ int readfrmfile(t_task *tc)
 	{
 
 		write(STDERR_FILENO, " No such file or directory", 26);
-		exit(126);
+		exit(1);
 	}
 	return(res);
 }
