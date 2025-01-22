@@ -5,7 +5,19 @@ int execbuilt(t_task *tt)
 {
 	if (ft_strncmp("cd", tt->c, 3) == 0)
 	{
+		if (tt->cc[2])
+		{
+			write(STDERR_FILENO, " too many arguments", 19);
+			tt->env->lastreturn = 1;
+			return(0);
+		}
 		int i = chdir(tt->cc[1]);
+		if (i == -1)
+		{
+			write(STDERR_FILENO, " No such file or directory", 26);
+			tt->env->lastreturn = 1;
+			return(0);
+		}
 	}
 	else if (ft_strncmp("pwd", tt->c, 4) == 0)
 	{
@@ -51,7 +63,17 @@ int execbuilt(t_task *tt)
 	}
 	else if (ft_strncmp("exit", tt->c, 4) == 0)
 	{
-		if(tt->cc[1])
+		int i;
+
+		i = 1;
+		// while(*tt->cc[i] == '+')
+		// {
+		// 	i++;
+		// }
+			// printf("	tasks vale>\n");
+			// printcm(tt);
+			// printf("	tasks over>\n");
+		if(tt->cc[i])
 			exit(ft_atoi(tt->cc[1]));
 		exit(0);
 	}

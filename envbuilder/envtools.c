@@ -118,8 +118,23 @@ int addstrenv(t_env *te, char *c)
 	int cut;
 
 	cut = 0;
+	if (ft_isdigit(c[0]) || c[0] == '=')
+	{
+		write(STDERR_FILENO, " not a valid identifier", 23);
+		te->lastreturn = 1;
+		return(0);
+	}
 	while (c[cut] != '=' && c[cut] != '\0')
+	{
+		// write(1, c + cut, 1);
+		if(c[cut] == '-')
+		{
+			write(STDERR_FILENO, " not a valid identifier", 23);
+			te->lastreturn = 1;
+			return(0);
+		}
 		cut++;
+	}
 	ca = ft_substr(c, 0, cut);
 	cb = ft_substr(c, cut + 1, (ft_strlen(c) - cut));
 	addmienv (te, ca, cb);
@@ -145,6 +160,13 @@ int daemonenv(t_task *tt)
 		free (aux);
 		i++;
 	}
+	
+	// while (tt->cc[i])
+	// {
+	// 	printf("gestionando %s\n", tt->cc[i]);
+	// 	addstrenv(tt->env, tt->cc[i]);	
+	// 	i++;
+	// }
 	addstrenv(tt->env, c);
 	free(c);
 	return (0);

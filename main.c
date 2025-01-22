@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **argenv)
 			add_history(input);
 
 		input = expanddollars(te, input);
-			// printf("	input vale> %s\n", input);
+			// printf("	tras expanddollars input vale>\n %s\n", input);
 		commands = parse(input);
 			// printf("	commands vale>\n");
 			// printcmmm(commands);

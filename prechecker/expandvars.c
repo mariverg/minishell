@@ -19,7 +19,25 @@ int charforvar(char c)
 	{
 		return (1);
 	}
+	// if (ft_isalnum(c) || c == '_')
+	// {
+	// 	return (1);
+	// }
 	return (0);
+}
+
+int coutexpandalbe(char *c)
+{
+	int res;
+
+	res = 1;
+	if (c[1] == '?')
+		return (2);
+	while(charforvar(c[res]))
+	{
+		res++;
+	}
+	return(res);
 }
 
 char *extractvar(t_env *te, char *c)
@@ -53,26 +71,16 @@ char *expanddollars(t_env *te, char *c)
 
 	res = 0;
 	piece = ft_lstnew(0);
-	scoma = 0;
-	dcoma = 0;
+	scoma = -1;
+	dcoma = -1;
 	i = 0;
 	while (c[i])
 	{
-		if (c[i] == '\'' && dcoma == 0)
-		{
-			if (scoma)
-				scoma = 0;
-			else
-				scoma = 1;
-		}
-		if (c[i] == '\"' && scoma == 0)
-		{
-			if (dcoma)
-				dcoma = 0;
-			else
-				dcoma = 1;
-		}
-		if (c[i] == '$' && scoma == 0)
+		if (c[i] == '\'' && dcoma == -1)
+			scoma = -scoma;
+		if (c[i] == '\"' && scoma == -1)
+			dcoma = -dcoma;
+		if (c[i] == '$' && scoma == -1)
 		{
 			slot = ft_substr(c, 0, i);
 			if (slot)
@@ -80,9 +88,10 @@ char *expanddollars(t_env *te, char *c)
 			slot = extractvar(te, &c[i]);
 			if (slot)
 				ft_lstadd_back(&piece, ft_lstnew(slot));
-			c = c + i + 1;
-			while(charforvar(*c))
-				c++;
+			c = c + i + coutexpandalbe(c + i);
+			// c = c + i + 1;
+			// while(charforvar(*c))
+			// 	c++;
 			i = 0;
 		}
 		else

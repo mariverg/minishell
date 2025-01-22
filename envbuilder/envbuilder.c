@@ -46,6 +46,13 @@ char *getmienv(t_env *te, char *target)
 	int i;
 
 	res = 0;
+	//// parser elimina $
+	// printf("checking  -%s-\n", target);
+	if (*target == 0 || *target == ' ')
+	{
+		// printf("devolviendo $\n");
+		return(ft_strdup("*"));
+	}
 	if (ft_strncmp(target, "?", 1) == 0)
 		return(ft_itoa(te->lastreturn));
 	i = getmienvindex(te, target);

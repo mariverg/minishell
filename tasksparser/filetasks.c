@@ -15,8 +15,8 @@ int copitfile(t_task *tc)
 	}
 	if (res == -1)
 	{
-		printf("error creatinf file fd\n");
-		exit(-1);
+		write(STDERR_FILENO, " Permission denied", 18);
+		exit(126);
 	}
 	return(res);
 }
@@ -49,8 +49,9 @@ int readfrmfile(t_task *tc)
 	}
 	if (res == -1)
 	{
-		printf("error reading file ft\n");
-		exit(-1);
+
+		write(STDERR_FILENO, " No such file or directory", 26);
+		exit(126);
 	}
 	return(res);
 }
