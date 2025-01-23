@@ -47,7 +47,8 @@ int execbuilt(t_task *tt)
 	}
 	else if (ft_strncmp("pwd", tt->c, 4) == 0)
 	{
-		char *wd = getmienv(tt->env, "PWD");
+		// char *wd = getmienv(tt->env, "PWD");
+		char *wd = getcwd(0,0);
 		write(STDOUT_FILENO, wd, ft_strlen(wd));
 		write(STDOUT_FILENO, "\n", 1);
 	}

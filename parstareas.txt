@@ -1,0 +1,4 @@
+-ignorar $
+-ignorar " '
+  yo creo que esto deberia de ser borrar lineas.
+-infile y outfile tienen que ser arrays

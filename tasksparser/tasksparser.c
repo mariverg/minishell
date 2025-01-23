@@ -49,7 +49,8 @@ int exectasks(t_task *tt,  t_list *pipelst)
 				runtask(tt);
 			else
 				exit (0);
-			printf("error ejecutando %s\n", tt->c);
+			errormsg(" command not found", 0);
+			// printf("error ejecutando %s\n", tt->c);
 			exit(127);
 		}
 		

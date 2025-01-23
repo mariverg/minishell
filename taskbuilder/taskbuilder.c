@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
 #include "taskbuilder.h"
 
 int builtins(t_command *tc)
@@ -78,7 +79,8 @@ int *extractone(t_task *tt, t_command *tc, t_env *te)
 			}
 			else
 			{
-				printf("%s: command not found\n", tc->args[0]);
+				errormsg(" command not found", 0);
+				// perror("%s: command not found\n", tc->args[0]);
 				switchexit(127, te, 0);
 				return(0);
 			}
