@@ -59,7 +59,7 @@ void	handle_operator(char *input, int *i, t_token **tokens)
 	}
 }
 
-int	handle_quote(char *input, int *i, t_token **tokens)
+/* int	handle_quote(char *input, int *i, t_token **tokens)
 {
 	char	quote;
 	char	*value;
@@ -77,9 +77,41 @@ int	handle_quote(char *input, int *i, t_token **tokens)
 		add_token(tokens, create_token(value, TOKEN_SQUOTE));
 	free(value);
 	return (1);
+} */
+int	handle_quote(char *input, int *i, t_token **tokens)
+{
+	char	quote;
+	char	*value;
+	char	*temp;
+	char	*final_value;
+
+	quote = input[*i];
+	final_value = ft_strdup("");  // Inicializamos con una cadena vacía
+	if (!final_value)
+		return (0);
+
+	while (input[*i] == quote)  // Mientras haya comillas seguidas
+	{
+		value = get_quoted_string(input, i, quote);
+		if (!value)  // Si hay error en las comillas, limpiamos y salimos
+		{
+			free(final_value);
+			free_tokens(*tokens);
+			return (0);
+		}
+		temp = ft_strjoin(final_value, value);  // Concatenamos
+		free(final_value);
+		free(value);
+		final_value = temp;
+	}
+	// Guardamos el token final con todas las partes fusionadas
+	add_token(tokens, create_token(final_value, (quote == '"') ? TOKEN_DQUOTE : TOKEN_SQUOTE));
+	free(final_value);
+	return (1);
 }
 
-void	handle_env_var(char *input, int *i, t_token **tokens)
+
+/* void	handle_env_var(char *input, int *i, t_token **tokens)
 {
 	char	*value;
 
@@ -89,9 +121,30 @@ void	handle_env_var(char *input, int *i, t_token **tokens)
 		add_token(tokens, create_token(value, TOKEN_ENV_VAR));
 		free(value);
 	}
+} */
+void handle_env_var(char *input, int *i, t_token **tokens)
+{
+    char *value;
+
+    // Special case for lone $ or $ followed by non-alphanumeric
+    if (input[*i + 1] == '\0' || 
+        (!ft_isalnum(input[*i + 1]) && input[*i + 1] != '?'))
+    {
+        add_token(tokens, create_token("$", TOKEN_ENV_VAR));
+        (*i)++;
+        return;
+    }
+
+    value = get_env_var(input, i);
+    if (value)
+    {
+        add_token(tokens, create_token(value, TOKEN_ENV_VAR));
+        free(value);
+    }
 }
 
-void	handle_word(char *input, int *i, t_token **tokens)
+
+/* void	handle_word(char *input, int *i, t_token **tokens)
 {
 	char	*value;
 
@@ -101,4 +154,42 @@ void	handle_word(char *input, int *i, t_token **tokens)
 		add_token(tokens, create_token(value, TOKEN_WORD));
 		free(value);
 	}
+} */
+
+void	handle_word(char *input, int *i, t_token **tokens)
+{
+	char	*value;
+	char	*temp;
+	char	*final_value;
+
+	final_value = ft_strdup("");  // Inicializamos cadena vacía
+	if (!final_value)
+		return;
+
+	while (input[*i] && !is_space(input[*i]) && !is_operator(input[*i]))  
+	{
+		if (input[*i] == '\'' || input[*i] == '"')  // Si es comilla, llamar a `get_quoted_string`
+		{
+			char quote = input[*i];
+			value = get_quoted_string(input, i, quote);
+		}
+		else  // Si es palabra normal, llamar a `get_word`
+		{
+			value = get_word(input, i);
+		}
+		if (!value)  // Si hubo error en comillas, liberar memoria y salir
+		{
+			free(final_value);
+			return;
+		}
+		// Concatenamos la nueva parte al resultado final
+		temp = ft_strjoin(final_value, value);
+		free(final_value);
+		free(value);
+		final_value = temp;
+	}
+	// Finalmente, agregamos un solo token con el string fusionado
+	add_token(tokens, create_token(final_value, TOKEN_WORD));
+	free(final_value);
 }
+

@@ -74,7 +74,7 @@ t_command	*parse(char *input)
 	return (commands);
 }
 
-bool	parse_redirections(t_parser *parser, t_command *cmd)
+/* bool	parse_redirections(t_parser *parser, t_command *cmd)
 {
 	t_token_type	redir_type;
 
@@ -104,6 +104,36 @@ bool	parse_redirections(t_parser *parser, t_command *cmd)
 	}
 	parser->current_token = parser->current_token->next;
 	return (true);
+} */
+bool parse_redirections(t_parser *parser, t_command *cmd)
+{
+    t_token_type redir_type = parser->current_token->type;
+    parser->current_token = parser->current_token->next;
+
+    if (!parser->current_token || 
+        (parser->current_token->type != TOKEN_WORD &&
+         parser->current_token->type != TOKEN_DQUOTE &&
+         parser->current_token->type != TOKEN_SQUOTE))
+    {
+        return (false);
+    }
+		// Para redirecciones de salida, actualice siempre el archivo de salida y escriba
+    if (redir_type == TOKEN_REDIR_OUT || redir_type == TOKEN_APPEND)
+    {
+        free(cmd->outfile);
+        cmd->outfile = ft_strdup(parser->current_token->value);
+        cmd->out_type = (redir_type == TOKEN_APPEND);
+    }
+    // Para redirecciones de entrada, actualice siempre el archivo interno y escriba
+    else if (redir_type == TOKEN_REDIR_IN || redir_type == TOKEN_HEREDOC)
+    {
+        free(cmd->infile);
+        cmd->infile = ft_strdup(parser->current_token->value);
+        cmd->in_type = (redir_type == TOKEN_HEREDOC);
+    }
+
+    parser->current_token = parser->current_token->next;
+    return (true);
 }
 
 bool	parse_pipe(t_parser *parser)
