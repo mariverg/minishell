@@ -22,6 +22,7 @@ int exectasks(t_task *tt,  t_list *pipelst)
 	while(tt)
 	{
 		pid = fork();
+		tt->pid = pid;
 		if(pid == 0)
 		{
 			if (tt->ci)
@@ -61,21 +62,48 @@ int exectasks(t_task *tt,  t_list *pipelst)
 
 int waittasks(t_task *tt)
 {
+	int i;
+	int pid;
+	int status;
+	
+	i = 0;
+	while(tt)
+	{
+		pid = wait(&status);
+		if (pid == tt->pid)
+		{
+			if (WIFEXITED(status) && tt->position > i) 
+			{
+				i = tt->position;
+				switchexit(WEXITSTATUS(status), tt->env, 0);
+			}
+		}
+		tt = tt->next;
+	}
+}
+
+int waittasks2(t_task *tt)
+{
+	int i;
 	int status; // Variable para almacenar el estado del proceso
     int exit_code; // Variable para el código de salida
 	int combinedexit;
 
+	i = 0;
 	exit_code = 0;
 	while(tt)
 	{
+		// printf("esperando al proceso en pos %i instruccion %s\n", tt->position, tt->c);
 		if (wait(&status) == -1)
         {
             perror("wait"); // Manejar errores en caso de fallo
             return -1;
         }
-        if (WIFEXITED(status)) // Verificar si el proceso terminó normalmente
+        if (WIFEXITED(status) && tt->position > i) // Verificar si el proceso terminó normalmente
         {
-            exit_code = WEXITSTATUS(status); // Extraer el código de salida
+			i = tt->position;
+			exit_code = WEXITSTATUS(status); // Extraer el código de salida
+			// printf("toma el valor del proceso en pos %i codigo %i instruccion %s\n", tt->position, exit_code, tt->c);
 			switchexit(exit_code, tt->env, 0);
         }
         else if (WIFSIGNALED(status)) 
@@ -86,7 +114,6 @@ int waittasks(t_task *tt)
 
         tt = tt->next;
 	}
-	
 }
 
 int inittp(t_task *tt)

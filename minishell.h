@@ -30,6 +30,8 @@ typedef struct s_task {
 	char *co;
 	int intype;
 	int outtype;
+	int position;
+	int pid;
 	struct s_env *env;
 	int operator;
 	int in;

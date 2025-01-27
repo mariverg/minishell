@@ -51,14 +51,14 @@ int builtins(t_command *tc)
 	return (0);
 }
 
-int *extractone(t_task *tt, t_command *tc, t_env *te)
+int *extractone(t_task *tt, t_command *tc, t_env *te, int pos)
 {
 	int i;
 	char *c;
 
 	if (!tc->args)
 	{
-		lastcom(tt)->next = newtask(0, 0, te);
+		lastcom(tt)->next = newtask(0, 0, te, pos);
 		return (0);
 	} 
 	else 
@@ -66,7 +66,7 @@ int *extractone(t_task *tt, t_command *tc, t_env *te)
 		i = builtins(tc);
 		if (i)
 		{
-			lastcom(tt)->next = newtask(tc->args[0], tc->args, te);
+			lastcom(tt)->next = newtask(tc->args[0], tc->args, te, pos);
 			lastcom(tt)->operator = i;
 		}
 		else
@@ -74,7 +74,7 @@ int *extractone(t_task *tt, t_command *tc, t_env *te)
 			c = execinenv(te, tc->args[0]);
 			if (c)
 			{
-				lastcom(tt)->next = newtask(c, tc->args, te);
+				lastcom(tt)->next = newtask(c, tc->args, te, pos);
 				lastcom(tt)->operator = 11;
 			}
 			else
@@ -109,11 +109,11 @@ t_task *dotaskslist(t_command *tc, t_env *te)
 	t_command *tcc;
 	
 	tcc = tc;
-	res = newtask(0,0,0);
-
+	res = newtask(0,0,0,0);
 	while(tc)
 	{
-		extractone(res, tc, te);
+		i++;
+		extractone(res, tc, te, i);
 		tc = tc->next;
 	}
 	// stractin(tcc, res->next);

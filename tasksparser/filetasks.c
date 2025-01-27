@@ -15,7 +15,7 @@ int copitfile(t_task *tc)
 	}
 	if (res == -1)
 	{
-		write(STDERR_FILENO, " Permission denied", 18);
+		errormsg(" Permission denied\n", 0);
 		exit(126);
 	}
 	return(res);
@@ -49,8 +49,7 @@ int readfrmfile(t_task *tc)
 	}
 	if (res == -1)
 	{
-
-		write(STDERR_FILENO, " No such file or directory", 26);
+		errormsg(" No such file or directory\n", 0);
 		exit(1);
 	}
 	return(res);

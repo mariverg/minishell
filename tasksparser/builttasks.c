@@ -3,27 +3,23 @@
 
 int getexit(t_task *tt)
 {
-	char *c;
-	int i;
-	int sz;
 	int res;
 
-	// printcm(tt);
-	sz = 0;
 	res = 0;
-	i = 1;
-
-	while(tt->cc[i])
+	if(tt->cc[1])
 	{
-		
-		res = ft_atoi(tt->cc[i]); 
-		sz++;
-		i++;
+		if (tt->cc[2])
+		{
+			errormsg(" too many arguments\n", 0);
+			return (1);
+		}
+		res = ft_atoi(tt->cc[1]);
+		if (!res)
+		{
+			errormsg(" numeric argument required\n", 0);
+			return (2);
+		} 
 	}
-	// if (sz > 1)
-	// {
-
-	// }
 	return(res);
 }
 
@@ -33,14 +29,14 @@ int execbuilt(t_task *tt)
 	{
 		if (tt->cc[2])
 		{
-			write(STDERR_FILENO, " too many arguments", 19);
+			write(STDERR_FILENO, " too many arguments\n", 19);
 			switchexit(1, tt->env, 0);
 			return(0);
 		}
 		int i = chdir(tt->cc[1]);
 		if (i == -1)
 		{
-			write(STDERR_FILENO, " No such file or directory", 26);
+			write(STDERR_FILENO, " No such file or directory\n", 26);
 			switchexit(1, tt->env, 0);
 			return(0);
 		}
@@ -90,22 +86,6 @@ int execbuilt(t_task *tt)
 	}
 	else if (ft_strncmp("exit", tt->c, 4) == 0)
 	{
-		// int i;
-
-		// i = 1;
-		// printf(" tasks vale>\n");
-		// printcm(tt);
-		// printf(" tasks over>\n");
-		// while(*(tt->cc[i]) == '+')
-		// {
-		// 	printf("pasa a 2 \n");
-		// 	i++;
-		// }
-			// printf("	tasks vale>\n");
-			// printcm(tt);
-			// printf("	tasks over>\n");
-		// if(tt->cc[i])
-		// 	exit(ft_atoi(tt->cc[1]));
 		exit(getexit(tt));
 	}
 	return (1);

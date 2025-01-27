@@ -13,7 +13,7 @@
 #include "taskbuilder.h"
 
 ////genera el t_com que usara forker para havecer las ejecuciones y pipes
-t_task *newtask(char *c, char **cc, t_env *env)
+t_task *newtask(char *c, char **cc, t_env *env, int i)
 {
 	t_task *res;
 
@@ -27,6 +27,7 @@ t_task *newtask(char *c, char **cc, t_env *env)
 	res->in = STDIN_FILENO;
 	res->out = STDOUT_FILENO;
 	res->next = 0;
+	res->position = i;
 
 	return (res);
 }
