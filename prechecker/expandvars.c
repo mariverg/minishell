@@ -13,7 +13,7 @@
 #include  "prechecker.h"
 
 /// en concreto los caracteres que pueden formar parte de la variable
-int charforvar(char c)
+/*int charforvar(char c)
 {
 	if (ft_isalnum(c) || c == '?' || c == '_')
 	{
@@ -89,9 +89,6 @@ char *expanddollars(t_env *te, char *c)
 			if (slot)
 				ft_lstadd_back(&piece, ft_lstnew(slot));
 			c = c + i + coutexpandalbe(c + i);
-			// c = c + i + 1;
-			// while(charforvar(*c))
-			// 	c++;
 			i = 0;
 		}
 		else
@@ -117,4 +114,112 @@ char *expanddollars(t_env *te, char *c)
 		free(aux);
 	}
 	return (res);
+}*/
+
+
+char *concattlst(t_list *tl)
+{
+	char *res;
+	char *aux;
+
+	res = 0;
+	while(tl)
+	{
+		if (tl->content)
+		{
+			aux = res;
+			res = ft_strjoin(res, tl->content);
+			if(aux)
+				free(aux);
+		}
+		tl = tl->next;
+	}
+	return(res);
+}
+
+int getrealdollar(char *c)
+{
+	int one;
+	int two;
+	int i;
+
+	i = 0;
+	one = -1;
+	two = -1;
+	while (c[i])
+	{
+		if (c[i] == '\'' && two == -1)
+		{
+			one = -one;
+		}
+		if (c[i] == '\"' && one == -1)
+		{
+			two = -two;
+		}
+		if (c[i] == '$' && one == -1)
+		{
+			return (i);
+		}
+		i++;
+	}
+	if (i == 0)
+		return (-1);
+	return(i);
+}
+
+int getvarsize(char *c)
+{
+	int i;
+
+	i = 0;
+	if (c[0] == '?')
+	{
+		// printf("una interrogacion \n");
+		return(1);
+	}
+	while(c[i] != 0 && c[i] != ' ' && c[i] != '"'  && c[i] != '\'' && c[i] != '|' && c[i] != '<' && c[i] != '>')
+	{
+		i++;
+	}
+	return(i);
+}
+
+char *extractdollars(t_env *te, char *c)
+{
+	int i;
+	char *res;
+	t_list *firstnode;
+	t_list *pointer;
+	int varsize;
+	char *varname;
+
+	if(!c)
+		return(0);
+	firstnode = ft_lstnew(0);
+	pointer = firstnode;
+	while (1)
+	{
+		i = getrealdollar(c);
+		if (i >= 0)
+		{
+			pointer->next = ft_lstnew(ft_substr(c,0,i));
+			pointer = pointer->next;
+			c = c + i;
+			if (*c == '$')
+			{
+				c++;
+				varsize = getvarsize(c);
+				varname = ft_substr(c,0,varsize);
+				pointer->next = ft_lstnew(getmienv(te, varname));
+				free(varname);
+				pointer = pointer->next;
+				c = c + varsize;
+			}
+		}
+		else
+			break;
+	}
+	res = concattlst(firstnode->next);
+	freelst(firstnode);
+	return(res); 
 }

@@ -39,6 +39,22 @@ t_env *newenv(char **env)
 	return (res);
 }
 
+int getequalposplus(char *c)
+{
+	int i;
+
+	i = 0;
+	while (c[i])
+	{
+		if(c[i] == '=')
+			return (i + 1);
+		else if (c[i] == ' ' || c[i] == 0)
+			return (-1);
+		i++;
+	}
+	return (-1);
+}
+
 char *getmienv(t_env *te, char *target)
 {
 	char *res;
@@ -46,11 +62,8 @@ char *getmienv(t_env *te, char *target)
 	int i;
 
 	res = 0;
-	//// parser elimina $
-	// printf("checking  -%s-\n", target);
 	if (*target == 0 || *target == ' ')
 	{
-		// printf("devolviendo $\n");
 		return(ft_strdup("$"));
 	}
 	if (ft_strncmp(target, "?", 1) == 0)
@@ -59,7 +72,9 @@ char *getmienv(t_env *te, char *target)
 	if (i == -1)
 		return (0);
 	aux = ft_strdup(te->env[i]);
-	res = ft_substr(aux, ft_strlen(target) + 1, ft_strlen(aux) - (ft_strlen(target) + 1));
+	i = getequalposplus(aux);
+	if (i > 0)
+		res = ft_substr(aux, i, ft_strlen(aux) - i);
 	free(aux);
 	return (res);
 }

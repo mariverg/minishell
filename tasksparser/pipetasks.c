@@ -32,18 +32,20 @@ t_list *dopipelst(t_task *tt)
 {
 	int *fd;
 	t_list *pipes;
+	t_list *empty;
 
-	pipes = 0;
+	empty = ft_lstnew(0);
+	pipes = empty;
 	while(tt->next)
 	{
 		fd = malloc(sizeof(int) * 2);
 		pipe(fd);
-		if (pipes)
-			ft_lstlast(pipes)->next = ft_lstnew(fd); 
-		else
-			pipes = ft_lstnew(fd);
+		pipes->next = ft_lstnew(fd);
+		pipes = pipes->next;
 		tt = tt->next;
 	}
+	pipes = empty->next;
+	free(empty);
 	return(pipes);
 }
 
@@ -62,8 +64,11 @@ int setpipes(t_task *tt, t_list *pipelst)
 			tt->out = fd[1];
 			in = fd[0];
 			pipelst =  pipelst->next;
-		}		
+		} 
+		else
+			tt->out = STDOUT_FILENO;
 		tt = tt->next;
 	}
+	// 
 	return(0);
 }

@@ -71,6 +71,8 @@ int execbuilt(t_task *tt)
 		int i;
 
 		n = 0;
+		if(tt->cc[1] == 0)
+			return (0);
 		if (ft_strncmp("-n", tt->cc[1], 3) == 0)
 			n = 1;
 		i = 1 + n;
@@ -88,5 +90,5 @@ int execbuilt(t_task *tt)
 	{
 		exit(getexit(tt));
 	}
-	return (1);
+	return (0);
 }

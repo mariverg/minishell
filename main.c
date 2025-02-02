@@ -16,6 +16,7 @@
 #include "libs/libft/libft.h"
 #include "minishell.h"
 #include "parseo/parseo.h"
+#include "divider/divider.h"
 #include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -56,30 +57,39 @@ int	main(int argc, char **argv, char **argenv)
 {
 	t_env		*te;
 	char		*input;
-	t_command	*commands;
+	t_comand	*comands;
 	t_task		*tc;
 
 	blockaction();
+	te = 0;
+	input = 0;
+	comands = 0;
+	tc = 0;
 	te = newenv(argenv);
 	while (1)
 	{
+		// input = 0;
+		// input = "123456789";
 		input = readline(prntpwdline(te));
 		if (!input)
 			break ;
 		if (*input)
 			add_history(input);
 
-		input = expanddollars(te, input);
+		input = extractdollars(te, input);
+		if (!cancontinue(input))
+			continue;
 			// printf("	tras expanddollars input vale>\n %s\n", input);
-		commands = parse(input);
-			// printf("	commands vale>\n");
-			// printcmmm(commands);
-			// printf("	commands over\n");
-		tc = dotaskslist(commands, te);
+		comands = makecomands(input);
+			// prt(comands);
+		tc = dotaskslist(comands, te);
 			// printf("	tasks vale>\n");
 			// printcm(tc);
 			// printf("	tasks over>\n");
 		inittp(tc);
 		free(input);
+		// break;
 	}
+	// freeenv(te);
+	return(0);
 }

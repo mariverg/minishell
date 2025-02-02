@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void freestrs(char **c)
+int freestrs(char **c)
 {
 	int i;
 
@@ -23,4 +23,35 @@ void freestrs(char **c)
 		i++;
 	}
 	free(c);
+	return(0);
+}
+
+int freelst(t_list *tl)
+{
+	t_list *chain;
+
+	while(tl)
+	{
+		chain = tl;
+		tl = tl->next;
+		if (chain->content)
+			free(chain->content);
+		free(chain);
+	}
+	return (0);
+}
+
+int freefilelist(t_filedir *tl)
+{
+	t_filedir *chain;
+
+	while(tl)
+	{
+		chain = tl;
+		tl = tl->next;
+		if (chain->content)
+			free(chain->content);
+		free(chain);
+	}
+	return (0);
 }

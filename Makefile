@@ -15,6 +15,11 @@ MAINFILES = main actioner printer memtools
 
 MANAGERFILES = ./manager/manager
 
+PFILES = ./divider/divider\
+			./divider/docom\
+			./divider/divtools\
+			./divider/clearcoma
+
 PARFILES = ./parseo/lexer\
 			./parseo/parser\
 			./parseo/utils\
@@ -27,16 +32,18 @@ ENVFILES = ./envbuilder/envbuilder\
  			./envbuilder/envexer
 
 COMFILES = ./taskbuilder/taskbuilder\
-			./taskbuilder/taskbuildertools
+			./taskbuilder/taskbuildertools\
+			./taskbuilder/lsttopoint
 
 TASKPARFILES = ./tasksparser/tasksparser\
 				./tasksparser/filetasks\
 				./tasksparser/builttasks\
 				./tasksparser/pipetasks
 
-PRECHECKFILES = ./prechecker/expandvars
+PRECHECKFILES = ./prechecker/expandvars\
+				./prechecker/syntaxerr
 				
-FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(HISTORYFILES) $(TASKPARFILES) $(MANAGERFILES)
+FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(HISTORYFILES) $(TASKPARFILES) $(MANAGERFILES) $(PFILES)
 
 OBJS = $(addsuffix .o, $(FILES))
 

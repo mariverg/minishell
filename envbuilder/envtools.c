@@ -24,17 +24,35 @@ int strxsize(char **c)
 	return (i);
 }
 
+char *targetspaced(char *c)
+{
+	char *res;
+	int i;
+
+	i = 0;
+	while (c[i])
+	{
+		if(c[i] == ' ' || c[i] == '\"' || c[i] == '\'' || c[i] == '|')
+			break;
+		i++;
+	}
+	res = ft_substr(c, 0 , i);
+}
+
 //// devuelve el indice de una varialbe de entorno si existe, si no -1;
 int getmienvindex(t_env *te, char *target)
 {
 	int i;
 	int j;
 	char **c;
+	char *aux;
 
 	i = 0;
 	j = -1;
 	c = te->env;
-	target = ft_strjoin(target,"=");
+	aux = targetspaced(target);
+	target = ft_strjoin(aux,"=");
+	free(aux);
 	while(c[i])
 	{
 		if (!ft_strncmp(c[i], target, ft_strlen(target)))
@@ -84,6 +102,8 @@ int delmienv(t_env *te, char *target)
 	char **newenv;
 	char **oldenv;
 
+	if(!target)
+		return(1);
 	i = getmienvindex(te, target);
 	if (i == -1)
 		return (1);
@@ -126,7 +146,6 @@ int addstrenv(t_env *te, char *c)
 	}
 	while (c[cut] != '=' && c[cut] != '\0')
 	{
-		// write(1, c + cut, 1);
 		if(c[cut] == '-')
 		{
 			write(STDERR_FILENO, " not a valid identifier", 23);
@@ -160,13 +179,6 @@ int daemonenv(t_task *tt)
 		free (aux);
 		i++;
 	}
-	
-	// while (tt->cc[i])
-	// {
-	// 	printf("gestionando %s\n", tt->cc[i]);
-	// 	addstrenv(tt->env, tt->cc[i]);	
-	// 	i++;
-	// }
 	addstrenv(tt->env, c);
 	free(c);
 	return (0);

@@ -69,6 +69,7 @@ void prntstrss(char **c, int out)
 		printline("\n", out);
 		i++;
 	}
+	printline("fin del array\n", out);
 }
 
 void printcmmm(t_command *current)
@@ -103,13 +104,13 @@ void printcm(t_task *tc)
 		printf("Nueva task\n");
 		printf("UN CM :c es %s operator %i\n", tc->c, tc->operator);
 		prntstrss(tc->cc, 1);
-		if (tc->ci)
+		if (tc->filesin)
 		{
-			printf("hay un file %s\n", tc->ci);
+			printf("hay un file in %s\n", (char *)tc->filesin->content);
 		}
-		if (tc->co)
+		if (tc->filesout)
 		{
-			printf("hay un file %s\n", tc->co);
+			printf("hay un file out %s\n", (char *)tc->filesout->content);
 		}
 		tc = tc->next;
 	}
@@ -206,4 +207,30 @@ int printalphabetical(t_task *te, char *toprint, char *max)
 		i++;
 	}
 	return (0);
+}
+
+void prt(t_comand *tc)
+{
+	while (tc)
+	{
+		printf("		argumentos\n");
+		while(tc->argslst)
+		{
+			printf("argumento -%s-\n", (char *)tc->argslst->content);
+			tc->argslst = tc->argslst->next;
+		}
+		printf("		infiles\n");
+		while(tc->infile)
+		{
+			printf("argumento -%s-\n", (char *)tc->infile->content);
+			tc->infile = tc->infile->next;
+		}
+		printf("		outfiles\n");
+		while(tc->outfile)
+		{
+			printf("argumento -%s-\n", (char *)tc->outfile->content);
+			tc->outfile = tc->outfile->next;
+		}
+		tc = tc->next;
+	}
 }

@@ -14,6 +14,42 @@ int runtask(t_task *tt)
 	}
 }
 
+int operatereadfile(t_filedir *tf, t_env *te)
+{
+	int filefd;
+
+	if(!tf)
+		return(0);
+	if(!tf->content)
+		return(0);
+	while(tf)
+	{
+		filefd = readfrmfile(tf, te);
+		dup2(filefd, STDIN_FILENO);
+		close(filefd);
+		tf = tf->next;
+	}
+	return(1);
+}
+
+int operatewritefile(t_filedir *tf, t_env *te)
+{
+	int filefd;
+
+	if(!tf)
+		return(0);
+	if(!tf->content)
+		return(0);
+	while(tf)
+	{
+		filefd = copitfile(tf, te);
+		dup2(filefd, STDOUT_FILENO);
+		close(filefd);
+		tf = tf->next;
+	}
+	return(1);
+}
+
 int exectasks(t_task *tt,  t_list *pipelst)
 {
 	int pid;
@@ -25,33 +61,16 @@ int exectasks(t_task *tt,  t_list *pipelst)
 		tt->pid = pid;
 		if(pid == 0)
 		{
-			if (tt->ci)
-			{
-				filefd = readfrmfile(tt);
-				dup2(filefd, STDIN_FILENO);
-				close(filefd);
-			}
-			else
-			{
+			if (!operatereadfile(tt->filesin, tt->env))
 				dup2(tt->in, STDIN_FILENO);
-			}
-			if (tt->co)
-			{
-				filefd = copitfile(tt);
-				dup2(filefd, STDOUT_FILENO);
-				close(filefd);
-			}
-			else
-			{
+			if (!operatewritefile(tt->filesout, tt->env))
 				dup2(tt->out, STDOUT_FILENO);
-			}
 			clearpipes(pipelst);
 			if (tt->c)
 				runtask(tt);
 			else
 				exit (0);
 			errormsg(" command not found", 0);
-			// printf("error ejecutando %s\n", tt->c);
 			exit(127);
 		}
 		
@@ -66,10 +85,10 @@ int waittasks(t_task *tt)
 	int pid;
 	int status;
 	
-	i = 0;
+	i = -1;
 	while(tt)
 	{
-		pid = wait(&status);
+		pid = waitpid(tt->pid, &status, 0);
 		if (pid == tt->pid)
 		{
 			if (WIFEXITED(status) && tt->position > i) 
@@ -77,42 +96,18 @@ int waittasks(t_task *tt)
 				i = tt->position;
 				switchexit(WEXITSTATUS(status), tt->env, 0);
 			}
+			else if (WIFSIGNALED(status)  && tt->position > i) 
+			{
+				i = tt->position;
+				switchexit(WTERMSIG(status), tt->env, 0);
+			}
+			else 
+			{
+				i = tt->position;
+				switchexit(WTERMSIG(status), tt->env, 0);
+			}
 		}
 		tt = tt->next;
-	}
-}
-
-int waittasks2(t_task *tt)
-{
-	int i;
-	int status; // Variable para almacenar el estado del proceso
-    int exit_code; // Variable para el código de salida
-	int combinedexit;
-
-	i = 0;
-	exit_code = 0;
-	while(tt)
-	{
-		// printf("esperando al proceso en pos %i instruccion %s\n", tt->position, tt->c);
-		if (wait(&status) == -1)
-        {
-            perror("wait"); // Manejar errores en caso de fallo
-            return -1;
-        }
-        if (WIFEXITED(status) && tt->position > i) // Verificar si el proceso terminó normalmente
-        {
-			i = tt->position;
-			exit_code = WEXITSTATUS(status); // Extraer el código de salida
-			// printf("toma el valor del proceso en pos %i codigo %i instruccion %s\n", tt->position, exit_code, tt->c);
-			switchexit(exit_code, tt->env, 0);
-        }
-        else if (WIFSIGNALED(status)) 
-        {
-            // printf("Proceso terminado por señal: %d\n", WTERMSIG(status));
-			// switchexit(WTERMSIG(status), tt->env, "saliendo de wait por senhal");
-        }
-
-        tt = tt->next;
 	}
 }
 

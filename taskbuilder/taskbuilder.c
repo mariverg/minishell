@@ -13,9 +13,9 @@
 #include "../minishell.h"
 #include "taskbuilder.h"
 
-int builtins(t_command *tc)
+int builtins(char *c)
 {
-	char *c = tc->args[0];
+	// char *c = tc->args->content;
 	// if (ft_strnstr(c, "=", ft_strlen(c)))
 	// {
 	// 	return (13);
@@ -51,75 +51,77 @@ int builtins(t_command *tc)
 	return (0);
 }
 
-int *extractone(t_task *tt, t_command *tc, t_env *te, int pos)
+
+int filloperator(t_task *tt)
 {
 	int i;
 	char *c;
 
-	if (!tc->args)
+	if (!tt->cc)
 	{
-		lastcom(tt)->next = newtask(0, 0, te, pos);
+		tt->c = 0;
+		tt->operator = 0;
 		return (0);
-	} 
-	else 
-	{
-		i = builtins(tc);
-		if (i)
-		{
-			lastcom(tt)->next = newtask(tc->args[0], tc->args, te, pos);
-			lastcom(tt)->operator = i;
-		}
-		else
-		{
-			c = execinenv(te, tc->args[0]);
-			if (c)
-			{
-				lastcom(tt)->next = newtask(c, tc->args, te, pos);
-				lastcom(tt)->operator = 11;
-			}
-			else
-			{
-				errormsg(" command not found", 0);
-				// perror("%s: command not found\n", tc->args[0]);
-				switchexit(127, te, 0);
-				return(0);
-			}
-		}
 	}
-	if (tc->infile)
+	if (!tt->cc[0])
 	{
-		lastcom(tt)->ci = ft_strdup(tc->infile);
-		lastcom(tt)->intype = tc->in_type;
+		tt->c = 0;
+		tt->operator = 0;
+		return (0);
 	}
-	if (tc->outfile)
+	i = builtins(tt->cc[0]);
+	if (i)
 	{
-		lastcom(tt)->co = ft_strdup(tc->outfile);
-		lastcom(tt)->outtype = tc->out_type;
+		tt->c = tt->cc[0];
+		tt->operator = i;
+		return (0);
 	}
-	return (0);
+	c = execinenv(tt->env, tt->cc[0]);
+	if(c)
+	{
+		tt->c = c;
+		tt->operator = 11;
+		return (0);
+	}
+	errormsg(" command not found", 0);
+	switchexit(127, tt->env, 0);
+	return(0);
 }
 
-t_task *dotaskslist(t_command *tc, t_env *te)
+t_task *extractfromcomand(t_comand *tc, t_env *te, int i)
 {
-	int i = 0;
 	t_task *res;
-	t_task *copy;
-	char *c;
-	int miport = 0;
-	t_command *tcc;
-	
-	tcc = tc;
-	res = newtask(0,0,0,0);
-	while(tc)
+	char **args;
+
+	res = malloc(sizeof(t_task));
+	res->cc = getargs(tc->argslst);
+	res->env = te;
+	filloperator(res);
+	res->filesin = tc->infile;
+	res->filesout = tc->outfile;
+	res->position = i;
+	res->next = 0;
+	return(res);
+}
+
+t_task *dotaskslist(t_comand *tc, t_env *te)
+{
+	int i;
+	t_task *empty;
+	t_task *tp;
+
+	empty = malloc(sizeof(t_task));
+	empty->next = 0;
+	tp = empty;
+	i = 0;
+	while (tc)
 	{
 		i++;
-		extractone(res, tc, te, i);
+		tp->next = extractfromcomand(tc, te, i);
+		tp = tp->next;
 		tc = tc->next;
 	}
-	// stractin(tcc, res->next);
-	// stractout(tcc, lastcom(res));
-	copy = res;
-	res = res->next;
-	free(copy);
-	return (res);
+	tp = empty->next;
+	free(empty);
+	return (tp);
 }
