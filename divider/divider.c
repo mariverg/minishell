@@ -56,3 +56,51 @@ t_comand *makecomands(char *c)
 	freelst(trash);
 	return(pointer);
 }
+
+void free_list(t_list *head)
+{
+    t_list *tmp;
+    while (head)
+    {
+        tmp = head;
+        head = head->next;
+        free(tmp->content);
+        free(tmp);
+    }
+}
+
+void free_filedir(t_filedir *head)
+{
+    t_filedir *tmp;
+    while (head)
+    {
+        tmp = head;
+        head = head->next;
+        free(tmp->content);
+        free(tmp);
+    }
+}
+
+int freecomand(t_comand *cmd)
+{
+    if (!cmd)
+        return(0);
+    free_list(cmd->argslst);
+    free_filedir(cmd->infile);
+    free_filedir(cmd->outfile);
+    free(cmd);
+	return(0);
+}
+
+int freecomands(t_comand *tc)
+{
+	t_comand *copy;
+	
+	while(tc)
+	{
+		copy = tc;
+		tc = tc->next;
+		freecomand(copy);
+	}
+	return (0);
+}

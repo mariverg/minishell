@@ -32,7 +32,6 @@ ENVFILES = ./envbuilder/envbuilder\
  			./envbuilder/envexer
 
 COMFILES = ./taskbuilder/taskbuilder\
-			./taskbuilder/taskbuildertools\
 			./taskbuilder/lsttopoint
 
 TASKPARFILES = ./tasksparser/tasksparser\
@@ -83,6 +82,10 @@ val: $(OBJS) $(LIBFT)
 
 memtest:
 	valgrind ./$(NAME)
+
+fmemtest:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
+
 #all: $(OBJS)
 #	$(CC) -c $< -o $@ $(LIBFT) $(LIBS) $(INCLUDES)
 # gcc $(CFILES) $(LIBFT) $(LIBS) $(INCLUDES) -o $(NAME)

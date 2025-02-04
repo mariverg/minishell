@@ -15,8 +15,6 @@
 
 #include "parseo/parseo.h"
 
-// #include <stdlib.h>		///mallocs
-// #include <signal.h>
 typedef struct s_filedir
 {
 	char	*content;
@@ -26,12 +24,6 @@ typedef struct s_filedir
 
 typedef struct s_comand
 {
-	char				**args;
-	// char				*infile;
-	// char				*outfile;
-	int					in_type;
-	int					out_type;
-	// struct s_command	*next;
 
 	t_list				*argslst;
 	t_filedir			*infile;
@@ -49,16 +41,12 @@ typedef struct s_task {
 	char **cc;
 	t_filedir *filesin;
 	t_filedir *filesout;
-	char *ci;
-	char *co;
-	int intype;
-	int outtype;
 	int position;
 	int pid;
-	struct s_env *env;
 	int operator;
 	int in;
 	int out;
+	struct s_env *env;
 	struct s_task *next;
 } t_task;
 
@@ -79,8 +67,9 @@ int daemonenv(t_task *tt);
 
 void freeenv(t_env *te);
 int freestrs(char **c);
-int freefilelist(t_filedir *tl);
 int freelst(t_list *tl);
+int freecomands(t_comand *tc);
+int freetasklist(t_task *tt);
 
 int command_cdcheck(t_command *c, t_env *te);
 

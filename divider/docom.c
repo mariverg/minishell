@@ -106,6 +106,5 @@ t_comand *getcom(char *c)
 	res->infile = getredir(c, '<');
 	res->outfile = getredir(c, '>');
 	delcomas(res);
-	// prt(res);
 	return (res);
 }

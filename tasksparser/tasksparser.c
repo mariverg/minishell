@@ -61,10 +61,14 @@ int exectasks(t_task *tt,  t_list *pipelst)
 		tt->pid = pid;
 		if(pid == 0)
 		{
-			if (!operatereadfile(tt->filesin, tt->env))
-				dup2(tt->in, STDIN_FILENO);
-			if (!operatewritefile(tt->filesout, tt->env))
-				dup2(tt->out, STDOUT_FILENO);
+			dup2(tt->in, STDIN_FILENO);
+			dup2(tt->out, STDOUT_FILENO);
+			operatereadfile(tt->filesin, tt->env);
+			operatewritefile(tt->filesout, tt->env);
+			// if (!operatereadfile(tt->filesin, tt->env))
+			// 	dup2(tt->in, STDIN_FILENO);
+			// if (!operatewritefile(tt->filesout, tt->env))
+			// 	dup2(tt->out, STDOUT_FILENO);
 			clearpipes(pipelst);
 			if (tt->c)
 				runtask(tt);

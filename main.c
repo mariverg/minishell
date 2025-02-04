@@ -51,6 +51,7 @@ char	*prntpwdline(t_env *te)
 		return (prompt);
 	}
 	return (ft_strdup("unknown_directory > "));
+	return (0);
 }
 
 int	main(int argc, char **argv, char **argenv)
@@ -58,18 +59,15 @@ int	main(int argc, char **argv, char **argenv)
 	t_env		*te;
 	char		*input;
 	t_comand	*comands;
-	t_task		*tc;
+	t_task		*tt;
 
 	blockaction();
-	te = 0;
-	input = 0;
-	comands = 0;
-	tc = 0;
 	te = newenv(argenv);
+	comands = 0;
 	while (1)
 	{
 		// input = 0;
-		// input = "123456789";
+		// input = "ls  | grep o | cat > asd";
 		input = readline(prntpwdline(te));
 		if (!input)
 			break ;
@@ -82,14 +80,18 @@ int	main(int argc, char **argv, char **argenv)
 			// printf("	tras expanddollars input vale>\n %s\n", input);
 		comands = makecomands(input);
 			// prt(comands);
-		tc = dotaskslist(comands, te);
+		tt = dotaskslist(comands, te);
 			// printf("	tasks vale>\n");
 			// printcm(tc);
 			// printf("	tasks over>\n");
-		inittp(tc);
+		inittp(tt);
+
+		freetasklist(tt);
+		freecomands(comands);
 		free(input);
 		// break;
 	}
-	// freeenv(te);
+	rl_clear_history();
+	freeenv(te);
 	return(0);
 }

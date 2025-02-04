@@ -72,7 +72,7 @@ int filloperator(t_task *tt)
 	i = builtins(tt->cc[0]);
 	if (i)
 	{
-		tt->c = tt->cc[0];
+		tt->c = ft_strdup(tt->cc[0]);
 		tt->operator = i;
 		return (0);
 	}
@@ -124,4 +124,24 @@ t_task *dotaskslist(t_comand *tc, t_env *te)
 	tp = empty->next;
 	free(empty);
 	return (tp);
+}
+
+void freetask(t_task *tt)
+{
+	free(tt->c);
+	free(tt->cc);
+	free(tt);
+}
+
+int freetasklist(t_task *tt)
+{
+	t_task *copy;
+
+	while(tt)
+	{
+		copy = tt;
+		tt = tt->next;
+		freetask(copy);
+	}
+	return(0);
 }
