@@ -36,6 +36,7 @@ char *isexec(t_env *te, char **paths, char *target)
 	char *res;
 	char *tmp;
 
+	(void)te;
 	i = stat(target, &mistat);
 	if (i == 0)
 		return (statcero(target, &mistat));

@@ -1,6 +1,5 @@
-#include <fcntl.h>
-#include "../minishell.h" 
 #include <errno.h>
+#include "../minishell.h" 
 
 int copitfile(t_filedir *tc, t_env *env)
 {
@@ -8,13 +7,9 @@ int copitfile(t_filedir *tc, t_env *env)
 	int res;
 
 	if (tc->type == 0)
-	{
 		res = open(tc->content, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	}
 	else
-	{
 		res = open(tc->content, O_CREAT | O_APPEND | O_WRONLY, 0777);
-	}
 	if (res == -1)
 	{
 		errmsg = ft_strjoin(" ", strerror(errno));

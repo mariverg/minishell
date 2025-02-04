@@ -13,7 +13,17 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "parseo/parseo.h"
+#include <fcntl.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <stdio.h>
+#include <sys/wait.h>
+# include "libs/libft/libft.h"
+
+typedef struct s_env {
+	int lastreturn;
+	char **env;
+} t_env;
 
 typedef struct s_filedir
 {
@@ -31,11 +41,6 @@ typedef struct s_comand
 	struct s_comand	*next;
 }						t_comand;
 
-typedef struct s_env {
-	int lastreturn;
-	char **env;
-} t_env;
-
 typedef struct s_task {
 	char *c;
 	char **cc;
@@ -52,54 +57,32 @@ typedef struct s_task {
 
 int strxsize(char **c);
 
-t_task *newcom(char *c, char **cc, t_env *env);
+void blockaction();
+
 t_env *newenv(char **env);
-
-void init_readline_customization(void);
-
-char *getmienv(t_env *te, char *target);
-int setmienv(t_env *te, char *target, char *newenvvar);
-int addmienv (t_env *te, char *target, char *value);
-int delmienv(t_env *te, char *target);
 int actualicepwd(t_env *te);
-int addstrenv(t_env *te, char *c);
+char *getmienv(t_env *te, char *target);
+int delmienv(t_env *te, char *target);
 int daemonenv(t_task *tt);
+
+char *extractdollars(t_env *te, char *c);
+int cancontinue(char *c);
+
+t_comand *makecomands(char *c);
+t_task *dotaskslist(t_comand *tc, t_env *te);
+
+void prntstrs(char **c, int out);
+int printalphabetical(t_task *te, char *toprint, char *max);
+
+int inittp(t_task *tt);
+
+int errormsg(char *msg, char *info);
+int switchexit(int i, t_env *te, char *info);
 
 void freeenv(t_env *te);
 int freestrs(char **c);
 int freelst(t_list *tl);
 int freecomands(t_comand *tc);
 int freetasklist(t_task *tt);
-
-int command_cdcheck(t_command *c, t_env *te);
-
-int numcoms(t_command *tc);
-t_task *dotaskslist(t_comand *tc, t_env *te);
-
-char *execinenv(t_env *te, char *target);
-
-void blockaction();
-void allowaction();
-
-void printcmmm(t_command *current);
-void printcm(t_task *tc);
-void prntstrs(char **c, int out);
-void printline(char *c, int out);
-int printalphabetical(t_task *te, char *toprint, char *max);
-
-// char *expanddollars(t_env *te, char *c);
-
-int inittp(t_task *tt);
-
-int errormsg(char *msg, char *info);
-int switchexit(int i, t_env *te, char *info);
-int exitrtrn(int i, t_env *te, char *msg, char *info);
-
-t_comand *makecomands(char *c);
-void prt(t_comand *tc);
-
-char *extractdollars(t_env *te, char *c);
-void prntstrss(char **c, int out);
-int cancontinue(char *c);
 
 #endif

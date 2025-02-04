@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 
-MAINFILES = main actioner printer memtools
+MAINFILES = main actioner memtools printer
 
 MANAGERFILES = ./manager/manager
 
@@ -19,13 +19,6 @@ PFILES = ./divider/divider\
 			./divider/docom\
 			./divider/divtools\
 			./divider/clearcoma
-
-PARFILES = ./parseo/lexer\
-			./parseo/parser\
-			./parseo/utils\
-			./parseo/utils_parser\
-			./parseo/utils_lexer\
-			./parseo/utils_utils
 
 ENVFILES = ./envbuilder/envbuilder\
  			./envbuilder/envtools\
@@ -42,7 +35,7 @@ TASKPARFILES = ./tasksparser/tasksparser\
 PRECHECKFILES = ./prechecker/expandvars\
 				./prechecker/syntaxerr
 				
-FILES = $(MAINFILES) $(PARFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(HISTORYFILES) $(TASKPARFILES) $(MANAGERFILES) $(PFILES)
+FILES = $(MAINFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(HISTORYFILES) $(TASKPARFILES) $(MANAGERFILES) $(PFILES)
 
 OBJS = $(addsuffix .o, $(FILES))
 
@@ -57,10 +50,10 @@ CFLAGS = -Wall -Werror -Wextra
 all: $(NAME) 
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) -o $(NAME) $(OBJS) $(LIBFT) $(LIBS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LIBS)
 
 %.o: %.c
-	$(CC) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)

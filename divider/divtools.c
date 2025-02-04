@@ -40,25 +40,11 @@ int getspacer(char *c, char *comp)
 }
 
 
-void prntchunks(t_list *tl)
-{
-	while(tl)
-	{
-		printf("un chunk %s\n", (char *)tl->content);
-		tl = tl->next;
-	}
-}
-
-// t_list *addchunk(t_list *onepiece, char *c, int start, int end)
+// void prntchunks(t_list *tl)
 // {
-// 	// printf("anhadiendo de %s desde %i hasta %i\n", c, start, end);
-// 	if (!onepiece)
+// 	while(tl)
 // 	{
-// 		onepiece = ft_lstnew(ft_substr(c, start, end));
+// 		printf("un chunk %s\n", (char *)tl->content);
+// 		tl = tl->next;
 // 	}
-// 	else
-// 	{
-// 		ft_lstlast(onepiece)->next = ft_lstnew(ft_substr(c, start, end));
-// 	}
-// 	return (onepiece);
 // }

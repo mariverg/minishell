@@ -15,6 +15,8 @@
 
 void accion(int i, siginfo_t *si, void *v)
 {
+	(void)si;
+	(void)v;
 	if (i == SIGINT)
 		printf("\n>");
 	else if (i == SIGTSTP) {

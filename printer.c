@@ -15,7 +15,6 @@
 
 #include "minishell.h"
 
-////funciones de utilidad para consultar datos durante los tests, en principio no estaran en la version final
 void printline(char *c, int out)
 {
 	while(*c)
@@ -40,6 +39,7 @@ int hasvalue(char *c)
 	}
 	return (0);
 }
+
 void prntstrs(char **c, int out)
 {
 	int i;
@@ -57,64 +57,6 @@ void prntstrs(char **c, int out)
 	}
 }
 
-//// esta es la antigua, la dejo por que imprime todo
-void prntstrss(char **c, int out)
-{
-	int i;
-
-	i = 0;
-	while(c[i])
-	{
-		printline(c[i], out);
-		printline("\n", out);
-		i++;
-	}
-	printline("fin del array\n", out);
-}
-
-void printcmmm(t_command *current)
-{
-	int i;
-
-	while (current)
-    {
-		printf("Nuevo command\n");
-		i = 0;
-		if (current->args)
-		{
-			while(current->args[i])
-			{
-				printf("El arg %i vale %s\n", i, current->args[i]);	
-				i++;
-			}
-		}
-		printf("infile %s\n", current->infile);
-		printf("outfile %s\n", current->outfile);
-		printf("in_type %i\n", current->in_type);
-		printf("out_type %i\n", current->out_type);	
-        current = current->next;
-    }
-}
-
-void printcm(t_task *tc)
-{
-	
-	while(tc)
-	{
-		printf("Nueva task\n");
-		printf("UN CM :c es %s operator %i\n", tc->c, tc->operator);
-		prntstrss(tc->cc, 1);
-		if (tc->filesin)
-		{
-			printf("hay un file in %s\n", (char *)tc->filesin->content);
-		}
-		if (tc->filesout)
-		{
-			printf("hay un file out %s\n", (char *)tc->filesout->content);
-		}
-		tc = tc->next;
-	}
-}
 
 int comparealpha(char *ca, char *cb)
 {
@@ -139,7 +81,6 @@ int comparealpha(char *ca, char *cb)
 char *firstafter(t_env *te, char *c)
 {
 	int i;
-	int lucky;
 	int lines;
 	char *res;
 
@@ -188,11 +129,12 @@ char *addcomi(char *c)
 int printalphabetical(t_task *te, char *toprint, char *max)
 {
 	int i;
-	int lucky;
 	int lines;
 	char *c;
 	char *mod;
 
+	(void) toprint;
+	(void) max;
 	c = 0;
 	lines = strxsize(te->env->env); 
 	i = 0;
@@ -207,30 +149,4 @@ int printalphabetical(t_task *te, char *toprint, char *max)
 		i++;
 	}
 	return (0);
-}
-
-void prt(t_comand *tc)
-{
-	while (tc)
-	{
-		printf("		argumentos\n");
-		while(tc->argslst)
-		{
-			printf("argumento -%s-\n", (char *)tc->argslst->content);
-			tc->argslst = tc->argslst->next;
-		}
-		printf("		infiles\n");
-		while(tc->infile)
-		{
-			printf("argumento -%s-\n", (char *)tc->infile->content);
-			tc->infile = tc->infile->next;
-		}
-		printf("		outfiles\n");
-		while(tc->outfile)
-		{
-			printf("argumento -%s-\n", (char *)tc->outfile->content);
-			tc->outfile = tc->outfile->next;
-		}
-		tc = tc->next;
-	}
 }

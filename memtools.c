@@ -55,3 +55,27 @@ int freefilelist(t_filedir *tl)
 	}
 	return (0);
 }
+
+int	freecomand(t_comand *cmd)
+{
+	if (!cmd)
+		return (0);
+	freelst(cmd->argslst);
+	freefilelist(cmd->infile);
+	freefilelist(cmd->outfile);
+	free(cmd);
+	return (0);
+}
+
+int	freecomands(t_comand *tc)
+{
+	t_comand *copy;
+	
+	while(tc)
+	{
+		copy = tc;
+		tc = tc->next;
+		freecomand(copy);
+	}
+	return (0);
+}

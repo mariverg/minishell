@@ -82,11 +82,9 @@ char *getmienv(t_env *te, char *target)
 int setmienv(t_env *te, char *target, char *newenvvar)
 {
 	char *aux;
-	int i;
 	int objetivo;
 
 	aux = 0;
-	i = 0;
 	objetivo = getmienvindex(te, target);
 	if (objetivo >= 0)
 	{
@@ -103,7 +101,6 @@ int actualicepwd(t_env *te)
 {
 	char buff[256];
 	char *toerase;
-	int i;
 
 	toerase = getmienv(te, "PWD");
 	setmienv(te, "OLDPWD", toerase);

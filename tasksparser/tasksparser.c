@@ -12,6 +12,7 @@ int runtask(t_task *tt)
 	{
 		execve(tt->c, tt->cc, tt->env->env);
 	}
+	return (0);
 }
 
 int operatereadfile(t_filedir *tf, t_env *te)
@@ -53,7 +54,6 @@ int operatewritefile(t_filedir *tf, t_env *te)
 int exectasks(t_task *tt,  t_list *pipelst)
 {
 	int pid;
-	int filefd;
 
 	while(tt)
 	{
@@ -113,6 +113,7 @@ int waittasks(t_task *tt)
 		}
 		tt = tt->next;
 	}
+	return (0);
 }
 
 int inittp(t_task *tt)

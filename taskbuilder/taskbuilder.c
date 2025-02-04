@@ -15,11 +15,6 @@
 
 int builtins(char *c)
 {
-	// char *c = tc->args->content;
-	// if (ft_strnstr(c, "=", ft_strlen(c)))
-	// {
-	// 	return (13);
-	// }
 	if (ft_strncmp("echo", c, 5) == 0)
 	{
 		return (12);
@@ -91,7 +86,6 @@ int filloperator(t_task *tt)
 t_task *extractfromcomand(t_comand *tc, t_env *te, int i)
 {
 	t_task *res;
-	char **args;
 
 	res = malloc(sizeof(t_task));
 	res->cc = getargs(tc->argslst);

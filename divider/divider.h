@@ -8,6 +8,6 @@ int getspacer(char *c, char *comp);
 int istruncker(char c, char *comp);
 
 // t_list *addchunk(t_list *onepiece, char *c, int start, int end);
-void prntchunks(t_list *tl);
+// void prntchunks(t_list *tl);
 
 int delcomas(t_comand *tc);

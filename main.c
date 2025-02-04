@@ -15,13 +15,8 @@
 
 #include "libs/libft/libft.h"
 #include "minishell.h"
-#include "parseo/parseo.h"
 #include "divider/divider.h"
-#include <fcntl.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <sys/wait.h>
+
 
 char	*prntpwdline(t_env *te)
 {
@@ -30,8 +25,6 @@ char	*prntpwdline(t_env *te)
 	size_t	dir_len;
 
 	actualicepwd(te);
-	// directorio = getmienv(te, "PWD");
-	// char *getcwd(char *buf, size_t size);
 	directorio = getcwd(0,0);
 	if (directorio)
 	{
@@ -51,7 +44,6 @@ char	*prntpwdline(t_env *te)
 		return (prompt);
 	}
 	return (ft_strdup("unknown_directory > "));
-	return (0);
 }
 
 int	main(int argc, char **argv, char **argenv)
@@ -61,13 +53,13 @@ int	main(int argc, char **argv, char **argenv)
 	t_comand	*comands;
 	t_task		*tt;
 
+	(void)argc;
+    (void)argv;
 	blockaction();
 	te = newenv(argenv);
 	comands = 0;
 	while (1)
 	{
-		// input = 0;
-		// input = "ls  | grep o | cat > asd";
 		input = readline(prntpwdline(te));
 		if (!input)
 			break ;
@@ -77,19 +69,12 @@ int	main(int argc, char **argv, char **argenv)
 		input = extractdollars(te, input);
 		if (!cancontinue(input))
 			continue;
-			// printf("	tras expanddollars input vale>\n %s\n", input);
 		comands = makecomands(input);
-			// prt(comands);
 		tt = dotaskslist(comands, te);
-			// printf("	tasks vale>\n");
-			// printcm(tc);
-			// printf("	tasks over>\n");
 		inittp(tt);
-
 		freetasklist(tt);
 		freecomands(comands);
 		free(input);
-		// break;
 	}
 	rl_clear_history();
 	freeenv(te);

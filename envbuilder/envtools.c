@@ -37,6 +37,7 @@ char *targetspaced(char *c)
 		i++;
 	}
 	res = ft_substr(c, 0 , i);
+	return(res);
 }
 
 //// devuelve el indice de una varialbe de entorno si existe, si no -1;
@@ -165,7 +166,6 @@ int addstrenv(t_env *te, char *c)
 
 int daemonenv(t_task *tt)
 {
-	char *left;
 	char *aux;
 	char *c;
 	int i;
