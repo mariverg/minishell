@@ -60,18 +60,18 @@ int	filloperator(t_task *tt)
 	{
 		tt->c = ft_strdup(tt->cc[0]);
 		tt->operator = i;
-		return (0);
+		return (1);
 	}
 	c = execinenv(tt->env, tt->cc[0]);
 	if (c)
 	{
 		tt->c = c;
 		tt->operator = 11;
-		return (0);
+		return (1);
 	}
 	errormsg(" command not found", 0);
 	switchexit(127, tt->env, 0);
-	return (0);
+	return (-1);
 }
 
 t_task	*extractfromcomand(t_comand *tc, t_env *te, int i)
@@ -79,9 +79,12 @@ t_task	*extractfromcomand(t_comand *tc, t_env *te, int i)
 	t_task	*res;
 
 	res = malloc(sizeof(t_task));
+	if (!res)
+		return (0);
 	res->cc = getargs(tc->argslst);
 	res->env = te;
-	filloperator(res);
+	if (filloperator(res) == -1)
+		return (0);
 	res->filesin = tc->infile;
 	res->filesout = tc->outfile;
 	res->position = i;
@@ -103,6 +106,8 @@ t_task	*dotaskslist(t_comand *tc, t_env *te)
 	{
 		i++;
 		tp->next = extractfromcomand(tc, te, i);
+		if (!tp->next)
+			return (0);
 		tp = tp->next;
 		tc = tc->next;
 	}

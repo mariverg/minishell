@@ -58,7 +58,7 @@ typedef struct s_task
 }	t_task;
 
 int			strxsize(char **c);
-
+char		*prntpwdline(t_env *te);
 void		blockaction(void);
 
 t_env		*newenv(char **env);

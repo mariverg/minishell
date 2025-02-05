@@ -52,17 +52,10 @@ void	clearcicle(char *input, t_comand *comands, t_task *tt)
 	free(input);
 }
 
-char	*calcinput(t_env *te)
+void	freeandclose(t_env *te)
 {
-	char	*input;
-
-	input = readline(prntpwdline(te));
-	if (!input)
-		return (0);
-	if (*input)
-		add_history(input);
-	input = extractdollars(te, input);
-	return (input);
+	rl_clear_history();
+	freeenv(te);
 }
 
 int	main(int argc, char **argv, char **argenv)
@@ -76,12 +69,13 @@ int	main(int argc, char **argv, char **argenv)
 	(void)argv;
 	blockaction();
 	te = newenv(argenv);
-	comands = 0;
 	while (1)
 	{
-		input = calcinput(te);
+		input = readline(prntpwdline(te));
 		if (!input)
 			break ;
+		add_history(input);
+		input = extractdollars(te, input);
 		if (!cancontinue(input))
 			continue ;
 		comands = makecomands(input);
@@ -89,41 +83,6 @@ int	main(int argc, char **argv, char **argenv)
 		inittp(tt);
 		clearcicle(input, comands, tt);
 	}
-	rl_clear_history();
-	freeenv(te);
+	freeandclose(te);
 	return (0);
 }
-
-/*int	main(int argc, char **argv, char **argenv)
-{
-	t_env		*te;
-	char		*input;
-	t_comand	*comands;
-	t_task		*tt;
-
-	(void)argc;
-	(void)argv;
-	blockaction();
-	te = newenv(argenv);
-	comands = 0;
-	while (1)
-	{
-		input = readline(prntpwdline(te));
-		if (!input)
-			break ;
-		if (*input)
-			add_history(input);
-		input = extractdollars(te, input);
-		if (!cancontinue(input))
-			continue ;
-		comands = makecomands(input);
-		tt = dotaskslist(comands, te);
-		inittp(tt);
-		freetasklist(tt);
-		freecomands(comands);
-		free(input);
-	}
-	rl_clear_history();
-	freeenv(te);
-	return (0);
-}*/

@@ -102,6 +102,8 @@ int	actualicepwd(t_env *te)
 	char	buff[256];
 	char	*toerase;
 
+	if (!te)
+		return (0);
 	toerase = getmienv(te, "PWD");
 	setmienv(te, "OLDPWD", toerase);
 	if (toerase)
