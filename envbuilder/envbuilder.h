@@ -12,12 +12,12 @@
 
 #ifndef ENVBUILDER_H
 # define ENVBUILDER_H
-#include "../minishell.h"
-#include "../libs/libft/libft.h"
+# include "../minishell.h"
+# include "../libs/libft/libft.h"
 
-#include <sys/stat.h>
-
-int getmienvindex(t_env *te, char *target);
-int setmienv(t_env *te, char *target, char *newenvvar);
-int daemonenv(t_task *tt);
+int		getmienvindex(t_env *te, char *target);
+int		setmienv(t_env *te, char *target, char *newenvvar);
+int		daemonenv(t_task *tt);
+char	*targetspaced(char *c);
+int		addstrenv(t_env *te, char *c);
 #endif

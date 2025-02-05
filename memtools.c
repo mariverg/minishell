@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-int freestrs(char **c)
+int	freestrs(char **c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (c[i])
@@ -23,14 +23,14 @@ int freestrs(char **c)
 		i++;
 	}
 	free(c);
-	return(0);
+	return (0);
 }
 
-int freelst(t_list *tl)
+int	freelst(t_list *tl)
 {
-	t_list *chain;
+	t_list	*chain;
 
-	while(tl)
+	while (tl)
 	{
 		chain = tl;
 		tl = tl->next;
@@ -41,11 +41,11 @@ int freelst(t_list *tl)
 	return (0);
 }
 
-int freefilelist(t_filedir *tl)
+int	freefilelist(t_filedir *tl)
 {
-	t_filedir *chain;
+	t_filedir	*chain;
 
-	while(tl)
+	while (tl)
 	{
 		chain = tl;
 		tl = tl->next;
@@ -69,9 +69,9 @@ int	freecomand(t_comand *cmd)
 
 int	freecomands(t_comand *tc)
 {
-	t_comand *copy;
-	
-	while(tc)
+	t_comand	*copy;
+
+	while (tc)
 	{
 		copy = tc;
 		tc = tc->next;

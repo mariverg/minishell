@@ -1,11 +1,11 @@
 #include "../minishell.h"
 
-char **getargs(t_list *tl)
+char	**getargs(t_list *tl)
 {
-	char **res;
-	int i;
-	int j;
-	t_list *copy;
+	char	**res;
+	int		i;
+	int		j;
+	t_list	*copy;
 
 	i = 0;
 	copy = tl;
@@ -20,9 +20,9 @@ char **getargs(t_list *tl)
 	while (j < i)
 	{
 		res[j] = copy->content;
-		copy = copy->next; 
+		copy = copy->next;
 		j++;
 	}
 	res[j] = 0;
-	return(res);
+	return (res);
 }

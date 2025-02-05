@@ -10,24 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <stdio.h>
+#include "minishell.h"
 
-void accion(int i, siginfo_t *si, void *v)
+void	accion(int i, siginfo_t *si, void *v)
 {
 	(void)si;
 	(void)v;
 	if (i == SIGINT)
 		printf("\n>");
-	else if (i == SIGTSTP) {
-        // No hacer nada para SIGTSTP (Ctrl+Z)
-    }
+	else if (i == SIGTSTP)
+	{
+		return ;
+	}
 }
 
-///bloquea acciones 
-void blockaction()
+void	blockaction(void)
 {
-	struct sigaction sac;
+	struct sigaction	sac;
+
 	sac.sa_sigaction = accion;
 	sigemptyset(&sac.sa_mask);
 	sac.sa_flags = SA_RESTART;
@@ -35,10 +35,10 @@ void blockaction()
 	sigaction(SIGINT, &sac, 0);
 }
 
-///permite acciones
-void allowaction()
+void	allowaction(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
+
 	sa.sa_handler = SIG_DFL;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;

@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int errormsg(char *msg, char *info)
+int	errormsg(char *msg, char *info)
 {
 	write(STDERR_FILENO, msg, ft_strlen(msg));
 	write(STDERR_FILENO, "\n", 1);
@@ -9,7 +9,7 @@ int errormsg(char *msg, char *info)
 	return (0);
 }
 
-int switchexit(int i, t_env *te, char *info)
+int	switchexit(int i, t_env *te, char *info)
 {
 	te->lastreturn = i;
 	if (info)
@@ -17,7 +17,7 @@ int switchexit(int i, t_env *te, char *info)
 	return (0);
 }
 
-int exitrtrn(int i, t_env *te, char *msg, char *info)
+int	exitrtrn(int i, t_env *te, char *msg, char *info)
 {
 	errormsg(msg, 0);
 	switchexit(i, te, info);

@@ -12,14 +12,14 @@
 
 #include "envbuilder.h"
 
-t_env *newenv(char **env)
+t_env	*newenv(char **env)
 {
-	t_env *res;
-	char *aux;
-	int level;
-	int i;
+	t_env	*res;
+	char	*aux;
+	int		level;
+	int		i;
 
-	res =  malloc(sizeof(t_env));
+	res = malloc(sizeof(t_env));
 	res->lastreturn = 0;
 	res->env = malloc(sizeof(char *) * (strxsize(env) + 1));
 	i = 0;
@@ -39,14 +39,14 @@ t_env *newenv(char **env)
 	return (res);
 }
 
-int getequalposplus(char *c)
+int	getequalposplus(char *c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (c[i])
 	{
-		if(c[i] == '=')
+		if (c[i] == '=')
 			return (i + 1);
 		else if (c[i] == ' ' || c[i] == 0)
 			return (-1);
@@ -55,19 +55,19 @@ int getequalposplus(char *c)
 	return (-1);
 }
 
-char *getmienv(t_env *te, char *target)
+char	*getmienv(t_env *te, char *target)
 {
-	char *res;
-	char *aux;
-	int i;
+	char	*res;
+	char	*aux;
+	int		i;
 
 	res = 0;
 	if (*target == 0 || *target == ' ')
 	{
-		return(ft_strdup("$"));
+		return (ft_strdup("$"));
 	}
 	if (ft_strncmp(target, "?", 1) == 0)
-		return(ft_itoa(te->lastreturn));
+		return (ft_itoa(te->lastreturn));
 	i = getmienvindex(te, target);
 	if (i == -1)
 		return (0);
@@ -79,10 +79,10 @@ char *getmienv(t_env *te, char *target)
 	return (res);
 }
 
-int setmienv(t_env *te, char *target, char *newenvvar)
+int	setmienv(t_env *te, char *target, char *newenvvar)
 {
-	char *aux;
-	int objetivo;
+	char	*aux;
+	int		objetivo;
 
 	aux = 0;
 	objetivo = getmienvindex(te, target);
@@ -97,10 +97,10 @@ int setmienv(t_env *te, char *target, char *newenvvar)
 	return (0);
 }
 
-int actualicepwd(t_env *te)
+int	actualicepwd(t_env *te)
 {
-	char buff[256];
-	char *toerase;
+	char	buff[256];
+	char	*toerase;
 
 	toerase = getmienv(te, "PWD");
 	setmienv(te, "OLDPWD", toerase);
@@ -108,20 +108,6 @@ int actualicepwd(t_env *te)
 	{
 		free(toerase);
 	}
-	setmienv(te, "PWD", getcwd(buff,256));
+	setmienv(te, "PWD", getcwd(buff, 256));
 	return (0);
-}
-
-void freeenv(t_env *te)
-{
-	int i;
-
-	i = 0;
-	while(te->env[i])
-	{
-		free(te->env[i]);
-		i++;
-	}
-	free(te->env);
-	free(te);
 }

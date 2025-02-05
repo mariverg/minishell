@@ -1,21 +1,21 @@
 #include "divider.h"
 
-int istruncker(char c, char *comp)
+int	istruncker(char c, char *comp)
 {
 	while (*comp)
 	{
-		if(c == *comp)
+		if (c == *comp)
 			return (1);
 		comp++;
 	}
 	return (0);
 }
 
-int getspacer(char *c, char *comp)
+int	getspacer(char *c, char *comp)
 {
-	int one;
-	int two;
-	int i;
+	int	one;
+	int	two;
+	int	i;
 
 	i = 0;
 	one = -1;
@@ -38,13 +38,3 @@ int getspacer(char *c, char *comp)
 	}
 	return (i);
 }
-
-
-// void prntchunks(t_list *tl)
-// {
-// 	while(tl)
-// 	{
-// 		printf("un chunk %s\n", (char *)tl->content);
-// 		tl = tl->next;
-// 	}
-// }

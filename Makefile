@@ -11,26 +11,32 @@
 # **************************************************************************** #
 
 
-MAINFILES = main actioner memtools printer
+MAINFILES = main actioner memtools printer printenv
 
 MANAGERFILES = ./manager/manager
 
 PFILES = ./divider/divider\
 			./divider/docom\
 			./divider/divtools\
-			./divider/clearcoma
+			./divider/clearcoma\
+			./divider/divfilllst\
+			./divider/divredirs
 
 ENVFILES = ./envbuilder/envbuilder\
  			./envbuilder/envtools\
- 			./envbuilder/envexer
+ 			./envbuilder/envexer\
+			./envbuilder/envtoolsb\
+			./envbuilder/envdeleter
 
 COMFILES = ./taskbuilder/taskbuilder\
-			./taskbuilder/lsttopoint
+			./taskbuilder/lsttopoint\
+			./taskbuilder/tbtools
 
 TASKPARFILES = ./tasksparser/tasksparser\
 				./tasksparser/filetasks\
 				./tasksparser/builttasks\
-				./tasksparser/pipetasks
+				./tasksparser/pipetasks\
+				./tasksparser/taskwaiter
 
 PRECHECKFILES = ./prechecker/expandvars\
 				./prechecker/syntaxerr

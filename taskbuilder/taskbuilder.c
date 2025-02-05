@@ -10,48 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
 #include "taskbuilder.h"
 
-int builtins(char *c)
+int	builtins(char *c)
 {
 	if (ft_strncmp("echo", c, 5) == 0)
-	{
 		return (12);
-	}
 	else if (ft_strncmp("pwd", c, 4) == 0)
-	{
 		return (12);
-	}
 	else if (ft_strncmp("env", c, 4) == 0)
-	{
 		return (12);
-	}
 	else if (ft_strncmp("export", c, 7) == 0)
-	{
 		return (21);
-	}
 	else if (ft_strncmp("cd", c, 3) == 0)
-	{
 		return (21);
-	}
 	else if (ft_strncmp("unset", c, 6) == 0)
-	{
 		return (21);
-	}
 	else if (ft_strncmp("exit", c, 5) == 0)
-	{
 		return (21);
-	}
 	return (0);
 }
 
-
-int filloperator(t_task *tt)
+int	validtask(t_task *tt)
 {
-	int i;
-	char *c;
-
 	if (!tt->cc)
 	{
 		tt->c = 0;
@@ -64,6 +45,16 @@ int filloperator(t_task *tt)
 		tt->operator = 0;
 		return (0);
 	}
+	return (1);
+}
+
+int	filloperator(t_task *tt)
+{
+	int		i;
+	char	*c;
+
+	if (!validtask(tt))
+		return (0);
 	i = builtins(tt->cc[0]);
 	if (i)
 	{
@@ -72,7 +63,7 @@ int filloperator(t_task *tt)
 		return (0);
 	}
 	c = execinenv(tt->env, tt->cc[0]);
-	if(c)
+	if (c)
 	{
 		tt->c = c;
 		tt->operator = 11;
@@ -80,12 +71,12 @@ int filloperator(t_task *tt)
 	}
 	errormsg(" command not found", 0);
 	switchexit(127, tt->env, 0);
-	return(0);
+	return (0);
 }
 
-t_task *extractfromcomand(t_comand *tc, t_env *te, int i)
+t_task	*extractfromcomand(t_comand *tc, t_env *te, int i)
 {
-	t_task *res;
+	t_task	*res;
 
 	res = malloc(sizeof(t_task));
 	res->cc = getargs(tc->argslst);
@@ -95,14 +86,14 @@ t_task *extractfromcomand(t_comand *tc, t_env *te, int i)
 	res->filesout = tc->outfile;
 	res->position = i;
 	res->next = 0;
-	return(res);
+	return (res);
 }
 
-t_task *dotaskslist(t_comand *tc, t_env *te)
+t_task	*dotaskslist(t_comand *tc, t_env *te)
 {
-	int i;
-	t_task *empty;
-	t_task *tp;
+	int		i;
+	t_task	*empty;
+	t_task	*tp;
 
 	empty = malloc(sizeof(t_task));
 	empty->next = 0;
@@ -118,24 +109,4 @@ t_task *dotaskslist(t_comand *tc, t_env *te)
 	tp = empty->next;
 	free(empty);
 	return (tp);
-}
-
-void freetask(t_task *tt)
-{
-	free(tt->c);
-	free(tt->cc);
-	free(tt);
-}
-
-int freetasklist(t_task *tt)
-{
-	t_task *copy;
-
-	while(tt)
-	{
-		copy = tt;
-		tt = tt->next;
-		freetask(copy);
-	}
-	return(0);
 }

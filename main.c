@@ -17,7 +17,6 @@
 #include "minishell.h"
 #include "divider/divider.h"
 
-
 char	*prntpwdline(t_env *te)
 {
 	char	*directorio;
@@ -25,7 +24,7 @@ char	*prntpwdline(t_env *te)
 	size_t	dir_len;
 
 	actualicepwd(te);
-	directorio = getcwd(0,0);
+	directorio = getcwd(0, 0);
 	if (directorio)
 	{
 		dir_len = ft_strlen(directorio);
@@ -46,6 +45,26 @@ char	*prntpwdline(t_env *te)
 	return (ft_strdup("unknown_directory > "));
 }
 
+void	clearcicle(char *input, t_comand *comands, t_task *tt)
+{
+	freetasklist(tt);
+	freecomands(comands);
+	free(input);
+}
+
+char	*calcinput(t_env *te)
+{
+	char	*input;
+
+	input = readline(prntpwdline(te));
+	if (!input)
+		return (0);
+	if (*input)
+		add_history(input);
+	input = extractdollars(te, input);
+	return (input);
+}
+
 int	main(int argc, char **argv, char **argenv)
 {
 	t_env		*te;
@@ -54,7 +73,36 @@ int	main(int argc, char **argv, char **argenv)
 	t_task		*tt;
 
 	(void)argc;
-    (void)argv;
+	(void)argv;
+	blockaction();
+	te = newenv(argenv);
+	comands = 0;
+	while (1)
+	{
+		input = calcinput(te);
+		if (!input)
+			break ;
+		if (!cancontinue(input))
+			continue ;
+		comands = makecomands(input);
+		tt = dotaskslist(comands, te);
+		inittp(tt);
+		clearcicle(input, comands, tt);
+	}
+	rl_clear_history();
+	freeenv(te);
+	return (0);
+}
+
+/*int	main(int argc, char **argv, char **argenv)
+{
+	t_env		*te;
+	char		*input;
+	t_comand	*comands;
+	t_task		*tt;
+
+	(void)argc;
+	(void)argv;
 	blockaction();
 	te = newenv(argenv);
 	comands = 0;
@@ -65,10 +113,9 @@ int	main(int argc, char **argv, char **argenv)
 			break ;
 		if (*input)
 			add_history(input);
-
 		input = extractdollars(te, input);
 		if (!cancontinue(input))
-			continue;
+			continue ;
 		comands = makecomands(input);
 		tt = dotaskslist(comands, te);
 		inittp(tt);
@@ -78,5 +125,5 @@ int	main(int argc, char **argv, char **argenv)
 	}
 	rl_clear_history();
 	freeenv(te);
-	return(0);
-}
+	return (0);
+}*/
