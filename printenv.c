@@ -65,6 +65,7 @@ char	*addcomi(char *c)
 	t_list	*tl;
 	int		i;
 
+	i = 0;
 	while (c[i] != 0 && c[i] != '=')
 		i++;
 	tl = ft_lstnew(ft_substr(c, 0, i + 1));

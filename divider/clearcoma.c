@@ -20,46 +20,6 @@ char	*concatlst(t_list *tl)
 	return (res);
 }
 
-/*void	filllsts(t_list *empty, char *c)
-{
-	int	i;
-	int	simp;
-	int	doble;
-
-	i = 0;
-	simp = -1;
-	doble = -1;
-	while (c[i])
-	{
-		if (c[i] == '\'' && doble == -1)
-		{
-			if (i > 0)
-			{
-				ft_lstlast(empty)->next = ft_lstnew(ft_substr(c, 0, i));
-				c = c + i;
-				i = 0;
-			}
-			c++;
-			simp = -simp;
-		}
-		else if (c[i] == '\"' && simp == -1)
-		{
-			if (i > 0)
-			{
-				ft_lstlast(empty)->next = ft_lstnew(ft_substr(c, 0, i));
-				c = c + i;
-				i = 0;
-			}
-			c++;
-			doble = -doble;
-		}
-		else
-			i++;
-	}
-	if (i > 0)
-		ft_lstlast(empty)->next = ft_lstnew(ft_substr(c, 0, i));
-}*/
-
 char	*deletecoma(char *c)
 {
 	char	*res;
