@@ -13,6 +13,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "libs/libft/libft.h"
 #include "minishell.h"
 #include "divider/divider.h"
