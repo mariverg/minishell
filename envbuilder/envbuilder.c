@@ -15,27 +15,11 @@
 t_env	*newenv(char **env)
 {
 	t_env	*res;
-	char	*aux;
-	int		level;
-	int		i;
 
 	res = malloc(sizeof(t_env));
 	res->lastreturn = 0;
-	res->env = malloc(sizeof(char *) * (strxsize(env) + 1));
-	i = 0;
-	while (*env)
-	{
-		res->env[i] = ft_strdup(*env);
-		env++;
-		i++;
-	}
-	res->env[i] = 0;
-	aux = getmienv(res, "SHLVL");
-	level = ft_atoi(aux) + 1;
-	free(aux);
-	aux = ft_itoa(level);
-	setmienv(res, "SHLVL", aux);
-	free(aux);
+	fillenv(res, env);
+	updateshlvl(res);
 	return (res);
 }
 

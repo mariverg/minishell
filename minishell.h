@@ -69,7 +69,7 @@ int			daemonenv(t_task *tt);
 void		fillpwd(t_env *te);
 
 char		*extractdollars(t_env *te, char *c);
-int			cancontinue(char *c);
+int			cancontinue(char *c, t_env *te);
 
 t_comand	*makecomands(char *c);
 t_task		*dotaskslist(t_comand *tc, t_env *te);

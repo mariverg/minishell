@@ -16,5 +16,6 @@
 # include "../minishell.h"
 
 int	validchar(char c);
+int hasstxerrcomp(char *c);
 
 #endif

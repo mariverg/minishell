@@ -58,12 +58,23 @@ int hasstxerr(char *c)
 	return (0);
 }
 
-int	cancontinue(char *c)
+int	cancontinue(char *c, t_env *te)
 {
 	if (!c)
 		return (0);
 	if (hasstxerr(c))
+	{
+		errormsg(" syntax error", 0);
+		switchexit(2, te, 0);
 		return (0);
+	}
+	if (hasstxerrcomp(c))
+	{
+		errormsg(" syntax error", 0);
+		switchexit(2, te, 0);
+		return (0);
+	}
+		
 	return (1);
 }
 

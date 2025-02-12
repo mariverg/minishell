@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **argenv)
 			break ;
 		add_history(input);
 		input = extractdollars(te, input);
-		if (!cancontinue(input))
+		if (!cancontinue(input, te))
 			continue ;
 		comands = makecomands(input);
 		tt = dotaskslist(comands, te);
