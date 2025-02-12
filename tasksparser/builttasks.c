@@ -38,6 +38,7 @@ int	changedir(t_task *tt)
 		write(STDERR_FILENO, " No such file or directory\n", 26);
 		switchexit(1, tt->env, 0);
 	}
+	fillpwd(tt->env);
 	return (0);
 }
 

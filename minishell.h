@@ -58,7 +58,7 @@ typedef struct s_task
 }	t_task;
 
 int			strxsize(char **c);
-char		*prntpwdline(t_env *te);
+// char		*prntpwdline(t_env *te);
 void		blockaction(void);
 
 t_env		*newenv(char **env);
@@ -66,6 +66,7 @@ int			actualicepwd(t_env *te);
 char		*getmienv(t_env *te, char *target);
 int			delmienv(t_env *te, char *target);
 int			daemonenv(t_task *tt);
+void		fillpwd(t_env *te);
 
 char		*extractdollars(t_env *te, char *c);
 int			cancontinue(char *c);

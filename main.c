@@ -17,13 +17,12 @@
 #include "minishell.h"
 #include "divider/divider.h"
 
-char	*prntpwdline(t_env *te)
+char	*prntpwdline()
 {
 	char	*directorio;
 	char	*prompt;
 	size_t	dir_len;
 
-	actualicepwd(te);
 	directorio = getcwd(0, 0);
 	if (directorio)
 	{
@@ -71,7 +70,7 @@ int	main(int argc, char **argv, char **argenv)
 	te = newenv(argenv);
 	while (1)
 	{
-		input = readline(prntpwdline(te));
+		input = readline(prntpwdline());
 		if (!input)
 			break ;
 		add_history(input);

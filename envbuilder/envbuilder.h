@@ -20,4 +20,5 @@ int		setmienv(t_env *te, char *target, char *newenvvar);
 int		daemonenv(t_task *tt);
 char	*targetspaced(char *c);
 int		addstrenv(t_env *te, char *c);
+int		addmienv(t_env *te, char *target, char *value);
 #endif

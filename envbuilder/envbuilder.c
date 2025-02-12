@@ -101,6 +101,7 @@ int	actualicepwd(t_env *te)
 {
 	char	buff[256];
 	char	*toerase;
+	int		objetivo;
 
 	if (!te)
 		return (0);
@@ -110,6 +111,8 @@ int	actualicepwd(t_env *te)
 	{
 		free(toerase);
 	}
-	setmienv(te, "PWD", getcwd(buff, 256));
+	objetivo = getmienvindex(te, "PWD");
+	if (objetivo >= 0)
+		setmienv(te, "PWD", getcwd(buff, 256));
 	return (0);
 }

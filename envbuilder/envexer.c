@@ -82,3 +82,42 @@ char	*execinenv(t_env *te, char *target)
 	}
 	return (torun);
 }
+
+void	filloldpwd(t_env *te)
+{
+	char	*c;
+	int		objetivo;
+
+	objetivo = getmienvindex(te, "OLDPWD");
+	if (objetivo >= 0)
+	{
+		c = getmienv(te, "PWD");
+		setmienv(te, "OLDPWD", c);
+		if (c)
+			free (c);
+	}
+	else
+	{
+		c = getmienv(te, "PWD");
+		addmienv(te, "OLDPWD", 0);
+		if (c)
+			free (c);
+	}
+}
+
+void	fillpwd(t_env *te)
+{
+	char	buff[256];
+	int		objetivo;
+
+	filloldpwd(te);
+	objetivo = getmienvindex(te, "PWD");
+	if (objetivo >= 0)
+	{
+		setmienv(te, "PWD", getcwd(buff, 256));
+	}
+	else
+	{
+		addmienv(te, "PWD", getcwd(buff, 256));
+	}
+}
