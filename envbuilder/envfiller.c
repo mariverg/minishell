@@ -1,6 +1,6 @@
 #include "envbuilder.h"
 
-void updateshlvl(t_env *res)
+void	updateshlvl(t_env *res)
 {
 	int		level;
 	char	*aux;

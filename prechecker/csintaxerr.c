@@ -1,18 +1,11 @@
 #include "prechecker.h"
 
-struct sxtracker
+struct s_sxtracker	*newst(void)
 {
-	int	apipe;
-	int	aminus;
-	int	amore;
-};
+	struct s_sxtracker	*res;
 
-struct sxtracker *newst()
-{
-	struct sxtracker *res;
-
-	res = malloc(sizeof(struct sxtracker));
-	if(!res)
+	res = malloc(sizeof(struct s_sxtracker));
+	if (!res)
 		return (0);
 	res->apipe = 1;
 	res->aminus = 0;
@@ -20,7 +13,7 @@ struct sxtracker *newst()
 	return (res);
 }
 
-int updatest(char c, struct sxtracker *st)
+int	updatest(char c, struct s_sxtracker *st)
 {
 	if (c == ' ' || c == '\t')
 		return (1);
@@ -43,20 +36,20 @@ int updatest(char c, struct sxtracker *st)
 	return (1);
 }
 
-int hasstxerrcomp(char *c)
+int	hasstxerrcomp(char *c)
 {
-	int simple;
-	int doble;
-	struct sxtracker *st;
-	
+	int					simple;
+	int					doble;
+	struct s_sxtracker	*st;
+
 	simple = -1;
 	doble = -1;
 	st = newst();
 	while (*c)
 	{
-		if(*c == '\'' && doble == -1)
+		if (*c == '\'' && doble == -1)
 			simple = -simple;
-		if(*c == '"' && simple == -1)
+		if (*c == '"' && simple == -1)
 			doble = -doble;
 		if (simple == -1 && doble == -1 && !updatest(*c, st))
 		{

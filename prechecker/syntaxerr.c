@@ -18,7 +18,7 @@ int	validchar(char c)
 	return (1);
 }
 
-int stxerrchar(char c)
+int	stxerrchar(char c)
 {
 	int		i;
 	char	*taboos;
@@ -36,18 +36,18 @@ int stxerrchar(char c)
 	return (1);
 }
 
-int hasstxerr(char *c)
+int	hasstxerr(char *c)
 {
-	int simple;
-	int doble;
+	int	simple;
+	int	doble;
 
 	simple = -1;
 	doble = -1;
 	while (*c)
 	{
-		if(*c == '\'' && doble == -1)
+		if (*c == '\'' && doble == -1)
 			simple = -simple;
-		if(*c == '"' && simple == -1)
+		if (*c == '"' && simple == -1)
 			doble = -doble;
 		if (simple == -1 && doble == -1 && stxerrchar(*c) == 0)
 			return (1);
@@ -74,7 +74,5 @@ int	cancontinue(char *c, t_env *te)
 		switchexit(2, te, 0);
 		return (0);
 	}
-		
 	return (1);
 }
-

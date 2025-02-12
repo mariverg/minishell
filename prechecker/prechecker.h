@@ -15,7 +15,14 @@
 
 # include "../minishell.h"
 
+struct s_sxtracker
+{
+	int	apipe;
+	int	aminus;
+	int	amore;
+};
+
 int	validchar(char c);
-int hasstxerrcomp(char *c);
+int	hasstxerrcomp(char *c);
 
 #endif

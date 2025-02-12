@@ -17,7 +17,7 @@
 #include "minishell.h"
 #include "divider/divider.h"
 
-char	*prntpwdline()
+char	*prntpwdline(void)
 {
 	char	*directorio;
 	char	*prompt;
