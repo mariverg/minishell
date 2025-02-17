@@ -20,9 +20,26 @@ int	copitfile(t_filedir *tc, t_env *env)
 	return (res);
 }
 
+void	addcero(char c[1024])
+{
+	int	i;
+
+	i = 0;
+	while (c[i])
+	{
+		if (c[i] == '\n')
+		{
+			c[i] = 0;
+			return ;
+		}
+		i++;
+	}
+}
+
 int	stallprocess(t_filedir *tc, t_env *env)
 {
-	char	*c;
+	char	c[1024];
+	char	*comp;
 	int		fd[2];
 	size_t	l;
 
@@ -30,17 +47,17 @@ int	stallprocess(t_filedir *tc, t_env *env)
 	l = ft_strlen(tc->content);
 	while (1)
 	{
-		c = readline(">");
-		if (!c)
+		write(1, "> ", 2);
+		read(1, c, 1024);
+		addcero(c);
+		if (*c == 0)
 			write(fd[1], "\n", 1);
-		else if (*c == 0)
-			write(fd[1], "\n", 1);
-		else if (ft_strncmp(c, tc->content, l) == 0 && ft_strlen(c) == l)
+		else if (ft_strncmp(c, tc->content, l) == 0 && c[l] == 0)
 			break ;
 		else
 		{
-			c = extractdollars(env, c);
-			write(fd[1], c, ft_strlen(c));
+			comp = extractdollars(env, c);
+			write(fd[1], comp, ft_strlen(comp));
 			write(fd[1], "\n", 1);
 		}
 	}
@@ -57,7 +74,7 @@ int	readfrmfile(t_filedir *tc, t_env *env)
 		res = open(tc->content, O_RDONLY);
 	else
 	{
-		return (stallprocess(tc, env));
+		res = stallprocess(tc, env);
 	}
 	if (res == -1)
 	{

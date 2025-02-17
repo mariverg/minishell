@@ -15,17 +15,19 @@ int	runtask(t_task *tt)
 	return (0);
 }
 
-int	operatereadfile(t_filedir *tf, t_env *te)
+int	operatereadfile(t_task *tt)
 {
-	int	filefd;
+	int			filefd;
+	t_filedir	*tf;
 
+	tf = tt->filesin;
 	if (!tf)
 		return (0);
 	if (!tf->content)
 		return (0);
 	while (tf)
 	{
-		filefd = readfrmfile(tf, te);
+		filefd = readfrmfile(tf, tt->env);
 		dup2(filefd, STDIN_FILENO);
 		close(filefd);
 		tf = tf->next;
@@ -33,17 +35,19 @@ int	operatereadfile(t_filedir *tf, t_env *te)
 	return (1);
 }
 
-int	operatewritefile(t_filedir *tf, t_env *te)
+int	operatewritefile(t_task *tt)
 {
-	int	filefd;
+	int			filefd;
+	t_filedir	*tf;
 
+	tf = tt->filesout;
 	if (!tf)
 		return (0);
 	if (!tf->content)
 		return (0);
 	while (tf)
 	{
-		filefd = copitfile(tf, te);
+		filefd = copitfile(tf, tt->env);
 		dup2(filefd, STDOUT_FILENO);
 		close(filefd);
 		tf = tf->next;
@@ -63,8 +67,8 @@ int	exectasks(t_task *tt, t_list *pipelst)
 		{
 			dup2(tt->in, STDIN_FILENO);
 			dup2(tt->out, STDOUT_FILENO);
-			operatereadfile(tt->filesin, tt->env);
-			operatewritefile(tt->filesout, tt->env);
+			operatereadfile(tt);
+			operatewritefile(tt);
 			clearpipes(pipelst);
 			if (tt->c)
 				runtask(tt);
