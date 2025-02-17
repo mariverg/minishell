@@ -2,8 +2,10 @@
 
 void	freetask(t_task *tt)
 {
-	free(tt->c);
-	free(tt->cc);
+	if(tt->c)
+		free(tt->c);
+	if(tt->cc)
+		free(tt->cc);
 	free(tt);
 }
 

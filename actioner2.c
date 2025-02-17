@@ -15,20 +15,22 @@
 
 void	accion(int i, siginfo_t *si, void *v)
 {
+	struct termios	term;
+
 	(void)si;
 	(void)v;
-
 	if (i == SIGINT)
 	{
-		rl_replace_line("", 0);
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_redisplay();
+		tcgetattr(STDIN_FILENO, &term);
+		term.c_lflag |= ECHOCTL;
+		tcsetattr(STDIN_FILENO, TCSANOW, &term);
+		write(STDOUT_FILENO, "\n>", 2);
 	}
 	else if (i == SIGQUIT)
 	{
-		rl_on_new_line();
-		rl_redisplay();
+		tcgetattr(STDIN_FILENO, &term);
+		term.c_lflag &= ~ECHOCTL;
+		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	}
 }
 
@@ -41,7 +43,6 @@ void	blockaction(void)
 	sac.sa_flags = SA_RESTART;
 	sigaction(SIGQUIT, &sac, 0);
 	sigaction(SIGINT, &sac, 0);
-    sigaction(SIGTERM, &sac, 0);
 }
 
 void	allowaction(void)
@@ -53,7 +54,6 @@ void	allowaction(void)
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGQUIT, &sa, 0);
 	sigaction(SIGINT, &sa, 0);
-    sigaction(SIGTERM, &sa, 0);
 }
 
 /*void	accion(int i, siginfo_t *si, void *v)
