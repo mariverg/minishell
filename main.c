@@ -57,12 +57,25 @@ void	freeandclose(t_env *te)
 	freeenv(te);
 }
 
+int	maincicle(char *input, t_env *te)
+{
+	t_comand	*tc;
+	t_task		*tt;
+
+	tc = makecomands(input);
+	tt = dotaskslist(tc, te);
+	if (tc && tt)
+	{
+		inittp(tt);
+	}
+	clearcicle(input, tc, tt);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **argenv)
 {
 	t_env		*te;
 	char		*input;
-	t_comand	*comands;
-	t_task		*tt;
 
 	(void)argc;
 	(void)argv;
@@ -76,11 +89,11 @@ int	main(int argc, char **argv, char **argenv)
 		add_history(input);
 		input = extractdollars(te, input);
 		if (!cancontinue(input, te))
+		{
+			free(input);
 			continue ;
-		comands = makecomands(input);
-		tt = dotaskslist(comands, te);
-		inittp(tt);
-		clearcicle(input, comands, tt);
+		}
+		maincicle(input, te);
 	}
 	freeandclose(te);
 	return (0);

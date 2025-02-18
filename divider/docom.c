@@ -61,6 +61,8 @@ t_comand	*getcom(char *c)
 	t_comand	*res;
 
 	res = malloc(sizeof(t_comand));
+	if (!res)
+		return (0);
 	res->argslst = getparameters(c);
 	res->infile = getredir(c, "<");
 	res->outfile = getredir(c, ">");

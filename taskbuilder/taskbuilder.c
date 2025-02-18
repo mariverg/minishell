@@ -99,6 +99,8 @@ t_task	*dotaskslist(t_comand *tc, t_env *te)
 	t_task	*tp;
 
 	empty = malloc(sizeof(t_task));
+	if (!empty)
+		return (0);
 	empty->next = 0;
 	tp = empty;
 	i = 0;
@@ -107,7 +109,7 @@ t_task	*dotaskslist(t_comand *tc, t_env *te)
 		i++;
 		tp->next = extractfromcomand(tc, te, i);
 		if (!tp->next)
-			return (0);
+			break ;
 		tp = tp->next;
 		tc = tc->next;
 	}

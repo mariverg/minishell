@@ -8,8 +8,7 @@ t_list	*getchunks(char *c)
 	t_list	*pointer;
 	t_list	*firstnode;
 
-	firstnode = malloc(sizeof(t_list));
-	firstnode->next = 0;
+	firstnode = ft_lstnew(0);
 	pointer = firstnode;
 	startpoint = 0;
 	endpoint = ft_strlen(c);
@@ -17,10 +16,9 @@ t_list	*getchunks(char *c)
 	while (i < endpoint)
 	{
 		i += getspacer(&c[i], "|");
-		pointer->next = malloc(sizeof(t_list));
+		pointer->next = ft_lstnew(0);
 		pointer = pointer->next;
 		pointer->content = ft_substr(c, startpoint, i - startpoint);
-		pointer->next = 0;
 		i++;
 		startpoint = i;
 	}
@@ -39,6 +37,8 @@ t_comand	*makecomands(char *c)
 	if (!c)
 		return (0);
 	firstnode = malloc(sizeof(t_comand));
+	if (!(firstnode))
+		return (0);
 	firstnode->next = 0;
 	pointer = firstnode;
 	rawproceses = getchunks(c);
