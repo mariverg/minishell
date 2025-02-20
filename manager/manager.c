@@ -17,9 +17,9 @@ int	switchexit(int i, t_env *te, char *info)
 	return (0);
 }
 
-int	exitrtrn(int i, t_env *te, char *msg, char *info)
-{
-	errormsg(msg, 0);
-	switchexit(i, te, info);
-	return (0);
-}
+// int	exitrtrn(int i, t_env *te, char *msg, char *info)
+// {
+// 	errormsg(msg, 0);
+// 	switchexit(i, te, info);
+// 	return (0);
+// }

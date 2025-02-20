@@ -31,6 +31,14 @@ void	accion(int i, siginfo_t *si, void *v)
 	}
 }
 
+void	accioncero(int i, siginfo_t *si, void *v)
+{
+	(void)si;
+	(void)v;
+	if (i == SIGQUIT)
+		write(1, "Quit: 3\n", 9);
+}
+
 void	blockaction(void)
 {
 	struct sigaction	sac;
@@ -41,6 +49,18 @@ void	blockaction(void)
 	sigaction(SIGQUIT, &sac, 0);
 	sigaction(SIGINT, &sac, 0);
 	sigaction(SIGTERM, &sac, 0);
+}
+
+void	nullaction(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_sigaction = accioncero;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &sa, 0);
+	sigaction(SIGINT, &sa, 0);
+	sigaction(SIGTERM, &sa, 0);
 }
 
 void	allowaction(void)

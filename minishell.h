@@ -60,6 +60,8 @@ typedef struct s_task
 int			strxsize(char **c);
 // char		*prntpwdline(t_env *te);
 void		blockaction(void);
+void		nullaction(void);
+void		allowaction(void);
 
 t_env		*newenv(char **env);
 int			actualicepwd(t_env *te);
