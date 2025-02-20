@@ -8,7 +8,7 @@ int	validchar(char c)
 	if (c == 0)
 		return (0);
 	i = 0;
-	taboos = " \"\'|<>";
+	taboos = " \"\'|<>$";
 	while (taboos[i])
 	{
 		if (taboos[i] == c)

@@ -38,6 +38,21 @@ int	delmienv(t_env *te, char *target)
 	if (i == -1)
 		return (1);
 	newenv = malloc(sizeof(char *) * strxsize(te->env));
+	if (!newenv)
+		return (0);
 	deleterow(te, newenv, i);
+	return (0);
+}
+
+int	delenvs(t_task *tt)
+{
+	int	i;
+
+	i = 1;
+	while (tt->cc[i])
+	{
+		delmienv(tt->env, tt->cc[i]);
+		i++;
+	}
 	return (0);
 }

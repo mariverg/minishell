@@ -57,41 +57,29 @@ int	addmienv(t_env *te, char *target, char *value)
 	return (0);
 }
 
-int	addfromcut(t_env *te, char *c, int cut)
+int	plusmienv(t_env *te, char *target, char *newenvvar)
 {
-	char	*ca;
-	char	*cb;
+	char	*aux;
+	int		objetivo;
 
-	ca = ft_substr(c, 0, cut);
-	cb = ft_substr(c, cut + 1, (ft_strlen(c) - cut));
-	addmienv (te, ca, cb);
-	free(ca);
-	if (cb)
-		free(cb);
+	objetivo = getmienvindex(te, target);
+	aux = te->env[objetivo];
+	te->env[objetivo] = ft_strjoin(te->env[objetivo], newenvvar);
+	free(aux);
 	return (0);
 }
 
-int	addstrenv(t_env *te, char *c)
+int	summienv(t_env *te, char *target, char *value)
 {
-	int		cut;
+	int		newsize;
+	char	**newenv;
+	char	*aux;
+	int		index;
 
-	cut = 0;
-	if (ft_isdigit(c[0]) || c[0] == '=')
-	{
-		write(STDERR_FILENO, " not a valid identifier", 23);
-		switchexit(1, te, 0);
-		return (0);
-	}
-	while (c[cut] != '=' && c[cut] != '\0')
-	{
-		if (c[cut] == '-')
-		{
-			write(STDERR_FILENO, " not a valid identifier", 23);
-			switchexit(1, te, 0);
-			return (0);
-		}
-		cut++;
-	}
-	addfromcut(te, c, cut);
+	index = getmienvindex(te, target);
+	if (index >= 0)
+		plusmienv(te, target, value);
+	else
+		addmienv(te, target, value);
 	return (0);
 }

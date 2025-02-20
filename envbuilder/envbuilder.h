@@ -21,6 +21,7 @@ int		daemonenv(t_task *tt);
 char	*targetspaced(char *c);
 int		addstrenv(t_env *te, char *c);
 int		addmienv(t_env *te, char *target, char *value);
+int		summienv(t_env *te, char *target, char *value);
 void	fillenv(t_env *res, char **env);
 void	updateshlvl(t_env *res);
 #endif

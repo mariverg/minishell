@@ -27,7 +27,8 @@ ENVFILES = ./envbuilder/envbuilder\
  			./envbuilder/envexer\
 			./envbuilder/envtoolsb\
 			./envbuilder/envdeleter\
-			./envbuilder/envfiller
+			./envbuilder/envfiller\
+			./envbuilder/envstr
 
 COMFILES = ./taskbuilder/taskbuilder\
 			./taskbuilder/lsttopoint\
@@ -37,11 +38,13 @@ TASKPARFILES = ./tasksparser/tasksparser\
 				./tasksparser/filetasks\
 				./tasksparser/builttasks\
 				./tasksparser/pipetasks\
-				./tasksparser/taskwaiter
+				./tasksparser/taskwaiter\
+				./tasksparser/builttbis
 
 PRECHECKFILES = ./prechecker/expandvars\
 				./prechecker/syntaxerr\
-				./prechecker/csintaxerr
+				./prechecker/csintaxerr\
+				./prechecker/expandirtxt
 				
 FILES = $(MAINFILES) $(ENVFILES) $(PRECHECKFILES) $(COMFILES) $(HISTORYFILES) $(TASKPARFILES) $(MANAGERFILES) $(PFILES)
 

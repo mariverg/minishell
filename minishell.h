@@ -65,10 +65,12 @@ t_env		*newenv(char **env);
 int			actualicepwd(t_env *te);
 char		*getmienv(t_env *te, char *target);
 int			delmienv(t_env *te, char *target);
+int			delenvs(t_task *tt);
 int			daemonenv(t_task *tt);
 void		fillpwd(t_env *te);
 
 char		*extractdollars(t_env *te, char *c);
+char		*extractalldollars(t_env *te, char *c);
 int			cancontinue(char *c, t_env *te);
 
 t_comand	*makecomands(char *c);

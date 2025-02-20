@@ -22,7 +22,9 @@ struct s_sxtracker
 	int	amore;
 };
 
-int	validchar(char c);
-int	hasstxerrcomp(char *c);
+int		validchar(char c);
+int		hasstxerrcomp(char *c);
+int		extractswap(t_env *te, t_list *tl, char *c, int i);
+char	*concattlst(t_list *tl);
 
 #endif

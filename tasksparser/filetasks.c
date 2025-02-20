@@ -56,7 +56,7 @@ int	stallprocess(t_filedir *tc, t_env *env)
 			break ;
 		else
 		{
-			comp = extractdollars(env, c);
+			comp = extractalldollars(env, c);
 			write(fd[1], comp, ft_strlen(comp));
 			write(fd[1], "\n", 1);
 		}

@@ -22,49 +22,6 @@ int	getexit(t_task *tt)
 	return (res);
 }
 
-int	changedir(t_task *tt)
-{
-	int	i;
-
-	if (tt->cc[2])
-	{
-		write(STDERR_FILENO, " too many arguments\n", 19);
-		switchexit(1, tt->env, 0);
-		return (0);
-	}
-	i = chdir(tt->cc[1]);
-	if (i == -1)
-	{
-		write(STDERR_FILENO, " No such file or directory\n", 26);
-		switchexit(1, tt->env, 0);
-	}
-	fillpwd(tt->env);
-	return (0);
-}
-
-int	echobuilt(t_task *tt)
-{
-	int	n;
-	int	i;
-
-	n = 0;
-	if (tt->cc[1] == 0)
-		return (0);
-	if (ft_strncmp("-n", tt->cc[1], 3) == 0)
-		n = 1;
-	i = 1 + n;
-	while (tt->cc[i])
-	{
-		if (i > (1 + n))
-			write(STDOUT_FILENO, " ", 1);
-		write(STDOUT_FILENO, tt->cc[i], ft_strlen(tt->cc[i]));
-		i++;
-	}
-	if (!n)
-		write(STDOUT_FILENO, "\n", 1);
-	return (0);
-}
-
 void	prinworkingd(void)
 {
 	char	*wd;
@@ -90,7 +47,7 @@ int	execbuilt(t_task *tt)
 			printalphabetical(tt, 0, 0);
 	}
 	else if (ft_strncmp("unset", tt->c, 4) == 0)
-		delmienv(tt->env, tt->cc[1]);
+		delenvs(tt);
 	else if (ft_strncmp("echo", tt->c, 4) == 0)
 		echobuilt(tt);
 	else if (ft_strncmp("exit", tt->c, 4) == 0)
