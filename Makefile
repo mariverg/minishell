@@ -81,6 +81,10 @@ fclean: clean
 	rm -f $(NAME)
 	rm -f $(LIBFT)
 
+re:
+	make fclean
+	make
+
  
 val: $(OBJS) $(LIBFT)
 	$(CC) -g -o $(NAME) $(OBJS) $(LIBFT) $(LIBS) $(INCLUDES)
