@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manager.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mariverg <mariverg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/25 12:18:53 by mariverg          #+#    #+#             */
+/*   Updated: 2025/02/25 12:18:53 by mariverg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	errormsg(char *msg, char *info)
@@ -16,10 +28,3 @@ int	switchexit(int i, t_env *te, char *info)
 		write(STDERR_FILENO, info, ft_strlen(info));
 	return (0);
 }
-
-// int	exitrtrn(int i, t_env *te, char *msg, char *info)
-// {
-// 	errormsg(msg, 0);
-// 	switchexit(i, te, info);
-// 	return (0);
-// }
