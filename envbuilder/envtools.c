@@ -71,9 +71,6 @@ int	plusmienv(t_env *te, char *target, char *newenvvar)
 
 int	summienv(t_env *te, char *target, char *value)
 {
-	int		newsize;
-	char	**newenv;
-	char	*aux;
 	int		index;
 
 	index = getmienvindex(te, target);

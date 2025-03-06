@@ -16,6 +16,7 @@ int	returnerror(t_env *te, char *c)
 {
 	write(STDERR_FILENO, " not a valid identifier\n", 24);
 	switchexit(1, te, 0);
+	write(STDERR_FILENO, c, 0);
 	return (0);
 }
 

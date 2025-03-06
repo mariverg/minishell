@@ -65,8 +65,6 @@ void	freeenv(t_env *te)
 
 int	daemonenv(t_task *tt)
 {
-	char	*aux;
-	char	*c;
 	int		i;
 
 	i = 1;
