@@ -57,7 +57,6 @@ LIBFT = $(LIBFT_DIR)/libft.a
 NAME = minishell
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-CFLAGS2 =
 
 all: $(NAME) 
 

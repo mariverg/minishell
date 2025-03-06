@@ -18,7 +18,10 @@ int	correctexit(int i)
 
 	res = i;
 	if (res == 2)
+	{
+		write(1, "\n", 1);
 		res = 130;
+	}
 	return (res);
 }
 
@@ -35,8 +38,10 @@ int	waittasks(t_task *tt)
 		{
 			if (WIFEXITED(status))
 				switchexit(WEXITSTATUS(status), tt->env, 0);
-			else
+			else if (WTERMSIG(status))
+			{
 				switchexit(correctexit(WTERMSIG(status)), tt->env, 0);
+			}
 		}
 		tt = tt->next;
 	}
