@@ -84,7 +84,11 @@ t_task	*extractfromcomand(t_comand *tc, t_env *te, int i)
 	res->cc = getargs(tc->argslst);
 	res->env = te;
 	if (filloperator(res) == -1)
+	{
+		free(res->cc);
+		free(res);
 		return (0);
+	}
 	res->filesin = tc->infile;
 	res->filesout = tc->outfile;
 	res->position = i;
