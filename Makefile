@@ -91,6 +91,9 @@ val: $(OBJS) $(LIBFT)
 memtest:
 	valgrind ./$(NAME)
 
+supptest:
+	valgrind --suppressions=suppression.supp --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
+
 fmemtest:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
