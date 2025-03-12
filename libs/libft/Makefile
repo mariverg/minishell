@@ -59,7 +59,7 @@ BONUS_SRCS = ft_lstnew_bonus.c\
 			ft_lstmap_bonus.c\
 			
 CC		= 	gcc
-FLAGS 	=
+FLAGS 	=	-Wall -Werror -Wextra
 INCLUDE =   libft.h
 
 OBJS 	= 	${SRCS:.c=.o}
