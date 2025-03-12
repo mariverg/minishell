@@ -22,17 +22,18 @@ int	getexit(t_task *tt)
 		if (tt->cc[2])
 		{
 			errormsg(" too many arguments\n", 0);
+			switchexit(1, tt->env, 0);
 			return (1);
 		}
 		res = ft_atoi(tt->cc[1]);
 		if (!res)
 		{
 			errormsg(" numeric argument required\n", 0);
-			return (2);
+			exit (2);
 		}
 	}
-	exit(res);
-	return (res);
+	exit (res);
+	return (0);
 }
 
 void	prinworkingd(void)
