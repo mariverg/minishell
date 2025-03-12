@@ -73,7 +73,7 @@ char	*execinenv(t_env *te, char *target)
 	else
 	{
 		aux = mipath;
-		mipath = ft_substr(mipath, 5, ft_strlen(mipath) - 5);
+		mipath = ft_substr(mipath, 4, ft_strlen(mipath) - 4);
 		free(aux);
 		mispaths = ft_split(mipath, ':');
 		free(mipath);
