@@ -31,6 +31,7 @@ int	getexit(t_task *tt)
 			return (2);
 		}
 	}
+	exit(res);
 	return (res);
 }
 
@@ -63,6 +64,8 @@ int	execbuilt(t_task *tt)
 	else if (ft_strncmp("echo", tt->c, 4) == 0)
 		echobuilt(tt);
 	else if (ft_strncmp("exit", tt->c, 4) == 0)
-		exit(getexit(tt));
+	{
+		getexit(tt);
+	}
 	return (0);
 }
