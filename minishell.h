@@ -92,4 +92,6 @@ int			freelst(t_list *tl);
 int			freecomands(t_comand *tc);
 int			freetasklist(t_task *tt);
 
+void		freeandclose(t_env *te);
+
 #endif

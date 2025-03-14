@@ -13,19 +13,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libs/libft/libft.h"
 #include "minishell.h"
 #include "divider/divider.h"
 
 char	*prntpwdline(void)
 {
-	char	*res;
+	char	*directorio;
+	char	*prompt;
+	size_t	dir_len;
 
-	res = malloc(sizeof(char) * 1000);
-	res = getcwd(res, 1000);
-	write(STDOUT_FILENO, res, ft_strlen(res));
-	write(STDOUT_FILENO, " > ", 3);
-	free(res);
-	return (0);
+	directorio = getcwd(0, 0);
+	if (directorio)
+	{
+		dir_len = ft_strlen(directorio);
+		prompt = malloc(dir_len + 4);
+		if (!prompt)
+		{
+			free(directorio);
+			return (ft_strdup("error_generating_prompt > "));
+		}
+		ft_memcpy(prompt, directorio, dir_len);
+		prompt[dir_len] = ' ';
+		prompt[dir_len + 1] = '>';
+		prompt[dir_len + 2] = ' ';
+		prompt[dir_len + 3] = '\0';
+		free(directorio);
+		return (prompt);
+	}
+	return (ft_strdup("unknown_directory > "));
 }
 
 void	clearcicle(char *input, t_comand *comands, t_task *tt)

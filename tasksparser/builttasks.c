@@ -21,7 +21,7 @@ int	getexit(t_task *tt)
 	{
 		if (tt->cc[2])
 		{
-			errormsg(" too many arguments\n", 0);
+			errormsg(" too many arguments", 0);
 			switchexit(1, tt->env, 0);
 			return (1);
 		}
@@ -29,9 +29,11 @@ int	getexit(t_task *tt)
 		if (!res)
 		{
 			errormsg(" numeric argument required\n", 0);
+			freeandclose(tt->env);
 			exit (2);
 		}
 	}
+	freeandclose(tt->env);
 	exit (res);
 	return (0);
 }
@@ -43,6 +45,7 @@ void	prinworkingd(void)
 	wd = getcwd(0, 0);
 	write(STDOUT_FILENO, wd, ft_strlen(wd));
 	write(STDOUT_FILENO, "\n", 1);
+	free(wd);
 }
 
 int	execbuilt(t_task *tt)

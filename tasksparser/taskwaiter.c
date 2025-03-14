@@ -22,6 +22,10 @@ int	correctexit(int i)
 		write(1, "\n", 1);
 		res = 130;
 	}
+	else if (res == 3)
+	{
+		res = 131;
+	}
 	return (res);
 }
 
