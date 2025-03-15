@@ -61,7 +61,6 @@ char	*execinenv(t_env *te, char *target)
 {
 	char	*mipath;
 	char	*torun;
-	char	*aux;
 	char	**mispaths;
 
 	mipath = getmienv(te, "PATH");
@@ -72,9 +71,6 @@ char	*execinenv(t_env *te, char *target)
 	}
 	else
 	{
-		aux = mipath;
-		mipath = ft_substr(mipath, 4, ft_strlen(mipath) - 4);
-		free(aux);
 		mispaths = ft_split(mipath, ':');
 		free(mipath);
 		torun = isexec(te, mispaths, target);

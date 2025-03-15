@@ -19,13 +19,18 @@
 char	*prntpwdline(void)
 {
 	char	*res;
+	int		i;
 
 	res = malloc(sizeof(char) * 1000);
+	if (!res)
+		return (0);
 	res = getcwd(res, 1000);
-	write(STDOUT_FILENO, res, ft_strlen(res));
-	write(STDOUT_FILENO, " > ", 3);
-	free(res);
-	return (0);
+	i = ft_strlen(res);
+	res[i++] = ' ';
+	res[i++] = '>';
+	res[i++] = ' ';
+	res[i] = 0;
+	return (res);
 }
 
 void	clearcicle(char *input, t_comand *comands, t_task *tt)
@@ -60,14 +65,16 @@ int	main(int argc, char **argv, char **argenv)
 {
 	t_env		*te;
 	char		*input;
+	char		*aux;
 
-	(void)argc;
-	(void)argv;
+	(void)argc, (void)argv;
 	blockaction();
 	te = newenv(argenv);
 	while (1)
 	{
-		input = readline(prntpwdline());
+		aux = prntpwdline();
+		input = readline(aux);
+		free(aux);
 		if (!input)
 			break ;
 		add_history(input);
